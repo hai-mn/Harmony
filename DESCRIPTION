@@ -1,17 +1,13 @@
 Package: harmony
-Type: Package
-Title: Extract Mplus output information to build alignment tables and plots
-Version: 0.1.0
-Author: Hai Nguyen, Tianxiu Wang, Ariel Aloe, Rachel Gordon
-Maintainer: Hai Nguyen <hnguye72@uic.edu>
-Description: `harmony` helps to find alignment analysis results from Mplus output, then generating multiple tables of thresholds and loadings.
-    The table includes estimates, standard errors, TRUE/FALSE invariants, weighted average and R-square values. 
-    `harmony` helps to plot the group measures with the label input provided by spreadsheet file, to convert IFA to IRT and plot item response curves.
-    Besides, the program can detect the specified cell sizes and provides users the information of groups, items and thresholds within the Mplus output.
+Title: Extract Mplus Output Information To Build Alignment Tables and Plots
+Version: 0.0.1.0000
+Authors@R: 
+    person(given = "Hai",
+           family = "Nguyen",
+           role = c("aut", "cre"),
+           email = "hnguye72@uic.edu")
+Description: harmony finds Mplus alignment analysis results to generate multiple tables of thresholds and loadings, to plot the group measures with the label input provided by spreadsheet file, to convert IFA to IRT and plot item response curves.
 Depends: R (>= 3.1.0)
-License: GPL-3
-Encoding: UTF-8
-LazyData: true
 Imports:
     tidyverse,
     openxlsx,
@@ -21,4 +17,7 @@ Imports:
     scales,
     latex2exp, 
     ggpubr
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
 RoxygenNote: 7.1.1
