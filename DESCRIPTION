@@ -7,8 +7,6 @@ Description: harmony finds Mplus alignment analysis results to generate multiple
 Depends: R (>= 3.1.0)
 Imports:
     tidyverse,
-    stringr,
-    tidyr,
     openxlsx,
     reshape2, 
     data.table,
