@@ -1,4 +1,5 @@
 Package: harmony
+Type: Package
 Title: Extract Mplus Output Information To Build Alignment Tables and Plots
 Version: 1.0.1
 Authors@R: person(given = "Hai", family = "Nguyen", email = "hnguye72@uic.edu", role = c("aut", "cre"))
