@@ -8,6 +8,7 @@ Description: `harmony` helps to find alignment analysis results from Mplus outpu
     The table includes estimates, standard errors, TRUE/FALSE invariants, weighted average and R-square values. 
     `harmony` helps to plot the group measures with the label input provided by spreadsheet file, to convert IFA to IRT and plot item response curves.
     Besides, the program can detect the specified cell sizes and provides users the information of groups, items and thresholds within the Mplus output.
+Depends: R (>= 3.1.0)
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
