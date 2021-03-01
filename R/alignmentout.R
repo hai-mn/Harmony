@@ -9,6 +9,7 @@
 #' @export alignmentout
 #' @import tidyverse
 #' @import openxlsx
+#' @importFrom stringr str_extract_all
 #' @importFrom utils menu read.csv write.csv
 #' @return A list of text, CSV files and one Excel file with multiple tabs in the specific folder.
 
