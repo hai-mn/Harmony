@@ -18,7 +18,7 @@ irc <- function(){
   # Create the discrimination parameters from loadings table----------------------------
   discriminations.file <- utils::read.csv(file = paste0(filepath,"/discriminations.csv"))
   drop.names <- c(names(discriminations.file[,grep("Loadings", names(discriminations.file), value=TRUE)]), "Factor.by")
-  discriminations.file <- select(discriminations.file, -which(names(discriminations.file) %in% drop.names))
+  discriminations.file <- dplyr::select(discriminations.file, -which(names(discriminations.file) %in% drop.names))
   total <- discriminations.file
 
   # Create the difficulty parameters from thresholds tables-----------------------------
@@ -28,7 +28,7 @@ irc <- function(){
   for (h in 1:Threshold.max){
     difficulty.file[[h]] <- utils::read.csv(file = paste0(filepath,"/difficulty",h,".csv"))
     drop.names <- c(names(difficulty.file[[h]][,grep("Threshold", names(difficulty.file[[h]]), value=TRUE)]), "Factor.by")
-    difficulty.file[[h]]<-select(difficulty.file[[h]], -which(names(difficulty.file[[h]]) %in% drop.names))
+    difficulty.file[[h]]<-dplyr::select(difficulty.file[[h]], -which(names(difficulty.file[[h]]) %in% drop.names))
 
     total <- dplyr::full_join(total, difficulty.file[[h]], by = "Item")
 
