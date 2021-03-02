@@ -23,7 +23,7 @@ alignmentout<-function(){
   cat("\nIn addition, you may find from the folder 'Output_current date' in the working directory:\n - the multiple text files which splitted from the origin Mplus output\n - the thresholds, loadings tables (CSV format) and\n - especially, a combined Excel file with all separated spreadsheets")
 
   ## 1. Enter a Mplus ouput file======================================================
-  infile <- readline(prompt="Please enter the path and Mplus output file\n (use / or \\\\ to separate the path file): ")
+  infile <- readline(prompt="Enter path and Mplus output file (separated by /):\n")
 
   ### Create a folder to store the output
   filepath <<- paste0("Output","_",Sys.Date())

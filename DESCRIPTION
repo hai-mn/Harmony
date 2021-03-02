@@ -9,7 +9,12 @@ Imports:
     tidyr,
     stringr,
     dplyr,
-    openxlsx
+    ggplot2,
+    openxlsx,
+    readxl,
+    scales,
+    reshape2,
+    data.table
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
