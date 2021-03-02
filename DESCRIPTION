@@ -10,12 +10,15 @@ Imports:
     stringr,
     dplyr,
     ggplot2,
+    forcats,
+    tidyverse,
     openxlsx,
     readxl,
     scales,
     reshape2,
     data.table,
-    forcats
+    latex2exp,
+    ggpubr
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
