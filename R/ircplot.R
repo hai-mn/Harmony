@@ -75,7 +75,7 @@ irc <- function(){
   if (selected.group != (Group+1)){
     # plotting cumulative curve
     irc <-ggplot(data.frame(theta = c(-4, 4)), aes(x = theta)) +
-      xlab(TeX("$\\theta")) +
+      xlab(latex2exp::TeX("$\\theta")) +
       ylab("Probability") +
       labs(title=paste("Cumulative Item Response Curve for Item", selected.item)) +
       theme_bw()
