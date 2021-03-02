@@ -44,13 +44,13 @@ convert2irt <- function(){
   loadings.file <- utils::read.csv(file = paste0(filepath,"/loadings.csv"))
 
   drop.names <- c(names(loadings.file[,grep("SE", names(loadings.file), value=TRUE)]), names(loadings.file[,grep("Invariant", names(loadings.file), value=TRUE)]), "Loadings_Weighted_Average", "Loadings_R_square")
-  loadings.file<-dplyr::select(loadings.file, -which(names(loadings.file) %in% drop.names))
+  loadings.file <- dplyr::select(loadings.file, -which(names(loadings.file) %in% drop.names))
 
   for (i in 1:Group){
     dns <- vector()
     for (j in 1:length(Factor)){
       loadings.file <- loadings.file %>%
-        mutate(
+        dplyr::mutate(
           dns = ifelse(Factor.by == Factor[j], .[,i+2]*sqrt(as.numeric(f.var[[i]][j])),dns)
           )
     }
@@ -74,7 +74,7 @@ convert2irt <- function(){
       dts <- vector()
       for (j in 1:length(Factor)){
         thresholds.file[[h]] <- thresholds.file[[h]] %>%
-          mutate(dts = ifelse(Factor.by == Factor[j], (.[,i+2] - as.numeric(f.mean[[i]][j])*loadings.file[,i+2])/loadings.file[,Group+2+i], dts)
+          dplyr::mutate(dts = ifelse(Factor.by == Factor[j], (.[,i+2] - as.numeric(f.mean[[i]][j])*loadings.file[,i+2])/loadings.file[,Group+2+i], dts)
           )
       }
       names(thresholds.file[[h]])[Group+2+i] <- paste0("Difficulty",h,"_G",i)
