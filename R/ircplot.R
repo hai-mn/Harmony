@@ -67,9 +67,9 @@ irc <- function(){
   #=========================================================================
   cat("\nThe program will plot cumulative and category response curves on the selected item and group(s)\n")
 
-  selected.item.n <- menu(Item.name, title = "Input an item need to be plotted: ")
+  selected.item.n <- utils::menu(Item.name, title = "Input an item need to be plotted: ")
   selected.item <- as.character(Item.name[selected.item.n])
-  selected.group <- menu(c(Group.cat,"All"), title="Input the Group(s): ")
+  selected.group <- utils::menu(c(Group.cat,"All"), title="Input the Group(s): ")
 
 
   if (selected.group != (Group+1)){
