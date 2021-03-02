@@ -8,7 +8,6 @@
 #' @author Hai Nguyen \email{hnguye72@@uic.edu}, Tianxiu Wang, Ariel Aloe, Rachel Gordon
 #' @export alignmentout
 #' @import tidyr stringr openxlsx
-#' @importFrom utils read.csv write.csv
 #' @return A list of text, CSV files and one Excel file with multiple tabs in the specific folder.
 
 
@@ -149,7 +148,7 @@ alignmentout<-function(){
       Threshold.df[[i]][[j]]$Item<-as.character(Threshold.df[[i]][[j]]$Item)
 
       #### merge by Item
-      model.table.threshold[[i]]<-full_join(model.table.threshold[[i]],Threshold.df[[i]][[j]],by="Item")
+      model.table.threshold[[i]] <- dplyr::full_join(model.table.threshold[[i]], Threshold.df[[i]][[j]], by="Item")
     }
 
   }
@@ -237,8 +236,8 @@ alignmentout<-function(){
       } else {next}
     }
 
-    Threshold.Invariant.df[[i]]<-Threshold.Invariant.df[[i]][!is.na(Threshold.Invariant.df[[i]]$Item),]
-    model.table.threshold[[i]]<-full_join(model.table.threshold[[i]], Threshold.Invariant.df[[i]],by="Item")
+    Threshold.Invariant.df[[i]] <- Threshold.Invariant.df[[i]][!is.na(Threshold.Invariant.df[[i]]$Item),]
+    model.table.threshold[[i]] <- dplyr::full_join(model.table.threshold[[i]], Threshold.Invariant.df[[i]], by="Item")
   }
 
   # Now, building the loadings table, starting with the estimate and SE------------------
@@ -259,7 +258,7 @@ alignmentout<-function(){
     Loadings.df[[j]]$Item<-trimws(as.character(str_sub(Loadings.df[[j]]$Item,1,8)))
 
     #### here we merge by Item
-    model.table.loadings<-full_join(model.table.loadings,Loadings.df[[j]],by="Item")
+    model.table.loadings<-dplyr::full_join(model.table.loadings, Loadings.df[[j]], by="Item")
   }
 
 
@@ -320,17 +319,17 @@ alignmentout<-function(){
   }
 
   ## Link to the previous table============================================================
-  model.table.loadings<-full_join(model.table.loadings,loadings.invariant.df,by="Item")
+  model.table.loadings <- dplyr::full_join(model.table.loadings, loadings.invariant.df, by="Item")
 
   # Create one Excel file with all spreadsheets----------------------------------------
   completed.table.threshold <- vector(mode = "list", length = Threshold.max) #empty_list
   for (i in 1:Threshold.max){
     completed.table.threshold[[i]]<-model.table.threshold[[i]]
-    write.csv(model.table.threshold[[i]], paste0(filepath,"/threshold",i,".csv"), row.names=FALSE)
+    utils::write.csv(model.table.threshold[[i]], paste0(filepath,"/threshold",i,".csv"), row.names=FALSE)
   }
 
   completed.table.loadings <- model.table.loadings
-  write.csv(model.table.loadings, paste0(filepath,"/loadings.csv"), row.names=FALSE)
+  utils::write.csv(model.table.loadings, paste0(filepath,"/loadings.csv"), row.names=FALSE)
 
   of=paste0(filepath,"/alignment_tables.xlsx")
   OUT <- createWorkbook()

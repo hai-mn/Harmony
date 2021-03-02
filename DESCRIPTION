@@ -8,6 +8,7 @@ Depends: R (>= 3.1.0)
 Imports:
     tidyr,
     stringr,
+    dplyr,
     openxlsx
 License: GPL-3
 Encoding: UTF-8
