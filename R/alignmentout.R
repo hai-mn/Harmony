@@ -7,9 +7,8 @@
 #' All would be stored in folder 'Output_current date' at the working directory.
 #' @author Hai Nguyen \email{hnguye72@@uic.edu}, Tianxiu Wang, Ariel Aloe, Rachel Gordon
 #' @export alignmentout
-#' @import dplyr tidyr stringr
-#' @import openxlsx
-#' @importFrom utils menu read.csv write.csv
+#' @import tidyr stringr openxlsx
+#' @importFrom utils read.csv write.csv
 #' @return A list of text, CSV files and one Excel file with multiple tabs in the specific folder.
 
 
