@@ -44,7 +44,7 @@ convert2irt <- function(){
   loadings.file <- utils::read.csv(file = paste0(filepath,"/loadings.csv"))
 
   drop.names <- c(names(loadings.file[,grep("SE", names(loadings.file), value=TRUE)]), names(loadings.file[,grep("Invariant", names(loadings.file), value=TRUE)]), "Loadings_Weighted_Average", "Loadings_R_square")
-  loadings.file<-select(loadings.file, -which(names(loadings.file) %in% drop.names))
+  loadings.file<-dplyr::select(loadings.file, -which(names(loadings.file) %in% drop.names))
 
   for (i in 1:Group){
     dns <- vector()
@@ -68,7 +68,7 @@ convert2irt <- function(){
   for (h in 1:Threshold.max){
     thresholds.file[[h]] <- utils::read.csv(file = paste0(filepath,"/threshold",h,".csv"))
     drop.names <- c(names(thresholds.file[[h]][,grep("SE", names(thresholds.file[[h]]), value=TRUE)]), names(thresholds.file[[h]][,grep("Invariant", names(thresholds.file[[h]]), value=TRUE)]), paste0("Threshold",h,"_Weighted_Average"), paste0("Threshold",h,"_R.square"))
-    thresholds.file[[h]] <- select(thresholds.file[[h]], -which(names(thresholds.file[[h]]) %in% drop.names))
+    thresholds.file[[h]] <- dplyr::select(thresholds.file[[h]], -which(names(thresholds.file[[h]]) %in% drop.names))
 
     for (i in 1:Group){
       dts <- vector()
