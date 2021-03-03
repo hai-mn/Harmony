@@ -91,8 +91,8 @@ alignmentout<-function(){
   f.stri<-NA; f.stri.c<-NA; f<-NA
   by.items <- vector(mode = "list", length = length(Factor)) #empty_list
   for (i in 1:length(Factor)) {
-    f.stri[i]<-paste(Factor[i],"BY ")
-    f.stri.c[i]<-paste("^\\s+",Factor[i],"BY\\s+|\\s+;")
+    f.stri[i]<-paste0(Factor[i],"(.*) BY ")
+    f.stri.c[i]<-paste0("^\\s+",Factor[i],"(.*) BY\\s+|\\s+;")
     f<-grep(f.stri[i],ext1, ignore.case = T)
     by.items[[i]]<-toupper(gsub(f.stri.c[i], "", ext1[f], ignore.case = T))
   }
