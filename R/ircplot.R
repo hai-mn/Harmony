@@ -77,7 +77,7 @@ irc <- function(){
     irc <-ggplot(data.frame(theta = c(-4, 4)), aes(x = theta)) +
       xlab(latex2exp::TeX("$\\theta")) +
       ylab("Probability") +
-      labs(title=paste("Cumulative Item Response Curve for Item", selected.item)) +
+      labs(title=paste("Cumulative Probability Curves for Item", selected.item), caption = "") +
       theme_bw()
 
 
@@ -95,7 +95,7 @@ irc <- function(){
     circ <-ggplot(data.frame(theta = c(-4, 4)), aes(x = theta)) +
       xlab(latex2exp::TeX("$\\theta")) +
       ylab("Probability") +
-      labs(title=paste("Category Item Response Curve for Item", selected.item)) +
+      labs(title=paste("Category Probability Curves for Item", selected.item), caption = "The multiple lines reflect different subgroups") +
       theme_bw()
 
 
@@ -116,7 +116,7 @@ irc <- function(){
     irc <-ggplot(data.frame(theta = c(-4, 4)), aes(x = theta)) +
       xlab(latex2exp::TeX("$\\theta")) +
       ylab("Probability") +
-      labs(title=paste("Cumulative Item Response Curve for Item", selected.item)) +
+      labs(title=paste("Cumulative Probability Curves for Item", selected.item), caption = "") +
       theme_bw()
 
 
@@ -134,7 +134,7 @@ irc <- function(){
     circ <-ggplot(data.frame(theta = c(-4, 4)), aes(x = theta)) +
       xlab(latex2exp::TeX("$\\theta")) +
       ylab("Probability") +
-      labs(title=paste("Category Item Response Curve for Item", selected.item)) +
+      labs(title=paste("Category Probability Curves for Item", selected.item), caption = "The multiple lines reflect different subgroups") +
       theme_bw()
 
     for (i in 1:Group){
@@ -159,4 +159,3 @@ irc <- function(){
 
   figure
 }
-

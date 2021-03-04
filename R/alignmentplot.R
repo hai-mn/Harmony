@@ -19,7 +19,7 @@ alignmentthresholdplot<-function(){
 
 
     my_label <- readxl::read_excel(labelfile)
-    GroupLabel<-append(my_label$GroupLabel,"Invariant")
+    GroupLabel<-append(my_label$GroupLabel,"Invariant Average")
 
     # File path ---------------------------------------------------
     filepath <- paste0("Output","_",Sys.Date())
@@ -71,8 +71,8 @@ alignmentthresholdplot<-function(){
         labs(title=paste("Alignment model - Threshold", i, "Plot"), subtitle="Groups") +
         theme_bw()
 
-      ## Save to PNG
-      ggsave(filename = paste0(filepath,"/alignment model - Threshold", i, " - ", Group, " groups.png"), gg, width = 10, height = 8, dpi = 300, units = "in", device = "png")
+      ## Save to TIF/TIFF
+      ggsave(filename = paste0(filepath,"/alignment model - Threshold", i, " - ", Group, " groups.tiff"), gg, width = 10, height = 8, dpi = 300, units = "in", device = "tiff")
 
     }
 
@@ -129,8 +129,8 @@ alignmentthresholdplot<-function(){
           labs(title=paste("Alignment model - Threshold", i, "Plot"), subtitle="Groups") +
           theme_bw()
 
-        ## Save to PNG
-        ggsave(filename = paste0(filepath,"/alignment model - Threshold", i, " - ", Group, " groups.png"), gg, width = 10, height = 8, dpi = 300, units = "in", device = "png")
+        ## Save to TIF/TIFF
+        ggsave(filename = paste0(filepath,"/alignment model - Threshold", i, " - ", Group, " groups.tiff"), gg, width = 10, height = 8, dpi = 300, units = "in", device = "tiff")
       }
   }
 }
@@ -158,7 +158,7 @@ alignmentloadingplot<-function(){
 
 
     my_label <- readxl::read_excel(labelfile)
-    GroupLabel<-append(my_label$GroupLabel,"Invariant")
+    GroupLabel<-append(my_label$GroupLabel,"Invariant Average")
 
     # File path ---------------------------------------------------
     filepath <- paste0("Output","_",Sys.Date())
@@ -212,8 +212,8 @@ alignmentloadingplot<-function(){
       labs(title = "Alignment model - Loadings Plot", subtitle = "Groups") +
       theme_bw()
 
-    ## Save to PNG
-    ggsave(filename = paste0(filepath,"/Alignment model - Loadings - ", Group, " groups.png"), gg, width = 10, height = 8, dpi = 300, units = "in", device = "png")
+    ## Save to TIF/TIFF
+    ggsave(filename = paste0(filepath,"/alignment model - Loadings - ", Group, " groups.tiff"), gg, width = 10, height = 8, dpi = 300, units = "in", device = "tiff")
 
 
   } else {
@@ -269,8 +269,8 @@ alignmentloadingplot<-function(){
       labs(title = "Alignment model - Loadings Plot", subtitle = "Groups") +
       theme_bw()
 
-    ## Save to PNG
-    ggsave(filename = paste0(filepath,"/Alignment model - Loadings - ", Group, " groups.png"), gg, width = 10, height = 8, dpi = 300, units = "in", device = "png")
+    ## Save to TIF/TIFF
+    ggsave(filename = paste0(filepath,"/alignment model - Loadings - ", Group, " groups.tiff"), gg, width = 10, height = 8, dpi = 300, units = "in", device = "tiff")
   }
 }
 
