@@ -176,9 +176,9 @@ alignmentout<-function(){
 
   empty_lines = grepl('^\\s*$', Threshold.Invariance.file)
   Threshold.Invariance.file <- Threshold.Invariance.file[! empty_lines]
-  Threshold.Invariance.file <- str_squish(Threshold.Invariance.file)
-  l.digit<-grep('^\\d',Threshold.Invariance.file)
-
+  Threshold.Invariance.file <- str_squish(Threshold.Invariance.file) #reduces repeated whitespace inside a string
+  #l.digit<-grep('^\\d',Threshold.Invariance.file)
+  l.digit<-grep('^\\d|^\\(',Threshold.Invariance.file) # minor modified on 3/15/2021
   if (length(l.digit) != 0) {
     for (i in 1:length(l.digit)){
       Threshold.Invariance.file[l.digit[i]-1] <- paste(Threshold.Invariance.file[l.digit[i]-1],Threshold.Invariance.file[l.digit[i]])
