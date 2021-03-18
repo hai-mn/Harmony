@@ -37,7 +37,7 @@ alignmentout<-function(){
 
   ## 2- Number of Groups: latent classes===============================================
   ext1<-readLines(paste0(filepath, "/ext1_input instructions.txt"))
-  g<-grep("^.*classes.*", ext1, ignore.case = T, value=T)
+  g<-grep("^.*classes =.*", ext1, ignore.case = T, value=T)
   g.line<-grep("^.*KNOWNCLASS.*", ext1, ignore.case = T, value=T)
   Group <<- as.numeric(str_extract_all(g,"\\d+"))
   Group.name <- gsub("^.*KNOWNCLASS = c\\(| = .*\\) ;", "", g.line)
