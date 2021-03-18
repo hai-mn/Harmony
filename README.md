@@ -119,6 +119,7 @@ MODEL: 	        %OVERALL%
 ~~~
 - The loadings table looks like:
 ![](loadings_table_example.JPG)
+
 __Step 3:__ Generating alignment plots
 
 __Step 4:__ Convert (Item Factor Analysis) IFA estimates to (Item Response Theory) IRT estimates
