@@ -201,7 +201,7 @@ alignmentloadingplot<-function(){
     } else {group.shape <- 17}
 
     ## Plotting gg
-    gg <- ggplot(eg2.l, aes(x = forcats::fct_reorder(Item, eg2.l[,4]), y = eg2.l[,4])) +
+    gg <- ggplot(eg2.l, aes(x = forcats::fct_reorder(Item, eg2.l[,4],na.rm = T,.desc=T), y = eg2.l[,4])) +
       geom_point(aes(shape = Invariant, colour = lclass), size = 3) +
       scale_shape_manual(values = group.shape, na.translate = F) +
       scale_colour_manual(name = "Group\n(Latent Class&\nInvariant)", values = group.colors, labels = GroupLabel) +
@@ -258,7 +258,7 @@ alignmentloadingplot<-function(){
     } else {group.shape <- 17}
 
     ## Plotting gg
-    gg <- ggplot(eg2.l, aes(x = forcats::fct_reorder(Item, eg2.l[,4]), y = eg2.l[,4])) +
+    gg <- ggplot(eg2.l, aes(x = forcats::fct_reorder(Item, eg2.l[,4],na.rm = T,.desc=T), y = eg2.l[,4])) +
       geom_point(aes(shape = Invariant, colour = lclass), size = 3) +
       scale_shape_manual(values = group.shape, na.translate = F) +
       scale_colour_manual(name = "Group\n(Latent Class&\nInvariant)", values = group.colors) +
