@@ -40,8 +40,8 @@ alignmentout<-function(){
   g<-grep("^.*classes =.*", ext1, ignore.case = T, value=T)
   g.line<-grep("^.*KNOWNCLASS.*", ext1, ignore.case = T, value=T)
   Group <<- as.numeric(str_extract_all(g,"\\d+"))
-  Group.name <- gsub("^.*KNOWNCLASS = c\\(| = .*\\) ;", "", g.line)
-  Group.cat <<- unlist(strsplit(gsub("^.*KNOWNCLASS = c\\(\\w+ = |\\) ;", "", g.line), split=" "))
+  Group.name <- gsub("^.*KNOWNCLASS = c\\(| = .*\\) ;.*", "", g.line)
+  Group.cat <<- unlist(strsplit(gsub("^.*KNOWNCLASS = c\\(\\w+ = |\\) ;.*", "", g.line), split=" "))
 
   cat("- The Number of Groups (Latent Classes):", Group,"\n")
   cat("- The Name of Groups (Latent Classes):", Group.name, "with categories of", Group.cat,"\n")
@@ -91,10 +91,11 @@ alignmentout<-function(){
   f.stri<-NA; f.stri.c<-NA; f<-NA
   by.items <- vector(mode = "list", length = length(Factor)) #empty_list
   for (i in 1:length(Factor)) {
-    f.stri[i]<-paste0(Factor[i],"(.*) BY ")
-    f.stri.c[i]<-paste0("^\\s+",Factor[i],"(.*) BY\\s+|\\s+;")
-    f<-grep(f.stri[i],ext1, ignore.case = T)
-    by.items[[i]]<-toupper(gsub(f.stri.c[i], "", ext1[f], ignore.case = T))
+    f.stri[i]   <- paste0(Factor[i],"(.*) BY ")
+    f.stri.c[i] <- paste0("^\\s+",Factor[i],"(.*) BY\\s+|\\s+;.*")
+    f           <- grep(f.stri[i], ext1, ignore.case = T)
+    
+    by.items[[i]] <- toupper(gsub(f.stri.c[i], "", ext1[f], ignore.case = T))
   }
   Item<-unlist(by.items) #matches with Item.name
   Item.orig<-Item #reserve the original Items
