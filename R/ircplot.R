@@ -159,6 +159,6 @@ irc <- function(){
     
   }
   
-  figure <- ggpubr::ggarrange(irc, circ, ncol = 1, nrow = 2)
+  figure <- ggpubr::ggarrange(circ, irc, ncol = 1, nrow = 2)
   figure
 }
