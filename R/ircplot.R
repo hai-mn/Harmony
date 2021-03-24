@@ -67,95 +67,98 @@ irc <- function(){
   #=========================================================================
   cat("\nThe program will plot cumulative and category response curves on the selected item and group(s)\n")
 
+  # Select the item to plot
   selected.item.n <- utils::menu(Item.name, title = "Input an item need to be plotted: ")
   selected.item <- as.character(Item.name[selected.item.n])
-  selected.group <- utils::menu(c(Group.cat,"All"), title="Input the Group(s): ")
-
-
-  if (selected.group != (Group+1)){
-    # plotting cumulative curve
+  
+  # Select group(s)
+  
+  
+  selected.group.option <- utils::menu(c(Group.cat, "Other Combination"), title="Input the Group(s): ")
+  
+  # Plot for other combination ===============================================================
+  if (selected.group.option == (Group + 1)) {
+    selected.group.line <- readline(prompt="Enter group number (separated by ,):\n")
+    selected.group <- as.character(str_squish(unlist(strsplit(selected.group.line, ","))))
+    
+    # plotting a frame cumulative curve
     irc <-ggplot(data.frame(theta = c(-4, 4)), aes(x = theta)) +
       xlab(latex2exp::TeX("$\\theta")) +
       ylab("Probability") +
-      labs(title=paste("Cumulative Probability Curves for Item", selected.item), caption = "") +
+      labs(title=paste("Cumulative Probability Curves for Group", selected.group.line, "of Item", selected.item), caption = "") +
       theme_bw()
-
-
-    i <- selected.group
-      keep.group <- paste0("G",i,"$")
-      keep.var <- names(total[,grep(keep.group, names(total), value=TRUE)])
-      item[[i]] <- total %>% dplyr::filter(Item == selected.item) %>%
-        dplyr::select(., which(names(.) %in% keep.var))
-
-      for (j in 2:(Threshold.max+1)){
-        irc <- irc + stat_function(fun = logisticFun, args = list(a=as.numeric(item[[i]][1]),b=as.numeric(item[[i]][j])))
-      }
-
-    # plotting category curve
+    
+    # plotting a frame category curve
     circ <-ggplot(data.frame(theta = c(-4, 4)), aes(x = theta)) +
       xlab(latex2exp::TeX("$\\theta")) +
       ylab("Probability") +
-      labs(title=paste("Category Probability Curves for Item", selected.item), caption = "The multiple lines reflect different subgroups") +
+      labs(title=paste("Category Probability Curves for Group", selected.group.line, "of Item", selected.item), caption = "The multiple lines reflect different subgroups") +
       theme_bw()
-
-
+    
+    for (k in 1:length(selected.group)) {
+      
+      i <- selected.group[k]
+      
+      keep.group <- paste0("G",i,"$")
+      keep.var <- names(total[,grep(keep.group, names(total), value=TRUE)])
+      item[[i]] <- total %>% dplyr::filter(Item == selected.item) %>%
+      dplyr::select(., which(names(.) %in% keep.var))
+    
+      for (j in 2:(Threshold.max+1)){
+        irc <- irc + stat_function(fun = logisticFun, args = list(a=as.numeric(item[[i]][1]),b=as.numeric(item[[i]][j])))
+      }
+      
       circ <- circ +
         stat_function(fun = pg0, args = list(a=as.numeric(item[[i]][1]),b=as.numeric(item[[i]][2]))) +
         stat_function(fun = pgl, args = list(a=as.numeric(item[[i]][1]),b=as.numeric(item[[i]][Threshold.max+1])))
-
-
+      
+      
       for (j in 2:(Threshold.max)){
         circ <- circ + stat_function(fun = pgbtwn, args = list(a1=as.numeric(item[[i]][1]), b1=as.numeric(item[[i]][j]), a2=as.numeric(item[[i]][1]), b2=as.numeric(item[[i]][j+1])))
       }
-
-
-    figure <- ggpubr::ggarrange(irc, circ, ncol = 1, nrow = 2)
+    }
 
   } else {
-
+    
+    # Plot for one group ===============================================================
+    # plotting a frame cumulative curve
     irc <-ggplot(data.frame(theta = c(-4, 4)), aes(x = theta)) +
       xlab(latex2exp::TeX("$\\theta")) +
       ylab("Probability") +
-      labs(title=paste("Cumulative Probability Curves for Item", selected.item), caption = "") +
+      labs(title=paste("Cumulative Probability Curves for Group", selected.group.option, "of Item", selected.item), caption = "") +
       theme_bw()
-
-
-    for (i in 1:Group){
-      keep.group <- paste0("G",i,"$")
-      keep.var <- names(total[,grep(keep.group, names(total), value=TRUE)])
-      item[[i]] <- total %>% dplyr::filter(Item == selected.item) %>%
-        dplyr::select(., which(names(.) %in% keep.var))
-
-      for (j in 2:(Threshold.max+1)){
-        irc <- irc + stat_function(fun = logisticFun, args = list(a=as.numeric(item[[i]][1]),b=as.numeric(item[[i]][j])))
-      }
-    }
-
+      
+    # plotting a frame category curve
     circ <-ggplot(data.frame(theta = c(-4, 4)), aes(x = theta)) +
       xlab(latex2exp::TeX("$\\theta")) +
       ylab("Probability") +
-      labs(title=paste("Category Probability Curves for Item", selected.item), caption = "The multiple lines reflect different subgroups") +
+      labs(title=paste("Category Probability Curves for Group", selected.group.option, "of Item", selected.item), caption = "The multiple lines reflect different subgroups") +
       theme_bw()
-
-    for (i in 1:Group){
+    
+    # process data for plot
+      i <- selected.group <- selected.group.option
       keep.group <- paste0("G",i,"$")
       keep.var <- names(total[,grep(keep.group, names(total), value=TRUE)])
       item[[i]] <- total %>% dplyr::filter(Item == selected.item) %>%
         dplyr::select(., which(names(.) %in% keep.var))
-
-      circ <- circ +
-        stat_function(fun = pg0, args = list(a=as.numeric(item[[i]][1]),b=as.numeric(item[[i]][2]))) +
-        stat_function(fun = pgl, args = list(a=as.numeric(item[[i]][1]),b=as.numeric(item[[i]][Threshold.max+1])))
-
-
-      for (j in 2:(Threshold.max)){
-        circ <- circ + stat_function(fun = pgbtwn, args = list(a1=as.numeric(item[[i]][1]), b1=as.numeric(item[[i]][j]), a2=as.numeric(item[[i]][1]), b2=as.numeric(item[[i]][j+1])))
-      }
+      
+    # overlay irc
+    for (j in 2:(Threshold.max+1)){
+      irc <- irc + stat_function(fun = logisticFun, args = list(a=as.numeric(item[[i]][1]),b=as.numeric(item[[i]][j])))
     }
-
-    figure <- ggpubr::ggarrange(irc, circ, ncol = 1, nrow = 2)
-
+      
+    # overlay circ
+    circ <- circ +
+      stat_function(fun = pg0, args = list(a=as.numeric(item[[i]][1]),b=as.numeric(item[[i]][2]))) +
+      stat_function(fun = pgl, args = list(a=as.numeric(item[[i]][1]),b=as.numeric(item[[i]][Threshold.max+1])))
+      
+      
+    for (j in 2:(Threshold.max)){
+      circ <- circ + stat_function(fun = pgbtwn, args = list(a1=as.numeric(item[[i]][1]), b1=as.numeric(item[[i]][j]), a2=as.numeric(item[[i]][1]), b2=as.numeric(item[[i]][j+1])))
+    }
+    
   }
-
+  
+  figure <- ggpubr::ggarrange(irc, circ, ncol = 1, nrow = 2)
   figure
 }
