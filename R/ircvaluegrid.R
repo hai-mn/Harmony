@@ -3,7 +3,7 @@
 #' @description Producing the value grid to plot category and cumulative probability curve
 #' @details irc.csvexport requires the user to run 'alignmentout()' and 'convert2irt()' at first to obtain the difficulty and discrimination estimates
 #' @author Hai Nguyen \email{hnguye72@@uic.edu}, Ariel Aloe, Tianxiu Wang, Rachel Gordon
-#' @export irc
+#' @export irc.csvexport
 #' @import tidyverse
 #' @return A CSV file which has value grid of theta, category probability (PG) and cumulative probability (CGF) values of a selected item's group
 
@@ -91,9 +91,9 @@ irc.csvexport <- function(){
       PG[i,m+1] <- CGF[i,m] - CGF[i,m+1]
     }
   }
-  df <- cbind("theta"=theta, "PG" = PG, "CGF" = CGF)
-  for (i in 1:(ncat+1)){colnames(df)[i+1] <- paste0("PG",i)}
-  for (i in 1:ncat){colnames(df)[1+ncat+1+i] <- paste0("CGF",i)}
+  df <- cbind("theta"=theta, "cpc" = PG, "CPC" = CGF)
+  for (i in 1:(ncat+1)){colnames(df)[i+1] <- paste0("cpc",i)} #cpc: in lowercase, category probability curve
+  for (i in 1:ncat){colnames(df)[1+ncat+1+i] <- paste0("CPC",i)} #CPC: in uppercase, Cumulative Probability Curve
   colnames(df)
   utils::write.csv(df, paste0(filepath,"/IPC Value Grid of Item ", selected.item, " - Group ", selected.group,".csv"), row.names=FALSE)
 
