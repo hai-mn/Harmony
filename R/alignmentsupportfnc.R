@@ -124,7 +124,10 @@ latentsplit <- function(filepath = paste0("Output","_",Sys.Date()), inputfile = 
 #' @return Two files of ThresholdInvariance.txt and LoadingsInvariance.txt in a specific folder
 
 
-invariancesplit <- function(inputfile="Invariant_Noninvariant.txt"){
+invariancesplit <- function(inputfile = invar.noninvar.file, filepath = filepath.misc){
+
+  #invar.noninvar.file <- "Invariant_Noninvariant.txt"
+
   # Splitting Invariant_Noninvariant.txt file into 2 sections of Intercepts/Thresholds & Loadings
   sapply(X = inputfile,FUN=paraextract, begphrase="Intercepts/Thresholds", endphrase="Loadings", outputfile=paste0(filepath,"/ThresholdInvariance.txt"))
 

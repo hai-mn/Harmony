@@ -11,6 +11,8 @@ convert2irt <- function(){
 
   # Set file path --------------------------------------------------------------------
   filepath <- paste0("Output","_",Sys.Date())
+  filepath.misc <- paste0("Output","_",Sys.Date(),"/Misc") # clean up: put all un-necessary files in filepath.misc
+  
   if (!file.exists(paste0(filepath,"/loadings.csv"))) {
     stop("\nMust run the `alignmentout` to obtain the threshold and loading parameters first\n")
   }
@@ -23,7 +25,7 @@ convert2irt <- function(){
   # Obtain mean and variance of factors----------------------------------------------
   for (i in 1:Group){
     ## Read latent class files =======================================================
-    lclass.file[[i]] <- readLines(paste0(filepath,"/LatentClass ",i,".txt"))
+    lclass.file[[i]] <- readLines(paste0(filepath.misc,"/LatentClass ",i,".txt"))
 
     ## Set the emply vectors for mean and variance having 'Factor' length
     f.mean[[i]] <- vector(mode = "numeric", length = length(Factor))
@@ -35,10 +37,25 @@ convert2irt <- function(){
 
     ## Capture the mean and variance of factors =======================================
     for (j in 1:length(Factor)){
+      #f.var[[i]][j]  <- str_extract(lclass.file[[i]][var.line + j], "[-+]?\\d+.\\d+")
+      #f.mean[[i]][j] <- str_extract(lclass.file[[i]][means.line[1]+j], "[-+]?\\d+.\\d+")
       f.var[[i]][j]  <- unlist(str_extract(lclass.file[[i]][var.line + j], "[-+]?\\d+.\\d+"))
       f.mean[[i]][j] <- unlist(str_extract(lclass.file[[i]][means.line[1]+j], "[-+]?\\d+.\\d+"))
     }
   }
+  
+  ## Build up the mean and variance table, save to csv
+  f.mean.dta <- as.data.frame(f.mean); f.var.dta <- as.data.frame(f.var);
+  for (i in 1:dim(f.mean.dta)[2]){
+    names(f.mean.dta)[i] <- paste0("Mean_G",i)
+    names(f.var.dta)[i] <- paste0("Var_G",i)
+  }
+  ### Extract factor name from ext2_summary of analysis.txt
+  ext2<-readLines(paste0(filepath.misc, "/ext2_summary of analysis.txt"))
+  m <- grep("Continuous latent variables",ext2)
+  Factor <- str_extract_all(ext2[m+1],"\\w+")[[1]]
+
+  utils::write.csv(cbind(Factor, f.mean.dta, f.var.dta), paste0(filepath,"/group_factor means and variances.csv"), row.names=FALSE)
 
   # Create the discimination parameters from loadings table----------------------------
   loadings.file <- utils::read.csv(file = paste0(filepath,"/loadings.csv"))
@@ -57,7 +74,10 @@ convert2irt <- function(){
     names(loadings.file)[Group+2+i] <- paste0("Discriminations_G",i)
   }
 
-  utils::write.csv(loadings.file, paste0(filepath,"/discriminations.csv"), row.names=FALSE)
+  drop.loading.names <- names(loadings.file[,grep("Loadings", names(loadings.file), value=TRUE)])
+  loadings.file.reduced <- dplyr::select(loadings.file, -which(names(loadings.file) %in% drop.loading.names))
+  
+  utils::write.csv(loadings.file.reduced, paste0(filepath,"/discriminations.csv"), row.names=FALSE)
 
 
 
@@ -74,12 +94,17 @@ convert2irt <- function(){
       dts <- vector()
       for (j in 1:length(Factor)){
         thresholds.file[[h]] <- thresholds.file[[h]] %>%
-          dplyr::mutate(dts = ifelse(Factor.by == Factor[j], (.[,i+2] - as.numeric(f.mean[[i]][j])*loadings.file[,i+2])/loadings.file[,Group+2+i], dts)
+          dplyr::mutate(
+            dts = ifelse(Factor.by == Factor[j], (.[,i+2] - as.numeric(f.mean[[i]][j])*loadings.file[,i+2])/loadings.file[,Group+2+i], dts)
           )
       }
       names(thresholds.file[[h]])[Group+2+i] <- paste0("Difficulty",h,"_G",i)
     }
-
+    
+    drop.threshold.names <- names(thresholds.file[[h]][,grep("Threshold", names(thresholds.file[[h]]), value=TRUE)])
+    thresholds.file[[h]] <- dplyr::select(thresholds.file[[h]], -which(names(thresholds.file[[h]]) %in% drop.threshold.names))
+    
+    
     utils::write.csv(thresholds.file[[h]], paste0(filepath,"/difficulty",h,".csv"), row.names=FALSE)
   }
 }

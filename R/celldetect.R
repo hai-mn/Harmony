@@ -9,7 +9,7 @@
 
 cellsizedetect <- function(){
 
-  infile <- readline(prompt="Please enter the path and Mplus output file\n (use / or \\\\ to separate the path file): ")
+  infile <- readline(prompt="Enter the path & Mplus output file (use / to separate the path file): ")
 
   ext<-readLines(infile)
 
@@ -18,13 +18,18 @@ cellsizedetect <- function(){
     stop("There is no crosstabs to look at the cell size in the Mplus output")
   }
 
-  filepath <- paste0("Output","_",Sys.Date())
+  #filepath <- paste0("Output","_",Sys.Date())
+  #ifelse(!dir.exists(file.path(filepath)), dir.create(file.path(filepath)), FALSE)
+
+  filepath <<- paste0("Output","_",Sys.Date())
+  filepath.misc <<- paste0("Output","_",Sys.Date(),"/Misc") # clean up: put all un-necessary files in filepath.misc
   ifelse(!dir.exists(file.path(filepath)), dir.create(file.path(filepath)), FALSE)
+  ifelse(!dir.exists(file.path(filepath.misc)), dir.create(file.path(filepath.misc)), FALSE)
+  
+  mplussplit(outpath = filepath.misc, inputfile = infile)
 
-  mplussplit(outpath = filepath, inputfile = infile)
-
-  ext1<-readLines(paste0(filepath, "/ext1_input instructions.txt"))
-  ext2<-readLines(paste0(filepath, "/ext2_summary of analysis.txt"))
+  ext1<-readLines(paste0(filepath.misc, "/ext1_input instructions.txt"))
+  ext2<-readLines(paste0(filepath.misc, "/ext2_summary of analysis.txt"))
   m<-grep("Continuous latent variables",ext2)
 
   Factor<-unlist(str_extract_all(ext2[m+1],"\\w+"))
@@ -73,8 +78,8 @@ cellsizedetect <- function(){
   Itemstring<-gsub(", ","|",toString(union(Item.name,Item.orig)))
 
 
-  paraextract(paste0(filepath, "/ext2_summary of analysis.txt"),"CROSSTABS FOR CATEGORICAL VARIABLES","MODEL FIT INFORMATION",paste0(filepath, "/crosstabs.txt"))
-  crosstabs.file <- readLines(paste0(filepath, "/crosstabs.txt"))
+  paraextract(paste0(filepath.misc, "/ext2_summary of analysis.txt"),"CROSSTABS FOR CATEGORICAL VARIABLES","MODEL FIT INFORMATION",paste0(filepath.misc, "/crosstabs.txt"))
+  crosstabs.file <- readLines(paste0(filepath.misc, "/crosstabs.txt"))
 
   st<-grep(paste0(Itemstring,"|Count"), crosstabs.file, value=T, ignore.case=T)
 

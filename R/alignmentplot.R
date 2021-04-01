@@ -23,7 +23,8 @@ alignmentthresholdplot<-function(){
 
     # File path ---------------------------------------------------
     filepath <- paste0("Output","_",Sys.Date())
-
+    filepath.misc <- paste0("Output","_",Sys.Date(),"/Misc") # clean up: put all un-necessary files in filepath.misc
+    
     for (i in 1:Threshold.max){
 
       # Read data ----------------------------------------------------------
@@ -45,7 +46,7 @@ alignmentthresholdplot<-function(){
       eg2.l$Invariant <- ifelse((eg2.l$lclass == (Group+1) & !is.na(paste0(eg2.l$Threshold,"i"))), "True", eg2.l$Invariant)
 
 
-      write.csv(eg2.l, paste0(filepath,"/thresholds",i,"_longform.csv"), row.names=FALSE)
+      write.csv(eg2.l, paste0(filepath.misc,"/thresholds",i,"_longform.csv"), row.names=FALSE)
       # Plot ggplot ---------------------------------------------------------
 
       ## set colors
@@ -102,7 +103,7 @@ alignmentthresholdplot<-function(){
         eg2.l$Invariant <- ifelse((eg2.l$lclass == (Group+1) & !is.na(paste0(eg2.l$Threshold,"i"))), "True", eg2.l$Invariant)
 
 
-        write.csv(eg2.l, paste0(filepath,"/thresholds",i,"_longform.csv"), row.names=FALSE)
+        write.csv(eg2.l, paste0(filepath.misc,"/thresholds",i,"_longform.csv"), row.names=FALSE)
 
         # Plot ggplot ---------------------------------------------------------
 
@@ -162,7 +163,8 @@ alignmentloadingplot<-function(){
 
     # File path ---------------------------------------------------
     filepath <- paste0("Output","_",Sys.Date())
-
+    filepath.misc <- paste0("Output","_",Sys.Date(),"/Misc") # clean up: put all un-necessary files in filepath.misc
+    
     # Read data ---------------------------------------------------
     eg2.w <- read.csv(file = paste0(filepath,"/loadings.csv"), stringsAsFactors = TRUE)
 
@@ -184,7 +186,7 @@ alignmentloadingplot<-function(){
     eg2.l$Invariant <- ifelse((eg2.l$lclass == (Group+1) & !is.na(eg2.l$Loading)), "True", eg2.l$Invariant)
 
 
-    write.csv(eg2.l, paste0(filepath,"/loadings_longform.csv"), row.names=FALSE)
+    write.csv(eg2.l, paste0(filepath.misc,"/loadings_longform.csv"), row.names=FALSE)
 
 
     # Plot ggplot ---------------------------------------------------------
@@ -241,7 +243,7 @@ alignmentloadingplot<-function(){
 
     eg2.l$Invariant <- ifelse((eg2.l$lclass == (Group+1) & !is.na(eg2.l$Loading)), "True", eg2.l$Invariant)
 
-    write.csv(eg2.l, paste0(filepath,"/loadings_longform.csv"), row.names=FALSE)
+    write.csv(eg2.l, paste0(filepath.misc,"/loadings_longform.csv"), row.names=FALSE)
 
 
     # Plot ggplot ---------------------------------------------------------

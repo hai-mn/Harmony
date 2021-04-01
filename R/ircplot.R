@@ -1,23 +1,24 @@
-## Generating Item Response (Characteristic) Curve Plots
+## Plotting Item Characteristic Curve (Category and Cumulative Probability Curves)
 #' @title irc
-#' @description Generating Category and Cumulative Probability Curve Plots
-#' @details irc requires the user to firstly run the 'alignmentout' and 'convert2irt' to obtain the difficulty and discrimination parameters
+#' @description Plotting the Category and Cumulative Probability Curve
+#' @details irc() requires the user to run 'alignmentout()' and 'convert2irt()' at first to obtain the difficulty and discrimination estimates
 #' @author Hai Nguyen \email{hnguye72@@uic.edu}, Ariel Aloe, Tianxiu Wang, Rachel Gordon
 #' @export irc
 #' @import tidyverse
-#' @return A list of Item Response (Characteristic) Curve Plot in R environment
+#' @return A graph including the category and cumulative probability curves in the Plots - R pane layout
 
 irc <- function(){
 
   # Set file path --------------------------------------------------------------------
   filepath <- paste0("Output","_",Sys.Date())
+  filepath.misc <- paste0("Output","_",Sys.Date(),"/Misc") # clean up: put all un-necessary files in filepath.misc
   if (!file.exists(paste0(filepath,"/discriminations.csv"))) {
-    stop("\nMust run the `alignmentout` then `convert2irt` to obtain the difficulty and discrimination parameters first\n")
+    stop("\nMust run `alignmentout()` then `convert2irt()` to obtain the difficulty and discrimination parameters at first\n")
   }
 
   # Create the discrimination parameters from loadings table----------------------------
   discriminations.file <- utils::read.csv(file = paste0(filepath,"/discriminations.csv"))
-  drop.names <- c(names(discriminations.file[,grep("Loadings", names(discriminations.file), value=TRUE)]), "Factor.by")
+  drop.names <- "Factor.by"
   discriminations.file <- dplyr::select(discriminations.file, -which(names(discriminations.file) %in% drop.names))
   total <- discriminations.file
 
@@ -27,7 +28,7 @@ irc <- function(){
   # The whole one file with discriminations and difficulties parameters-----------------
   for (h in 1:Threshold.max){
     difficulty.file[[h]] <- utils::read.csv(file = paste0(filepath,"/difficulty",h,".csv"))
-    drop.names <- c(names(difficulty.file[[h]][,grep("Threshold", names(difficulty.file[[h]]), value=TRUE)]), "Factor.by")
+    drop.names <- "Factor.by"
     difficulty.file[[h]]<-dplyr::select(difficulty.file[[h]], -which(names(difficulty.file[[h]]) %in% drop.names))
 
     total <- dplyr::full_join(total, difficulty.file[[h]], by = "Item")
@@ -35,7 +36,7 @@ irc <- function(){
   }
 
   # output the total file including item, discriminations and difficulties for reference
-  utils::write.csv(total, paste0(filepath,"/irc_file.csv"), row.names=FALSE)
+  utils::write.csv(total, paste0(filepath.misc,"/irc_file.csv"), row.names=FALSE)
 
   #==============================================================================
   item <- vector(mode = "list", length = Group)
@@ -65,7 +66,7 @@ irc <- function(){
 
 
   #=========================================================================
-  cat("\nThe program will plot cumulative and category response curves on the selected item and group(s)\n")
+  cat("\nThe program will plot cumulative and category probability curves on the selected item and group(s)\n")
 
   # Select the item to plot
   selected.item.n <- utils::menu(Item.name, title = "Input an item need to be plotted: ")
@@ -75,6 +76,7 @@ irc <- function(){
 
 
   selected.group.option <- utils::menu(c(Group.cat, "Other Combination"), title="Input the Group(s): ")
+
 
   # Plot for other combination ===============================================================
   if (selected.group.option == (Group + 1)) {
@@ -86,18 +88,19 @@ irc <- function(){
       xlab(latex2exp::TeX("$\\theta")) +
       ylab("Probability") +
       labs(title=paste("Cumulative Probability Curves \nfor Group", selected.group.line, "of Item", selected.item), caption = "The multiple lines reflect different subgroups") +
-      theme_bw()
+      theme_bw() + theme(legend.title = element_blank())
 
     # plotting a frame category curve
     circ <-ggplot(data.frame(theta = c(-4, 4)), aes(x = theta)) +
       xlab(latex2exp::TeX("$\\theta")) +
       ylab("Probability") +
       labs(title=paste("Category Probability Curves \nfor Group", selected.group.line, "of Item", selected.item), caption = "") +
-      theme_bw()
+      theme_bw() + theme(legend.title = element_blank())
 
     for (k in 1:length(selected.group)) {
 
       i <- selected.group[k]
+      legends = paste0("Group ", i)
 
       keep.group <- paste0("G",i,"$")
       keep.var <- names(total[,grep(keep.group, names(total), value=TRUE)])
@@ -105,16 +108,16 @@ irc <- function(){
       dplyr::select(., which(names(.) %in% keep.var))
 
       for (j in 2:(Threshold.max+1)){
-        irc <- irc + stat_function(fun = logisticFun, args = list(a=as.numeric(item[[i]][1]),b=as.numeric(item[[i]][j])))
+        irc <- irc + stat_function(fun = logisticFun, args = list(a=as.numeric(item[[i]][1]),b=as.numeric(item[[i]][j])), aes_(colour = legends))
       }
 
       circ <- circ +
-        stat_function(fun = pg0, args = list(a=as.numeric(item[[i]][1]),b=as.numeric(item[[i]][2]))) +
-        stat_function(fun = pgl, args = list(a=as.numeric(item[[i]][1]),b=as.numeric(item[[i]][Threshold.max+1])))
+        stat_function(fun = pg0, args = list(a=as.numeric(item[[i]][1]),b=as.numeric(item[[i]][2])), aes_(colour = legends)) +
+        stat_function(fun = pgl, args = list(a=as.numeric(item[[i]][1]),b=as.numeric(item[[i]][Threshold.max+1])), aes_(colour = legends))
 
 
       for (j in 2:(Threshold.max)){
-        circ <- circ + stat_function(fun = pgbtwn, args = list(a1=as.numeric(item[[i]][1]), b1=as.numeric(item[[i]][j]), a2=as.numeric(item[[i]][1]), b2=as.numeric(item[[i]][j+1])))
+        circ <- circ + stat_function(fun = pgbtwn, args = list(a1=as.numeric(item[[i]][1]), b1=as.numeric(item[[i]][j]), a2=as.numeric(item[[i]][1]), b2=as.numeric(item[[i]][j+1])), aes_(colour = legends))
       }
     }
 
@@ -126,14 +129,14 @@ irc <- function(){
       xlab(latex2exp::TeX("$\\theta")) +
       ylab("Probability") +
       labs(title=paste("Cumulative Probability Curves \nfor Group", selected.group.option, "of Item", selected.item), caption = "The multiple lines reflect different subgroups") +
-      theme_bw()
+      theme_bw() + theme(legend.title = element_blank())
 
     # plotting a frame category curve
     circ <-ggplot(data.frame(theta = c(-4, 4)), aes(x = theta)) +
       xlab(latex2exp::TeX("$\\theta")) +
       ylab("Probability") +
       labs(title=paste("Category Probability Curves \nfor Group", selected.group.option, "of Item", selected.item), caption = "") +
-      theme_bw()
+      theme_bw() + theme(legend.title = element_blank())
 
     # process data for plot
       i <- selected.group <- selected.group.option
@@ -144,6 +147,7 @@ irc <- function(){
 
     # overlay irc
     for (j in 2:(Threshold.max+1)){
+      legends = paste0("CPC", (j-1))
       irc <- irc + stat_function(fun = logisticFun, args = list(a=as.numeric(item[[i]][1]),b=as.numeric(item[[i]][j])))
     }
 
@@ -154,6 +158,7 @@ irc <- function(){
 
 
     for (j in 2:(Threshold.max)){
+      legends = paste0("CPC", j)
       circ <- circ + stat_function(fun = pgbtwn, args = list(a1=as.numeric(item[[i]][1]), b1=as.numeric(item[[i]][j]), a2=as.numeric(item[[i]][1]), b2=as.numeric(item[[i]][j+1])))
     }
 

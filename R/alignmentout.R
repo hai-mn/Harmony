@@ -20,23 +20,25 @@ alignmentout<-function(){
   ## 4. Items: number of dependent variables
   ## 5. Threshold: number of categories - 1
   cat("\nThe function provides information from Mplus alignment output, including: \n - Groups (latent classes),\n - Factors (continuous latent variables),\n - Items (dependent variables) and\n - Categories of each Item (equal to Thresholds + 1).\n")
-  cat("\nIn addition, you may find from the folder 'Output_current date' in the working directory:\n - the multiple text files which splitted from the origin Mplus output\n - the thresholds, loadings tables (CSV format) and\n - especially, a combined Excel file with all separated spreadsheets")
+  cat("\nIn addition, you may find from the folder 'Output_current date' in the working directory:\n - the multiple text files which split from the origin Mplus output\n - the thresholds, loadings tables (CSV format) and\n - especially, a combined Excel file with all separated spreadsheets")
 
   ## 1. Enter a Mplus ouput file======================================================
   infile <- readline(prompt="Enter path and Mplus output file (separated by /):\n")
 
   ### Create a folder to store the output
   filepath <<- paste0("Output","_",Sys.Date())
+  filepath.misc <<- paste0("Output","_",Sys.Date(),"/Misc") # clean up: put all un-necessary files in filepath.misc
   ifelse(!dir.exists(file.path(filepath)), dir.create(file.path(filepath)), FALSE)
-
+  ifelse(!dir.exists(file.path(filepath.misc)), dir.create(file.path(filepath.misc)), FALSE)
+  
   ### Split Mplus output file into 6 parts by support function `mplussplit` within the package:
   ###  ext1_input instructions - ext2_summary of analysis
   ###  ext3_model fit information - ext4_model results
   ###  ext5_alignment output - ext6_savedata information
-  mplussplit(outpath = filepath, inputfile = infile)
+  mplussplit(outpath = filepath.misc, inputfile = infile)
 
   ## 2- Number of Groups: latent classes===============================================
-  ext1<-readLines(paste0(filepath, "/ext1_input instructions.txt"))
+  ext1<-readLines(paste0(filepath.misc, "/ext1_input instructions.txt"))
   g<-grep("^.*classes =.*", ext1, ignore.case = T, value=T)
   g.line<-grep("^.*KNOWNCLASS.*", ext1, ignore.case = T, value=T)
   Group <<- as.numeric(str_extract_all(g,"\\d+"))
@@ -47,7 +49,7 @@ alignmentout<-function(){
   cat("- The Name of Groups (Latent Classes):", Group.name, "with categories of", Group.cat,"\n")
 
   ## 3- Factors: number of continuous latent variables=================================
-  ext2<-readLines(paste0(filepath, "/ext2_summary of analysis.txt"))
+  ext2<-readLines(paste0(filepath.misc, "/ext2_summary of analysis.txt"))
   m<-grep("Continuous latent variables",ext2)
   Factor<<-unlist(str_extract_all(ext2[m+1],"\\w+"))
   Factor.n <- length(Factor)
@@ -125,7 +127,7 @@ alignmentout<-function(){
 
   # Build Threshold estimate and SE-------------------------------------------------------
   ## Split the Model Results to the number of classes=====================================
-  latentsplit(filepath = filepath, inputfile="ext4_model results.txt")
+  latentsplit(filepath = filepath.misc, inputfile="ext4_model results.txt")
 
   Threshold.df <- vector(mode = "list", length = Threshold.max) #empty_list
   for (i in 1:Threshold.max){
@@ -138,7 +140,7 @@ alignmentout<-function(){
     col.se<-paste0("Threshold",i,"_SE_G")
     ### Run from 1 to Group (G) of Threshold.df of i, then repeat merge to threshold.table.threshold by Item
     for (j in 1:Group){
-      readfile<-paste0(filepath,"/LatentClass ",j,".txt")
+      readfile<-paste0(filepath.misc,"/LatentClass ",j,".txt")
       Threshold.file <- readLines(readfile)
       pattern<-sprintf("^ +(%s)\\$%s +([-+]?\\d+.\\d+) +([-+]?\\d+.\\d+) +([-+]?\\d+.\\d+) +([-+]?\\d+.\\d+)",Itemstring,i)
       matches<-str_match(Threshold.file,pattern)
@@ -156,20 +158,20 @@ alignmentout<-function(){
 
   # Build the Threshold1_Weighted_Average & Threshold1_R-square-----------------------------
   ## Split then obtain the part needed for Invariant estimates==============================
-  paraextract(paste0(filepath, "/ext5_alignment output.txt"),"ALIGNMENT OUTPUT","Loadings",paste0(filepath, "/Threshold_Invariant_Rsq.txt"))
-  Threshold.file <- readLines(paste0(filepath, "/Threshold_Invariant_Rsq.txt"))
+  paraextract(paste0(filepath.misc, "/ext5_alignment output.txt"),"ALIGNMENT OUTPUT","Loadings",paste0(filepath.misc, "/Threshold_Invariant_Rsq.txt"))
+  Threshold.file <- readLines(paste0(filepath.misc, "/Threshold_Invariant_Rsq.txt"))
 
   ## Select the lines in which have the information==========================================
   st<-grep("^ Threshold.*|^ Weighted Average Value Across Invariant Groups:,*|^ R-square/Explained variance/Invariance index:.*|^ Approximate Invariance Was Not Found For This Parameter.", Threshold.file, ignore.case = T,value=T)
 
   ## Obtain the part needed for Invariant-Noninvariant values================================
-  paraextract(paste0(filepath, "/ext4_model results.txt"),"APPROXIMATE MEASUREMENT INVARIANCE \\(NONINVARIANCE\\) FOR GROUPS","FACTOR MEAN COMPARISON AT THE 5% SIGNIFICANCE LEVEL IN DESCENDING ORDER",paste0(filepath, "/Invariant_Noninvariant.txt"))
+  paraextract(paste0(filepath.misc, "/ext4_model results.txt"),"APPROXIMATE MEASUREMENT INVARIANCE \\(NONINVARIANCE\\) FOR GROUPS","FACTOR MEAN COMPARISON AT THE 5% SIGNIFICANCE LEVEL IN DESCENDING ORDER",paste0(filepath.misc, "/Invariant_Noninvariant.txt"))
 
-  Invariance.file <- readLines(paste0(filepath, "/Invariant_Noninvariant.txt"))
+  Invariance.file <- readLines(paste0(filepath.misc, "/Invariant_Noninvariant.txt"))
 
-  invariancesplit(inputfile=paste0(filepath,"/Invariant_Noninvariant.txt"))
+  invariancesplit(inputfile=paste0(filepath.misc,"/Invariant_Noninvariant.txt"))
 
-  Threshold.Invariance.file <- readLines(paste0(filepath, "/ThresholdInvariance.txt"))
+  Threshold.Invariance.file <- readLines(paste0(filepath.misc, "/ThresholdInvariance.txt"))
 
   Threshold.Invariance.file <- Threshold.Invariance.file[-c(1,length(Threshold.Invariance.file))]
 
@@ -245,7 +247,7 @@ alignmentout<-function(){
   Loadings.df<-vector(mode = "list", length = Group)
   ## Run from 1 to Group (G) of Loadings.df, then repeat merge to Loadings.df by Item
   for (j in 1:Group){
-    readfile<-paste0(filepath,"/LatentClass ",j,".txt")
+    readfile<-paste0(filepath.misc,"/LatentClass ",j,".txt")
     Loadings.file <- readLines(readfile)
 
     pattern<-sprintf("^ +(%s) +([-+]?\\d+.\\d+) +([-+]?\\d+.\\d+) +([-+]?\\d+.\\d+) +([-+]?\\d+.\\d+)", Itemstring)
@@ -265,10 +267,10 @@ alignmentout<-function(){
 
   # Continue to build the Loadings Invariant table, then merge to just preceding table-----
   ## Select the paragraph in which has the information=============================
-  paraextract(paste0(filepath, "/ext5_alignment output.txt"),"Loadings","SAMPLE STATISTICS FOR ESTIMATED FACTOR SCORES", paste0(filepath, "/Loadings_Invariant_Rsq.txt"))
+  paraextract(paste0(filepath.misc, "/ext5_alignment output.txt"),"Loadings","SAMPLE STATISTICS FOR ESTIMATED FACTOR SCORES", paste0(filepath.misc, "/Loadings_Invariant_Rsq.txt"))
 
   ## Load the extract paragraph (above)=====================================================
-  Loadings.file <- readLines(paste0(filepath, "/Loadings_Invariant_Rsq.txt"))
+  Loadings.file <- readLines(paste0(filepath.misc, "/Loadings_Invariant_Rsq.txt"))
 
   ## Select the lines in which have the information=========================================
   st<-grep("^ Loadings for.*|^ Weighted Average Value Across Invariant Groups:,*|^ R-square/Explained variance/Invariance index:.*|^ Approximate Invariance Was Not Found For This Parameter.", Loadings.file, value=T, ignore.case=T)
@@ -283,7 +285,7 @@ alignmentout<-function(){
 
   ## Build the table=======================================================================
 
-  Loadings.Invariance.file <- readLines(paste0(filepath, "/LoadingsInvariance.txt"))
+  Loadings.Invariance.file <- readLines(paste0(filepath.misc, "/LoadingsInvariance.txt"))
 
   k<-1
 
