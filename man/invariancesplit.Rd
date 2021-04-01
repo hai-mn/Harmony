@@ -4,10 +4,12 @@
 \alias{invariancesplit}
 \title{invariancesplit}
 \usage{
-invariancesplit(inputfile = invar.noninvar.file, filepath = filepath.misc)
+invariancesplit(inputfile, filepath)
 }
 \arguments{
 \item{inputfile}{usually a file of "Invariant_Noninvariant.txt" produced by a inside function from alignmentout}
+
+\item{filepath}{a string of directory path to store the output files}
 }
 \value{
 Two files of ThresholdInvariance.txt and LoadingsInvariance.txt in a specific folder

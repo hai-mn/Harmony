@@ -4,7 +4,7 @@
 #' @details In order to procuce the plots, 'alignmentthresholdplot' requires the user to firstly run the 'alignmentout' to obtain the threshold and loading parameters
 #' @author Hai Nguyen \email{hnguye72@@uic.edu}, Tianxiu Wang, Ariel Aloe, Rachel Gordon
 #' @export alignmentthresholdplot
-#' @import ggplot2 reshape2 data.table
+#' @import ggplot2 reshape2
 #' @return Alignment Threshold Plot(s) files in a specific folder
 
 
@@ -24,7 +24,7 @@ alignmentthresholdplot<-function(){
     # File path ---------------------------------------------------
     filepath <- paste0("Output","_",Sys.Date())
     filepath.misc <- paste0("Output","_",Sys.Date(),"/Misc") # clean up: put all un-necessary files in filepath.misc
-    
+
     for (i in 1:Threshold.max){
 
       # Read data ----------------------------------------------------------
@@ -146,7 +146,7 @@ alignmentthresholdplot<-function(){
 #' @details In order to procuce the plots, 'alignmentloadingplot' requires the user to firstly run the 'alignmentout' to obtain the threshold and loading parameters
 #' @author Hai Nguyen \email{hnguye72@@uic.edu}, Tianxiu Wang, Ariel Aloe, Rachel Gordon
 #' @export alignmentloadingplot
-#' @import ggplot2 reshape2 data.table
+#' @import ggplot2 reshape2
 #' @return An Alignment Loading Plot file in a specific folder
 
 
@@ -164,7 +164,7 @@ alignmentloadingplot<-function(){
     # File path ---------------------------------------------------
     filepath <- paste0("Output","_",Sys.Date())
     filepath.misc <- paste0("Output","_",Sys.Date(),"/Misc") # clean up: put all un-necessary files in filepath.misc
-    
+
     # Read data ---------------------------------------------------
     eg2.w <- read.csv(file = paste0(filepath,"/loadings.csv"), stringsAsFactors = TRUE)
 

@@ -121,10 +121,11 @@ latentsplit <- function(filepath = paste0("Output","_",Sys.Date()), inputfile = 
 #' @author Hai Nguyen \email{hnguye72@@uic.edu}
 #' @export invariancesplit
 #' @param inputfile usually a file of "Invariant_Noninvariant.txt" produced by a inside function from alignmentout
+#' @param filepath a string of directory path to store the output files
 #' @return Two files of ThresholdInvariance.txt and LoadingsInvariance.txt in a specific folder
 
 
-invariancesplit <- function(inputfile = invar.noninvar.file, filepath = filepath.misc){
+invariancesplit <- function(inputfile, filepath){
 
   #invar.noninvar.file <- "Invariant_Noninvariant.txt"
 

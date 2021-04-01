@@ -30,7 +30,7 @@ alignmentout<-function(){
   filepath.misc <<- paste0("Output","_",Sys.Date(),"/Misc") # clean up: put all un-necessary files in filepath.misc
   ifelse(!dir.exists(file.path(filepath)), dir.create(file.path(filepath)), FALSE)
   ifelse(!dir.exists(file.path(filepath.misc)), dir.create(file.path(filepath.misc)), FALSE)
-  
+
   ### Split Mplus output file into 6 parts by support function `mplussplit` within the package:
   ###  ext1_input instructions - ext2_summary of analysis
   ###  ext3_model fit information - ext4_model results
@@ -96,7 +96,7 @@ alignmentout<-function(){
     f.stri[i]   <- paste0(Factor[i],"(.*) BY ")
     f.stri.c[i] <- paste0("^\\s+",Factor[i],"(.*) BY\\s+|\\s+;.*")
     f           <- grep(f.stri[i], ext1, ignore.case = T)
-    
+
     by.items[[i]] <- toupper(gsub(f.stri.c[i], "", ext1[f], ignore.case = T))
   }
   Item<-unlist(by.items) #matches with Item.name
@@ -169,7 +169,7 @@ alignmentout<-function(){
 
   Invariance.file <- readLines(paste0(filepath.misc, "/Invariant_Noninvariant.txt"))
 
-  invariancesplit(inputfile=paste0(filepath.misc,"/Invariant_Noninvariant.txt"))
+  invariancesplit(inputfile=paste0(filepath.misc,"/Invariant_Noninvariant.txt"), filepath = filepath.misc)
 
   Threshold.Invariance.file <- readLines(paste0(filepath.misc, "/ThresholdInvariance.txt"))
 
