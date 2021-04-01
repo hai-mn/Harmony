@@ -7,13 +7,13 @@
 irc()
 }
 \value{
-A list of Item Response (Characteristic) Curve Plot in R environment
+A graph including the category and cumulative probability curves in the Plots - R pane layout
 }
 \description{
-Generating Cumulative and Category Item Response (Characteristic) Curve Plots
+Plotting the Category and Cumulative Probability Curve
 }
 \details{
-irc requires the user to firstly run the 'alignmentout' and 'convert2irt' to obtain the difficulty and discrimination parameters
+irc() requires the user to run 'alignmentout()' and 'convert2irt()' at first to obtain the difficulty and discrimination estimates
 }
 \author{
 Hai Nguyen \email{hnguye72@uic.edu}, Ariel Aloe, Tianxiu Wang, Rachel Gordon

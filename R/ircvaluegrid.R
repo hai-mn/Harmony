@@ -5,7 +5,7 @@
 #' @author Hai Nguyen \email{hnguye72@@uic.edu}, Ariel Aloe, Tianxiu Wang, Rachel Gordon
 #' @export irc.csvexport
 #' @import tidyverse
-#' @return A CSV file which has value grid of theta, category probability (PG) and cumulative probability (CGF) values of a selected item's group
+#' @return A CSV file which has value grid of theta, category probability (cpc) and cumulative probability (CPC) values of a selected item's group
 
 irc.csvexport <- function(){
 

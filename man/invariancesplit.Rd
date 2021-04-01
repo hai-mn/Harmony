@@ -4,7 +4,7 @@
 \alias{invariancesplit}
 \title{invariancesplit}
 \usage{
-invariancesplit(inputfile = "Invariant_Noninvariant.txt")
+invariancesplit(inputfile = invar.noninvar.file, filepath = filepath.misc)
 }
 \arguments{
 \item{inputfile}{usually a file of "Invariant_Noninvariant.txt" produced by a inside function from alignmentout}
