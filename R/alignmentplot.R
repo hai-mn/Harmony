@@ -4,7 +4,7 @@
 #' @details In order to procuce the plots, 'alignmentthresholdplot' requires the user to firstly run the 'alignmentout' to obtain the threshold and loading parameters
 #' @author Hai Nguyen \email{hnguye72@@uic.edu}, Tianxiu Wang, Ariel Aloe, Rachel Gordon
 #' @export alignmentthresholdplot
-#' @import ggplot2 reshape2
+#' @import ggplot2 reshape2 data.table
 #' @return Alignment Threshold Plot(s) files in a specific folder
 
 
@@ -146,7 +146,7 @@ alignmentthresholdplot<-function(){
 #' @details In order to procuce the plots, 'alignmentloadingplot' requires the user to firstly run the 'alignmentout' to obtain the threshold and loading parameters
 #' @author Hai Nguyen \email{hnguye72@@uic.edu}, Tianxiu Wang, Ariel Aloe, Rachel Gordon
 #' @export alignmentloadingplot
-#' @import ggplot2 reshape2
+#' @import ggplot2 reshape2 data.table
 #' @return An Alignment Loading Plot file in a specific folder
 
 
