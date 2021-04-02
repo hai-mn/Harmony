@@ -14,7 +14,6 @@ Imports:
     openxlsx,
     readxl,
     scales,
-    reshape2,
     data.table,
     latex2exp,
     ggpubr
