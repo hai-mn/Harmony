@@ -169,6 +169,6 @@ irc <- function(){
   cat("Exporting", paste0("\"IRC of Item ", selected.item, " - Group ", selected.group.line, ".tiff\""), paste0("in \"../",filepath, "\""), "folder\n")
   ## Save to TIF/TIFF
   ggsave(filename = paste0(filepath,"/IRC of Item ", selected.item, " - Group ", selected.group.line, ".tiff"),
-         figure, width = 4, height = 10, dpi = 300, units = "in", device = "tiff")
+         figure, width = 6, height = 10, dpi = 300, units = "in", device = "tiff")
 
 }

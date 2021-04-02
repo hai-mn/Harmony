@@ -95,21 +95,9 @@ irc.csvexport <- function(){
   for (i in 1:(ncat+1)){colnames(df)[i+1] <- paste0("cpc",i)} #cpc: in lowercase, category probability curve
   for (i in 1:ncat){colnames(df)[1+ncat+1+i] <- paste0("CPC",i)} #CPC: in uppercase, Cumulative Probability Curve
   colnames(df)
+
+  cat("Exporting", paste0("\"IPC Value Grid of Item ", selected.item, " - Group ", selected.group,".csv\""), paste0("in \"../",filepath, "\""), "folder\n")
+
   utils::write.csv(df, paste0(filepath,"/IPC Value Grid of Item ", selected.item, " - Group ", selected.group,".csv"), row.names=FALSE)
 
 }
-
-# # Plot the category graded probabilities
-# plot(c(min(theta),max(theta)),c(0,1), type="n",
-#      ylim=c(0,1), ylab = "Probability", xlab= ~ theta,
-#      main="Category Response Curves" )
-# for (m in 1:(ncat+1)) {
-#   lines (theta,PG[,m])
-# }
-# # Plot the individual graded probabilities
-# plot(c(min(theta),max(theta)),c(0,1), type="n",
-#      ylim=c(0,1), ylab = "Probability", xlab= ~ theta,
-#      main="Operating Characteristic Curves ")
-# for (m in 1:ncat) {
-#   lines(theta,CGF[,m])
-# }
