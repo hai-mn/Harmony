@@ -66,7 +66,7 @@ irc <- function(){
 
 
   #=========================================================================
-  cat("\nThe program will plot cumulative and category probability curves on the selected item and group(s)\n")
+  cat("\nThe function plots cumulative and category probability curves on the selected item and group(s)\n")
 
   # Select the item to plot
   selected.item.n <- utils::menu(Item.name, title = "Input an item need to be plotted: ")
@@ -165,5 +165,10 @@ irc <- function(){
   }
 
   figure <- ggpubr::ggarrange(circ, irc, ncol = 1, nrow = 2)
-  figure
+
+  cat("Exporting", paste0("\"IRC of Item ", selected.item, " - Group ", selected.group.line, ".tiff\""), paste0("in \"../",filepath, "\""), "folder\n")
+  ## Save to TIF/TIFF
+  ggsave(filename = paste0(filepath,"/IRC of Item ", selected.item, " - Group ", selected.group.line, ".tiff"),
+         figure, width = 4, height = 10, dpi = 300, units = "in", device = "tiff")
+
 }

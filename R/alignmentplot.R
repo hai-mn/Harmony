@@ -73,6 +73,7 @@ alignmentthresholdplot<-function(){
         theme_bw()
 
       ## Save to TIF/TIFF
+      cat("Exporting", paste0("\"alignment model - Threshold", i, " - ", Group, " groups.tiff\""), paste0("in \"../",filepath, "\""), "folder\n")
       ggsave(filename = paste0(filepath,"/alignment model - Threshold", i, " - ", Group, " groups.tiff"), gg, width = 10, height = 8, dpi = 300, units = "in", device = "tiff")
 
     }
@@ -131,6 +132,7 @@ alignmentthresholdplot<-function(){
           theme_bw()
 
         ## Save to TIF/TIFF
+        cat("Exporting", paste0("\"alignment model - Threshold", i, " - ", Group, " groups.tiff\""), paste0("in \"../",filepath, "\""), "folder\n")
         ggsave(filename = paste0(filepath,"/alignment model - Threshold", i, " - ", Group, " groups.tiff"), gg, width = 10, height = 8, dpi = 300, units = "in", device = "tiff")
       }
   }
@@ -215,6 +217,7 @@ alignmentloadingplot<-function(){
       theme_bw()
 
     ## Save to TIF/TIFF
+    cat("Exporting", paste0("\"alignment model - Loadings - ", Group, " groups.tiff\""), paste0("in \"../",filepath, "\""), "folder\n")
     ggsave(filename = paste0(filepath,"/alignment model - Loadings - ", Group, " groups.tiff"), gg, width = 10, height = 8, dpi = 300, units = "in", device = "tiff")
 
 
@@ -272,6 +275,7 @@ alignmentloadingplot<-function(){
       theme_bw()
 
     ## Save to TIF/TIFF
+    cat("Exporting", paste0("\"alignment model - Loadings - ", Group, " groups.tiff\""), paste0("in \"../",filepath, "\""), "folder\n")
     ggsave(filename = paste0(filepath,"/alignment model - Loadings - ", Group, " groups.tiff"), gg, width = 10, height = 8, dpi = 300, units = "in", device = "tiff")
   }
 }
