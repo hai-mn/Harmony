@@ -9,7 +9,7 @@ To install, type in the RStudio console:
 
 Note that:  
 - code in R is case-sensitive so capitalization is important.  
-- harmony package requires some other dependent packages (tidyverse, reshape2, data.table, readxl, openxlsx, latex2exp, scales, ggpubr) in order to correctly execute. That's the reason we suggest users should install package with the `dependencies = TRUE` option, so that the users do not need to manually install the required packages themselves.   
+- harmony package requires some other dependent packages (tidyverse, data.table, readxl, openxlsx, latex2exp, scales, ggpubr) in order to correctly execute. That's the reason we suggest users should install package with the `dependencies = TRUE` option, so that the users do not need to manually install the required packages themselves.   
 
 Then call the package:   
 `library(harmony)`  
@@ -20,6 +20,7 @@ The `harmony` package has six main functions:
 - `alignmentthresholdplot()`: to generate alignment threshold plots having True/False invariant with estimates of group items and invariant average  
 - `alignmentloadingplot()`: to generating alignment loading plot having True/False invariant with estimates of group items and invariant average  
 - `convert2irt()`: to convert IFA estimates (threshold and loading) to IRT estimates (difficulty and discrimination)  
+- ``:
 - `irc()`: to generate Cumulative and Category Item Probability (Characteristic/Response) Curve Plots  
 - `cellsizedetect()`: to check the 2 x 2 crosstabs of items having the cell size and below specified by the user    
 

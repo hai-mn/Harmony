@@ -47,6 +47,11 @@ alignmentthresholdplot<-function(){
 
 
       write.csv(eg2.l, paste0(filepath.misc,"/thresholds",i,"_longform.csv"), row.names=FALSE)
+      
+      # step to order the graph on weighted_average value
+      eg2.l$weighted.avg <- rep(eg2.l[,4][which(eg2.l$lclass==as.numeric(Group+1))], Group+1)
+      
+      
       # Plot ggplot ---------------------------------------------------------
 
       ## set colors
@@ -61,7 +66,7 @@ alignmentthresholdplot<-function(){
       } else {group.shape <- 17}
 
       ## Plotting ggplot
-      gg <- ggplot(eg2.l, aes(x = forcats::fct_reorder(Item, eg2.l[,4],na.rm = T,.desc=T), y = eg2.l[,4])) +
+      gg <- ggplot(eg2.l, aes(x = forcats::fct_reorder(Item, eg2.l[,7],na.rm = T,.desc=T), y = eg2.l[,4])) +
         geom_point(aes(shape = Invariant, colour = lclass), size = 3) +
         scale_shape_manual(values = group.shape, na.translate = F) +
         scale_colour_manual(name = "Group\n(Latent Class&\nInvariant)", values = group.colors, labels = GroupLabel) +
@@ -106,6 +111,9 @@ alignmentthresholdplot<-function(){
 
         write.csv(eg2.l, paste0(filepath.misc,"/thresholds",i,"_longform.csv"), row.names=FALSE)
 
+        # step to order the graph on weighted_average value
+        eg2.l$weighted.avg <- rep(eg2.l[,4][which(eg2.l$lclass==as.numeric(Group+1))], Group+1)
+        
         # Plot ggplot ---------------------------------------------------------
 
         ## set colors
@@ -120,7 +128,7 @@ alignmentthresholdplot<-function(){
         } else {group.shape <- 17}
 
         ## Plotting ggplot
-        gg <- ggplot(eg2.l, aes(x = forcats::fct_reorder(Item, eg2.l[,4],na.rm = T,.desc=T), y = eg2.l[,4])) +
+        gg <- ggplot(eg2.l, aes(x = forcats::fct_reorder(Item, eg2.l[,7],na.rm = T,.desc=T), y = eg2.l[,4])) +
           geom_point(aes(shape = Invariant, colour = lclass), size = 3) +
           scale_shape_manual(values = group.shape, na.translate = F) +
           scale_colour_manual(name = "Group\n(Latent Class&\nInvariant)", values = group.colors) +
@@ -190,6 +198,10 @@ alignmentloadingplot<-function(){
 
     write.csv(eg2.l, paste0(filepath.misc,"/loadings_longform.csv"), row.names=FALSE)
 
+    # step to order the graph on weighted_average value
+    eg2.l$weighted.avg <- rep(eg2.l[,4][which(eg2.l$lclass==as.numeric(Group+1))], Group+1)
+    
+    
 
     # Plot ggplot ---------------------------------------------------------
 
@@ -205,7 +217,7 @@ alignmentloadingplot<-function(){
     } else {group.shape <- 17}
 
     ## Plotting gg
-    gg <- ggplot(eg2.l, aes(x = forcats::fct_reorder(Item, eg2.l[,4],na.rm = T,.desc=T), y = eg2.l[,4])) +
+    gg <- ggplot(eg2.l, aes(x = forcats::fct_reorder(Item, eg2.l[,7],na.rm = T,.desc=T), y = eg2.l[,4])) +
       geom_point(aes(shape = Invariant, colour = lclass), size = 3) +
       scale_shape_manual(values = group.shape, na.translate = F) +
       scale_colour_manual(name = "Group\n(Latent Class&\nInvariant)", values = group.colors, labels = GroupLabel) +
@@ -248,7 +260,10 @@ alignmentloadingplot<-function(){
 
     write.csv(eg2.l, paste0(filepath.misc,"/loadings_longform.csv"), row.names=FALSE)
 
-
+    # step to order the graph on weighted_average value
+    eg2.l$weighted.avg <- rep(eg2.l[,4][which(eg2.l$lclass==as.numeric(Group+1))], Group+1)
+    
+    
     # Plot ggplot ---------------------------------------------------------
 
     ## set colors
@@ -263,7 +278,7 @@ alignmentloadingplot<-function(){
     } else {group.shape <- 17}
 
     ## Plotting gg
-    gg <- ggplot(eg2.l, aes(x = forcats::fct_reorder(Item, eg2.l[,4],na.rm = T,.desc=T), y = eg2.l[,4])) +
+    gg <- ggplot(eg2.l, aes(x = forcats::fct_reorder(Item, eg2.l[,7],na.rm = T,.desc=T), y = eg2.l[,4])) +
       geom_point(aes(shape = Invariant, colour = lclass), size = 3) +
       scale_shape_manual(values = group.shape, na.translate = F) +
       scale_colour_manual(name = "Group\n(Latent Class&\nInvariant)", values = group.colors) +
