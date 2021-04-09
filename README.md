@@ -127,7 +127,7 @@ MODEL: 	        %OVERALL%
                 Headstrong with Hyperactive ;
 ~~~
 - The loadings table looks like:
-<img alt="loadings table.PNG" src="img-assets/loadings table.PNG">
+<img alt="loadings-table.PNG" src="img-assets/loadings-table.PNG">
 
 __Step 3:__ Generating alignment plots
 For example, we call the function: `alignmentloadingplot()` to plot alignment loadings plot
@@ -141,7 +141,7 @@ The function would notify:
 Exporting "alignment model - Loadings - 6 groups.tiff" in "../Output_2021-04-09" folder
 
 Here's the plot:
-<img alt="alignment model - Loadings - 6 groups.PNG" src="img-assets/alignment model - Loadings - 6 groups.PNG">
+<img alt="alignment-loadings-model.png" src="img-assets/alignment-loadings-model.png">
 
 __Step 4:__ Convert (Item Factor Analysis) IFA estimates to (Item Response Theory) IRT estimates
 
@@ -174,7 +174,7 @@ Selection: 1
 Exporting "IRC of Item BPI8 - Group 1.tiff" in "../Output_2021-04-09" folder
 
 The plot looks like:
-<img alt="IRC of Item BPI8 - Group 1.png" src="img-assets/IRC of Item BPI8 - Group 1.png">
+<img alt="IRC.png" src="img-assets/IRC.png">
 
 ### Example Mplus files
 Here is the list of files used in the case study:
@@ -187,5 +187,3 @@ Here is the list of files used in the case study:
 ## Acknowledgment
 
 Research reported in this publication was supported by the Eunice Kennedy Shriver National Institute Of Child Health & Human Development of the National Institutes of Health under Award Number R03HD098310. The content is solely the responsibility of the authors and does not necessarily represent the official views of the National Institutes of Health.
-
-## References
