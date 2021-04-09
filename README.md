@@ -129,18 +129,18 @@ MODEL: 	        %OVERALL%
 
 <img alt="loadings-table.PNG" src="img-assets/loadings-table.PNG">
 
-__Step 3:__ Generating alignment plots
-For example, we call the function: `alignmentloadingplot()` to plot alignment loadings plot
+__Step 3:__ Generating alignment plots   
+For example, we call the function: `alignmentloadingplot()` to plot alignment loadings plot   
 
-In the console, we enter a file which has group label:
+In the console, we enter a file which has group label:  
 
-Input the label file for groups (y/n)?y
-Input path and legend's label file name (use /): ../group label.xlsx
+Input the label file for groups (y/n)?y   
+Input path and legend's label file name (use /): ../group label.xlsx   
 
-The function would notify:
-Exporting "alignment model - Loadings - 6 groups.tiff" in "../Output_2021-04-09" folder
+The function would notify:   
+Exporting "alignment model - Loadings - 6 groups.tiff" in "../Output_2021-04-09" folder   
 
-Here's the plot:
+Here's the plot:   
 
 <img alt="alignment-loadings-model.png" src="img-assets/alignment-loadings-model.png">
 
@@ -153,28 +153,28 @@ Finally, we execute `irc()`. There would be informed lines in Console:
 The function plots cumulative and category probability curves on the selected item and group(s)
 Input an item need to be plotted:  
 
-1: BPI8
-2: BPI10
-3: BPI11
-4: BPI12
-5: BPI14
-6: BPI16
+1: BPI8  
+2: BPI10  
+3: BPI11  
+4: BPI12  
+5: BPI14  
+6: BPI16  
 
-Selection: 1
-Input the Group(s):  
+Selection: 1  
+Input the Group(s):    
 
-1: 1
-2: 2
-3: 3
-4: 4
-5: 5
-6: 6
-7: Other Combination
+1: 1  
+2: 2  
+3: 3  
+4: 4  
+5: 5  
+6: 6  
+7: Other Combination  
 
-Selection: 1
-Exporting "IRC of Item BPI8 - Group 1.tiff" in "../Output_2021-04-09" folder
+Selection: 1  
+Exporting "IRC of Item BPI8 - Group 1.tiff" in "../Output_2021-04-09" folder  
 
-The plot looks like:
+The plot looks like:  
 
 <img alt="IRC.png" src="img-assets/IRC.png">
 
