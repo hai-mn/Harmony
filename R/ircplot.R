@@ -123,16 +123,17 @@ irc <- function(){
 
   } else {
 
+    selected.group.line <- selected.group.option
     # Plot for one group ===============================================================
     # plotting a frame cumulative curve
-    irc <-ggplot(data.frame(theta = c(-4, 4)), aes(x = theta)) +
+    irc <- ggplot(data.frame(theta = c(-4, 4)), aes(x = theta)) +
       xlab(latex2exp::TeX("$\\theta")) +
       ylab("Probability") +
       labs(title=paste("Cumulative Probability Curves \nfor Group", selected.group.option, "of Item", selected.item), caption = "The multiple lines reflect different subgroups") +
       theme_bw() + theme(legend.title = element_blank())
 
     # plotting a frame category curve
-    circ <-ggplot(data.frame(theta = c(-4, 4)), aes(x = theta)) +
+    circ <- ggplot(data.frame(theta = c(-4, 4)), aes(x = theta)) +
       xlab(latex2exp::TeX("$\\theta")) +
       ylab("Probability") +
       labs(title=paste("Category Probability Curves \nfor Group", selected.group.option, "of Item", selected.item), caption = "") +
