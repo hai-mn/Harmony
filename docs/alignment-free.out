@@ -1,0 +1,1331 @@
+Mplus VERSION 8.5
+MUTHEN & MUTHEN
+03/20/2021  10:59 AM
+
+INPUT INSTRUCTIONS
+
+  TITLE: 		Alignment (free)				! Descriptive title
+
+  DATA: 		FILE = NLSYPSIDbpi.dat ;		! No path needed if files are in same folder
+
+  VARIABLE:	NAMES = subgroup
+  					bpi8 bpi10 bpi11
+  					bpi12 bpi14 bpi16
+                      childid ;            	! All variables in raw DATA file
+
+   			CATEGORICAL = bpi8 bpi10 bpi11
+  						  bpi12 bpi14 bpi16 ; ! Categorical items for analysis
+
+  			IDVARIABLE = childid ;			! Unique identifier of children
+
+    			CLASSES = c(6) ;				! Number of subgroups
+
+    			KNOWNCLASS = c(subgroup = 1 2 3 4 5 6 ) ;	! Variable and values identifying subgroups
+
+  ANALYSIS: 	TYPE = MIXTURE ;				! Alignment requires MIXTURE type
+
+  			ESTIMATOR = MLR ; 				! Alignment with categorical items allows ML or MLR
+
+  			LINK = LOGIT ; 					! Alignment with categorical items allows LOGIT or PROBIT link
+
+  			ALIGNMENT = FREE(Configural) ; ! Alignment can use FIXED or FREE approach
+  											! Alignment only possible with Configural model
+
+  			ALGORITHM = INTEGRATION ; 		! Alignment relies upon numerical integration
+
+  OUTPUT: 	ALIGN; 							! Requests extra output to be read in by Harmony R package
+
+  SAVEDATA: 	file is alignment-free.txt ; 	! Location to save factor scores
+
+  			save = fscores ; 				! Request factor scores be saved
+
+  MODEL: 		%OVERALL%						! Describe overall model of a mixed model
+  			
+  			HEADSTRG BY bpi8 ; 				! Loading of 1st item on Headstrong factor
+  			HEADSTRG BY bpi10 ;				! Loading of 2nd item on Headstrong factor
+  			HEADSTRG BY bpi11 ;				! Loading of 3rd item on Headstrong factor
+  			
+  			HYPERACT BY bpi12 ; 			! Loading of 1st item on Hyperactive factor
+  			HYPERACT BY bpi14 ; 			! Loading of 2nd item on Hyperactive factor
+  			HYPERACT BY bpi16 ; 			! Loading of 3rd item on Hyperactive factor
+
+  			HEADSTRG with HYPERACT ; 	! Factor covariance
+
+
+
+INPUT READING TERMINATED NORMALLY
+
+
+
+Alignment (free)
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                       12971
+
+Number of dependent variables                                    6
+Number of independent variables                                  0
+Number of continuous latent variables                            2
+Number of categorical latent variables                           1
+
+Observed dependent variables
+
+  Binary and ordered categorical (ordinal)
+   BPI8        BPI10       BPI11       BPI12       BPI14       BPI16
+
+Continuous latent variables
+   HEADSTRG    HYPERACT
+
+Categorical latent variables
+   C
+
+  Knownclass            C
+
+Variables with special functions
+
+  ID variable           CHILDID
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Optimization Specifications for the Quasi-Newton Algorithm for
+Continuous Outcomes
+  Maximum number of iterations                                 100
+  Convergence criterion                                  0.100D-05
+Optimization Specifications for the EM Algorithm
+  Maximum number of iterations                                 500
+  Convergence criteria
+    Loglikelihood change                                 0.100D-02
+    Relative loglikelihood change                        0.100D-05
+    Derivative                                           0.100D-02
+Optimization Specifications for the M step of the EM Algorithm for
+Categorical Latent variables
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-02
+  Basis for M step termination                           ITERATION
+Optimization Specifications for the M step of the EM Algorithm for
+Censored, Binary or Ordered Categorical (Ordinal), Unordered
+Categorical (Nominal) and Count Outcomes
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-02
+  Basis for M step termination                           ITERATION
+  Maximum value for logit thresholds                            15
+  Minimum value for logit thresholds                           -15
+  Minimum expected cell size for chi-square              0.100D-01
+Optimization algorithm                                         EMA
+Integration Specifications
+  Type                                                    STANDARD
+  Number of integration points                                  15
+  Dimensions of numerical integration                            2
+  Adaptive quadrature                                           ON
+Link                                                         LOGIT
+Specifications for Alignment Analysis
+  Factor mean for reference group                             FREE
+  Simplicity function                                         SQRT
+  Factor variance metric                           Reference group
+  Reference group                                                1
+  Tolerance value                                        0.100D-01
+  Number of random starts                                       30
+  Maximum number of iterations                                5000
+  Convergence criteration                                0.100D-02
+Cholesky                                                       OFF
+
+Input data file(s)
+  NLSYPSIDbpi.dat
+Input data format  FREE
+
+
+UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
+
+    BPI8
+      Category 1    0.428         5557.000
+      Category 2    0.430         5582.000
+      Category 3    0.141         1832.000
+    BPI10
+      Category 1    0.530         6880.000
+      Category 2    0.399         5177.000
+      Category 3    0.070          914.000
+    BPI11
+      Category 1    0.626         8123.000
+      Category 2    0.297         3852.000
+      Category 3    0.077          996.000
+    BPI12
+      Category 1    0.584         7573.000
+      Category 2    0.323         4188.000
+      Category 3    0.093         1210.000
+    BPI14
+      Category 1    0.526         6825.000
+      Category 2    0.414         5372.000
+      Category 3    0.060          774.000
+    BPI16
+      Category 1    0.576         7471.000
+      Category 2    0.317         4110.000
+      Category 3    0.107         1390.000
+
+
+
+     STANDARD ERROR COMPARISON INDICATES THAT THE FREE ALIGNMENT MODEL MAY BE POORLY IDENTIFIED.
+     USING THE FIXED ALIGNMENT OPTION MAY RESOLVE THIS PROBLEM.
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                      119
+
+Loglikelihood
+
+          H0 Value                      -82481.027
+          H0 Scaling Correction Factor      1.0320
+            for MLR
+
+Information Criteria
+
+          Akaike (AIC)                  165200.053
+          Bayesian (BIC)                166089.039
+          Sample-Size Adjusted BIC      165710.869
+            (n* = (n + 2) / 24)
+
+Chi-Square Test of Model Fit for the Binary and Ordered Categorical
+(Ordinal) Outcomes**
+
+          Pearson Chi-Square
+
+          Value                           8632.307
+          Degrees of Freedom                  4245
+          P-Value                           0.0000
+
+          Likelihood Ratio Chi-Square
+
+          Value                           4863.137
+          Degrees of Freedom                  4245
+          P-Value                           0.0000
+
+** Of the 729 cells in the latent class indicator table, 3
+   were deleted in the calculation of chi-square due to extreme values.
+
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THE ESTIMATED MODEL
+
+    Latent
+   Classes
+
+       1       1112.00000          0.08573
+       2       2158.00000          0.16637
+       3       3294.00000          0.25395
+       4        977.00000          0.07532
+       5       2149.00000          0.16568
+       6       3281.00000          0.25295
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1 (1)
+
+ HEADSTRG BY
+    BPI8               2.093      0.162     12.916      0.000
+    BPI10              2.519      0.221     11.400      0.000
+    BPI11              2.224      0.185     12.021      0.000
+
+ HYPERACT BY
+    BPI12              1.518      0.138     10.958      0.000
+    BPI14              2.190      0.203     10.767      0.000
+    BPI16              1.786      0.158     11.318      0.000
+
+ HEADSTRG WITH
+    HYPERACT           0.852      0.025     33.458      0.000
+
+ Means
+    HEADSTRG          -0.453      0.287     -1.580      0.114
+    HYPERACT          -0.598      0.302     -1.983      0.047
+
+ Thresholds
+    BPI8$1            -1.392      0.625     -2.227      0.026
+    BPI8$2             1.993      0.566      3.519      0.000
+    BPI10$1           -0.644      0.735     -0.875      0.381
+    BPI10$2            3.548      0.710      5.000      0.000
+    BPI11$1           -0.417      0.626     -0.666      0.505
+    BPI11$2            2.897      0.695      4.166      0.000
+    BPI12$1           -0.723      0.467     -1.548      0.122
+    BPI12$2            1.875      0.460      4.072      0.000
+    BPI14$1           -1.004      0.708     -1.417      0.157
+    BPI14$2            3.025      0.572      5.288      0.000
+    BPI16$1           -0.921      0.539     -1.711      0.087
+    BPI16$2            1.694      0.543      3.121      0.002
+
+ Variances
+    HEADSTRG           1.000      0.000    999.000    999.000
+    HYPERACT           1.000      0.000    999.000    999.000
+
+Latent Class 2 (2)
+
+ HEADSTRG BY
+    BPI8               1.589      0.166      9.556      0.000
+    BPI10              2.582      0.185     13.949      0.000
+    BPI11              2.547      0.230     11.075      0.000
+
+ HYPERACT BY
+    BPI12              1.634      0.139     11.764      0.000
+    BPI14              1.484      0.164      9.043      0.000
+    BPI16              1.829      0.155     11.789      0.000
+
+ HEADSTRG WITH
+    HYPERACT           0.983      0.124      7.892      0.000
+
+ Means
+    HEADSTRG          -0.425      0.285     -1.493      0.135
+    HYPERACT          -0.449      0.325     -1.383      0.167
+
+ Thresholds
+    BPI8$1            -0.716      0.479     -1.496      0.135
+    BPI8$2             1.988      0.481      4.135      0.000
+    BPI10$1           -0.797      0.751     -1.062      0.288
+    BPI10$2            3.339      0.779      4.289      0.000
+    BPI11$1           -0.239      0.743     -0.321      0.748
+    BPI11$2            3.059      0.761      4.021      0.000
+    BPI12$1           -0.996      0.518     -1.920      0.055
+    BPI12$2            2.138      0.539      3.967      0.000
+    BPI14$1           -0.787      0.500     -1.574      0.115
+    BPI14$2            3.050      0.490      6.222      0.000
+    BPI16$1           -1.002      0.577     -1.737      0.082
+    BPI16$2            2.034      0.604      3.367      0.001
+
+ Variances
+    HEADSTRG           1.119      0.182      6.151      0.000
+    HYPERACT           1.583      0.274      5.782      0.000
+
+Latent Class 3 (3)
+
+ HEADSTRG BY
+    BPI8               1.929      0.145     13.272      0.000
+    BPI10              2.600      0.169     15.416      0.000
+    BPI11              2.349      0.175     13.456      0.000
+
+ HYPERACT BY
+    BPI12              1.607      0.129     12.438      0.000
+    BPI14              1.692      0.166     10.171      0.000
+    BPI16              1.772      0.144     12.348      0.000
+
+ HEADSTRG WITH
+    HYPERACT           1.067      0.118      9.033      0.000
+
+ Means
+    HEADSTRG          -0.364      0.281     -1.295      0.195
+    HYPERACT          -0.697      0.327     -2.133      0.033
+
+ Thresholds
+    BPI8$1            -1.582      0.556     -2.847      0.004
+    BPI8$2             2.018      0.541      3.731      0.000
+    BPI10$1           -0.984      0.743     -1.325      0.185
+    BPI10$2            3.792      0.731      5.189      0.000
+    BPI11$1           -0.408      0.660     -0.618      0.536
+    BPI11$2            3.229      0.697      4.631      0.000
+    BPI12$1           -0.930      0.510     -1.825      0.068
+    BPI12$2            2.252      0.506      4.447      0.000
+    BPI14$1           -1.643      0.525     -3.130      0.002
+    BPI14$2            2.958      0.552      5.356      0.000
+    BPI16$1           -1.024      0.563     -1.817      0.069
+    BPI16$2            2.185      0.560      3.905      0.000
+
+ Variances
+    HEADSTRG           1.108      0.146      7.594      0.000
+    HYPERACT           1.863      0.306      6.093      0.000
+
+Latent Class 4 (4)
+
+ HEADSTRG BY
+    BPI8               2.037      0.192     10.602      0.000
+    BPI10              2.422      0.241     10.064      0.000
+    BPI11              2.477      0.243     10.202      0.000
+
+ HYPERACT BY
+    BPI12              1.600      0.115     13.938      0.000
+    BPI14              2.360      0.360      6.550      0.000
+    BPI16              1.576      0.218      7.226      0.000
+
+ HEADSTRG WITH
+    HYPERACT           0.805      0.119      6.758      0.000
+
+ Means
+    HEADSTRG          -0.524      0.284     -1.847      0.065
+    HYPERACT          -0.910      0.327     -2.780      0.005
+
+ Thresholds
+    BPI8$1            -1.555      0.578     -2.691      0.007
+    BPI8$2             1.916      0.575      3.334      0.001
+    BPI10$1           -0.419      0.712     -0.588      0.556
+    BPI10$2            3.471      0.696      4.987      0.000
+    BPI11$1            0.038      0.712      0.053      0.957
+    BPI11$2            2.994      0.745      4.021      0.000
+    BPI12$1           -0.481      0.496     -0.970      0.332
+    BPI12$2            2.054      0.492      4.173      0.000
+    BPI14$1           -1.112      0.687     -1.617      0.106
+    BPI14$2            2.790      0.703      3.970      0.000
+    BPI16$1           -0.688      0.493     -1.394      0.163
+    BPI16$2            1.765      0.487      3.623      0.000
+
+ Variances
+    HEADSTRG           1.023      0.162      6.312      0.000
+    HYPERACT           0.984      0.226      4.364      0.000
+
+Latent Class 5 (5)
+
+ HEADSTRG BY
+    BPI8               1.706      0.176      9.695      0.000
+    BPI10              2.444      0.165     14.847      0.000
+    BPI11              2.745      0.290      9.450      0.000
+
+ HYPERACT BY
+    BPI12              1.635      0.131     12.469      0.000
+    BPI14              1.749      0.183      9.576      0.000
+    BPI16              1.694      0.157     10.802      0.000
+
+ HEADSTRG WITH
+    HYPERACT           0.935      0.121      7.745      0.000
+
+ Means
+    HEADSTRG          -0.562      0.283     -1.988      0.047
+    HYPERACT          -0.969      0.344     -2.815      0.005
+
+ Thresholds
+    BPI8$1            -0.937      0.500     -1.873      0.061
+    BPI8$2             1.860      0.513      3.623      0.000
+    BPI10$1           -0.825      0.705     -1.171      0.242
+    BPI10$2            2.984      0.746      3.999      0.000
+    BPI11$1            0.066      0.806      0.082      0.935
+    BPI11$2            3.256      0.750      4.342      0.000
+    BPI12$1           -0.788      0.531     -1.485      0.138
+    BPI12$2            2.202      0.526      4.186      0.000
+    BPI14$1           -0.942      0.593     -1.587      0.112
+    BPI14$2            2.939      0.565      5.197      0.000
+    BPI16$1           -1.026      0.544     -1.887      0.059
+    BPI16$2            1.818      0.552      3.292      0.001
+
+ Variances
+    HEADSTRG           1.008      0.171      5.895      0.000
+    HYPERACT           1.379      0.240      5.749      0.000
+
+Latent Class 6 (6)
+
+ HEADSTRG BY
+    BPI8               2.006      0.147     13.619      0.000
+    BPI10              2.454      0.170     14.415      0.000
+    BPI11              2.463      0.186     13.226      0.000
+
+ HYPERACT BY
+    BPI12              1.589      0.128     12.389      0.000
+    BPI14              1.598      0.171      9.343      0.000
+    BPI16              1.846      0.152     12.137      0.000
+
+ HEADSTRG WITH
+    HYPERACT           0.922      0.103      8.957      0.000
+
+ Means
+    HEADSTRG          -0.434      0.282     -1.542      0.123
+    HYPERACT          -1.267      0.346     -3.657      0.000
+
+ Thresholds
+    BPI8$1            -1.594      0.556     -2.867      0.004
+    BPI8$2             1.860      0.571      3.258      0.001
+    BPI10$1           -1.112      0.698     -1.593      0.111
+    BPI10$2            3.667      0.718      5.109      0.000
+    BPI11$1            0.158      0.707      0.223      0.823
+    BPI11$2            3.917      0.666      5.883      0.000
+    BPI12$1           -0.766      0.513     -1.494      0.135
+    BPI12$2            2.246      0.495      4.536      0.000
+    BPI14$1           -1.711      0.455     -3.759      0.000
+    BPI14$2            2.504      0.506      4.952      0.000
+    BPI16$1           -0.993      0.592     -1.678      0.093
+    BPI16$2            2.201      0.570      3.862      0.000
+
+ Variances
+    HEADSTRG           0.999      0.130      7.714      0.000
+    HYPERACT           1.561      0.267      5.853      0.000
+
+Categorical Latent Variables
+
+ Means
+    C#1               -1.082      0.035    -31.182      0.000
+    C#2               -0.419      0.028    -15.116      0.000
+    C#3                0.004      0.025      0.160      0.873
+    C#4               -1.211      0.036    -33.238      0.000
+    C#5               -0.423      0.028    -15.248      0.000
+
+
+RESULTS IN PROBABILITY SCALE
+
+                    Estimate
+
+Latent Class 1 (1)
+
+ BPI8
+    Category 1         0.574
+    Category 2         0.348
+    Category 3         0.078
+ BPI10
+    Category 1         0.704
+    Category 2         0.266
+    Category 3         0.030
+ BPI11
+    Category 1         0.715
+    Category 2         0.242
+    Category 3         0.043
+ BPI12
+    Category 1         0.685
+    Category 2         0.258
+    Category 3         0.057
+ BPI14
+    Category 1         0.719
+    Category 2         0.257
+    Category 3         0.024
+ BPI16
+    Category 1         0.689
+    Category 2         0.247
+    Category 3         0.064
+
+Latent Class 2 (2)
+
+ BPI8
+    Category 1         0.605
+    Category 2         0.310
+    Category 3         0.085
+ BPI10
+    Category 1         0.667
+    Category 2         0.288
+    Category 3         0.045
+ BPI11
+    Category 1         0.726
+    Category 2         0.221
+    Category 3         0.053
+ BPI12
+    Category 1         0.570
+    Category 2         0.338
+    Category 3         0.092
+ BPI14
+    Category 1         0.585
+    Category 2         0.369
+    Category 3         0.046
+ BPI16
+    Category 1         0.588
+    Category 2         0.309
+    Category 3         0.103
+
+Latent Class 3 (3)
+
+ BPI8
+    Category 1         0.473
+    Category 2         0.425
+    Category 3         0.102
+ BPI10
+    Category 1         0.610
+    Category 2         0.348
+    Category 3         0.042
+ BPI11
+    Category 1         0.667
+    Category 2         0.280
+    Category 3         0.053
+ BPI12
+    Category 1         0.680
+    Category 2         0.263
+    Category 3         0.056
+ BPI14
+    Category 1         0.598
+    Category 2         0.367
+    Category 3         0.035
+ BPI16
+    Category 1         0.686
+    Category 2         0.253
+    Category 3         0.061
+
+Latent Class 4 (4)
+
+ BPI8
+    Category 1         0.585
+    Category 2         0.346
+    Category 3         0.069
+ BPI10
+    Category 1         0.759
+    Category 2         0.216
+    Category 3         0.025
+ BPI11
+    Category 1         0.805
+    Category 2         0.159
+    Category 3         0.035
+ BPI12
+    Category 1         0.850
+    Category 2         0.129
+    Category 3         0.021
+ BPI14
+    Category 1         0.861
+    Category 2         0.129
+    Category 3         0.009
+ BPI16
+    Category 1         0.826
+    Category 2         0.147
+    Category 3         0.027
+
+Latent Class 5 (5)
+
+ BPI8
+    Category 1         0.657
+    Category 2         0.279
+    Category 3         0.063
+ BPI10
+    Category 1         0.738
+    Category 2         0.231
+    Category 3         0.030
+ BPI11
+    Category 1         0.832
+    Category 2         0.140
+    Category 3         0.028
+ BPI12
+    Category 1         0.821
+    Category 2         0.157
+    Category 3         0.022
+ BPI14
+    Category 1         0.818
+    Category 2         0.170
+    Category 3         0.012
+ BPI16
+    Category 1         0.804
+    Category 2         0.167
+    Category 3         0.029
+
+Latent Class 6 (6)
+
+ BPI8
+    Category 1         0.522
+    Category 2         0.389
+    Category 3         0.089
+ BPI10
+    Category 1         0.633
+    Category 2         0.338
+    Category 3         0.029
+ BPI11
+    Category 1         0.777
+    Category 2         0.199
+    Category 3         0.024
+ BPI12
+    Category 1         0.890
+    Category 2         0.099
+    Category 3         0.011
+ BPI14
+    Category 1         0.812
+    Category 2         0.180
+    Category 3         0.009
+ BPI16
+    Category 1         0.897
+    Category 2         0.092
+    Category 3         0.010
+
+
+
+APPROXIMATE MEASUREMENT INVARIANCE (NONINVARIANCE) FOR GROUPS
+
+ Intercepts/Thresholds
+   BPI8$1      1 (2) 3 4 (5) 6
+   BPI8$2      1 2 3 4 5 6
+   BPI10$1     1 2 3 4 5 6
+   BPI10$2     1 2 3 4 (5) 6
+   BPI11$1     1 2 3 4 5 (6)
+   BPI11$2     1 2 3 4 5 (6)
+   BPI12$1     1 2 3 4 5 6
+   BPI12$2     1 2 3 4 5 6
+   BPI14$1     1 (2) 3 4 (5) 6
+   BPI14$2     1 2 3 4 5 (6)
+   BPI16$1     1 2 3 4 5 6
+   BPI16$2     1 2 3 4 5 6
+
+ Loadings for HEADSTRG
+   BPI8        1 2 3 4 5 6
+   BPI10       1 2 3 4 5 6
+   BPI11       1 2 3 4 5 6
+
+ Loadings for HYPERACT
+   BPI12       1 2 3 4 5 6
+   BPI14       1 2 3 4 5 6
+   BPI16       1 2 3 4 5 6
+
+
+FACTOR MEAN COMPARISON AT THE 5% SIGNIFICANCE LEVEL IN DESCENDING ORDER
+
+ Results for Factor HEADSTRG
+
+           Latent    Group      Factor
+ Ranking    Class    Value       Mean     Groups With Significantly Smaller Factor Mean
+     1         3         3      -0.364    4 5
+     2         2         2      -0.425    5
+     3         6         6      -0.434    5
+     4         1         1      -0.453
+     5         4         4      -0.524
+     6         5         5      -0.562
+
+ Results for Factor HYPERACT
+
+           Latent    Group      Factor
+ Ranking    Class    Value       Mean     Groups With Significantly Smaller Factor Mean
+     1         2         2      -0.449    1 3 4 5 6
+     2         1         1      -0.598    4 5 6
+     3         3         3      -0.697    5 6
+     4         4         4      -0.910    6
+     5         5         5      -0.969    6
+     6         6         6      -1.267
+
+
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.735E-03
+       (ratio of smallest to largest eigenvalue)
+
+
+ALIGNMENT OUTPUT
+
+INVARIANCE ANALYSIS
+
+ Intercepts/Thresholds
+ Threshold BPI8$1
+ Group     Group      Value      Value     Difference  SE       P-value
+     2         1     -0.716     -1.392      0.676      0.212      0.001
+     3         1     -1.582     -1.392     -0.190      0.166      0.252
+     3         2     -1.582     -0.716     -0.866      0.135      0.000
+     4         1     -1.555     -1.392     -0.163      0.198      0.411
+     4         2     -1.555     -0.716     -0.839      0.184      0.000
+     4         3     -1.555     -1.582      0.027      0.141      0.847
+     5         1     -0.937     -1.392      0.456      0.205      0.026
+     5         2     -0.937     -0.716     -0.220      0.119      0.065
+     5         3     -0.937     -1.582      0.646      0.126      0.000
+     5         4     -0.937     -1.555      0.618      0.175      0.000
+     6         1     -1.594     -1.392     -0.201      0.163      0.216
+     6         2     -1.594     -0.716     -0.878      0.134      0.000
+     6         3     -1.594     -1.582     -0.011      0.083      0.890
+     6         4     -1.594     -1.555     -0.039      0.139      0.782
+     6         5     -1.594     -0.937     -0.657      0.125      0.000
+ Approximate Measurement Invariance Holds For Groups:
+ 1 3 4 6
+ Weighted Average Value Across Invariant Groups:      -1.559
+ R-square/Explained variance/Invariance index:       0.324
+
+ Invariant Group Values, Difference to Average and Significance
+ Group      Value Difference         SE    P-value
+     1     -1.392      0.167      0.138      0.227
+     3     -1.582     -0.023      0.050      0.644
+     4     -1.555      0.004      0.119      0.973
+     6     -1.594     -0.035      0.048      0.474
+
+ Threshold BPI8$2
+ Group     Group      Value      Value     Difference  SE       P-value
+     2         1      1.988      1.993     -0.005      0.122      0.968
+     3         1      2.018      1.993      0.025      0.095      0.793
+     3         2      2.018      1.988      0.030      0.094      0.751
+     4         1      1.916      1.993     -0.077      0.128      0.546
+     4         2      1.916      1.988     -0.072      0.144      0.615
+     4         3      1.916      2.018     -0.102      0.121      0.397
+     5         1      1.860      1.993     -0.132      0.106      0.210
+     5         2      1.860      1.988     -0.128      0.094      0.174
+     5         3      1.860      2.018     -0.157      0.089      0.076
+     5         4      1.860      1.916     -0.055      0.124      0.657
+     6         1      1.860      1.993     -0.133      0.099      0.178
+     6         2      1.860      1.988     -0.128      0.120      0.285
+     6         3      1.860      2.018     -0.158      0.093      0.089
+     6         4      1.860      1.916     -0.056      0.116      0.628
+     6         5      1.860      1.860     -0.001      0.096      0.993
+ Approximate Measurement Invariance Holds For Groups:
+ 1 2 3 4 5 6
+ Weighted Average Value Across Invariant Groups:       1.937
+ R-square/Explained variance/Invariance index:       0.120
+
+ Invariant Group Values, Difference to Average and Significance
+ Group      Value Difference         SE    P-value
+     1      1.993      0.056      0.077      0.468
+     2      1.988      0.051      0.076      0.503
+     3      2.018      0.081      0.050      0.104
+     4      1.916     -0.021      0.101      0.833
+     5      1.860     -0.076      0.059      0.198
+     6      1.860     -0.077      0.060      0.197
+
+ Threshold BPI10$1
+ Group     Group      Value      Value     Difference  SE       P-value
+     2         1     -0.797     -0.644     -0.154      0.156      0.326
+     3         1     -0.984     -0.644     -0.340      0.159      0.032
+     3         2     -0.984     -0.797     -0.186      0.112      0.097
+     4         1     -0.419     -0.644      0.224      0.208      0.281
+     4         2     -0.419     -0.797      0.378      0.179      0.035
+     4         3     -0.419     -0.984      0.564      0.172      0.001
+     5         1     -0.825     -0.644     -0.182      0.161      0.258
+     5         2     -0.825     -0.797     -0.028      0.115      0.807
+     5         3     -0.825     -0.984      0.158      0.117      0.176
+     5         4     -0.825     -0.419     -0.406      0.167      0.015
+     6         1     -1.112     -0.644     -0.468      0.177      0.008
+     6         2     -1.112     -0.797     -0.315      0.139      0.024
+     6         3     -1.112     -0.984     -0.128      0.129      0.319
+     6         4     -1.112     -0.419     -0.693      0.173      0.000
+     6         5     -1.112     -0.825     -0.287      0.121      0.018
+ Approximate Measurement Invariance Holds For Groups:
+ 1 2 3 4 5 6
+ Weighted Average Value Across Invariant Groups:      -0.887
+ R-square/Explained variance/Invariance index:       0.550
+
+ Invariant Group Values, Difference to Average and Significance
+ Group      Value Difference         SE    P-value
+     1     -0.644      0.244      0.134      0.068
+     2     -0.797      0.090      0.082      0.272
+     3     -0.984     -0.096      0.070      0.167
+     4     -0.419      0.468      0.144      0.001
+     5     -0.825      0.062      0.075      0.408
+     6     -1.112     -0.225      0.082      0.006
+
+ Threshold BPI10$2
+ Group     Group      Value      Value     Difference  SE       P-value
+     2         1      3.339      3.548     -0.210      0.272      0.440
+     3         1      3.792      3.548      0.243      0.241      0.313
+     3         2      3.792      3.339      0.453      0.236      0.055
+     4         1      3.471      3.548     -0.077      0.263      0.770
+     4         2      3.471      3.339      0.133      0.270      0.623
+     4         3      3.471      3.792     -0.320      0.245      0.190
+     5         1      2.984      3.548     -0.565      0.258      0.029
+     5         2      2.984      3.339     -0.355      0.245      0.148
+     5         3      2.984      3.792     -0.808      0.217      0.000
+     5         4      2.984      3.471     -0.488      0.260      0.061
+     6         1      3.667      3.548      0.119      0.213      0.578
+     6         2      3.667      3.339      0.328      0.220      0.136
+     6         3      3.667      3.792     -0.125      0.171      0.467
+     6         4      3.667      3.471      0.196      0.228      0.390
+     6         5      3.667      2.984      0.683      0.206      0.001
+ Approximate Measurement Invariance Holds For Groups:
+ 1 2 3 4 6
+ Weighted Average Value Across Invariant Groups:       3.610
+ R-square/Explained variance/Invariance index:       0.000
+
+ Invariant Group Values, Difference to Average and Significance
+ Group      Value Difference         SE    P-value
+     1      3.548     -0.061      0.183      0.738
+     2      3.339     -0.271      0.164      0.100
+     3      3.792      0.182      0.112      0.105
+     4      3.471     -0.138      0.192      0.471
+     6      3.667      0.057      0.096      0.549
+
+ Threshold BPI11$1
+ Group     Group      Value      Value     Difference  SE       P-value
+     2         1     -0.239     -0.417      0.179      0.182      0.326
+     3         1     -0.408     -0.417      0.009      0.124      0.940
+     3         2     -0.408     -0.239     -0.169      0.139      0.222
+     4         1      0.038     -0.417      0.455      0.180      0.011
+     4         2      0.038     -0.239      0.276      0.150      0.066
+     4         3      0.038     -0.408      0.446      0.136      0.001
+     5         1      0.066     -0.417      0.484      0.234      0.039
+     5         2      0.066     -0.239      0.305      0.144      0.035
+     5         3      0.066     -0.408      0.474      0.187      0.011
+     5         4      0.066      0.038      0.028      0.168      0.867
+     6         1      0.158     -0.417      0.575      0.156      0.000
+     6         2      0.158     -0.239      0.396      0.121      0.001
+     6         3      0.158     -0.408      0.566      0.103      0.000
+     6         4      0.158      0.038      0.120      0.124      0.334
+     6         5      0.158      0.066      0.092      0.145      0.528
+ Approximate Measurement Invariance Holds For Groups:
+ 1 2 3 4 5
+ Weighted Average Value Across Invariant Groups:      -0.221
+ R-square/Explained variance/Invariance index:       0.513
+
+ Invariant Group Values, Difference to Average and Significance
+ Group      Value Difference         SE    P-value
+     1     -0.417     -0.196      0.134      0.143
+     2     -0.239     -0.017      0.084      0.837
+     3     -0.408     -0.187      0.075      0.013
+     4      0.038      0.259      0.106      0.014
+     5      0.066      0.287      0.125      0.021
+
+ Threshold BPI11$2
+ Group     Group      Value      Value     Difference  SE       P-value
+     2         1      3.059      2.897      0.161      0.214      0.452
+     3         1      3.229      2.897      0.332      0.202      0.100
+     3         2      3.229      3.059      0.171      0.170      0.315
+     4         1      2.994      2.897      0.097      0.261      0.711
+     4         2      2.994      3.059     -0.065      0.225      0.773
+     4         3      2.994      3.229     -0.235      0.228      0.303
+     5         1      3.256      2.897      0.359      0.204      0.078
+     5         2      3.256      3.059      0.197      0.173      0.254
+     5         3      3.256      3.229      0.027      0.144      0.852
+     5         4      3.256      2.994      0.262      0.235      0.264
+     6         1      3.917      2.897      1.019      0.204      0.000
+     6         2      3.917      3.059      0.858      0.212      0.000
+     6         3      3.917      3.229      0.687      0.169      0.000
+     6         4      3.917      2.994      0.923      0.252      0.000
+     6         5      3.917      3.256      0.661      0.218      0.002
+ Approximate Measurement Invariance Holds For Groups:
+ 1 2 3 4 5
+ Weighted Average Value Across Invariant Groups:       3.136
+ R-square/Explained variance/Invariance index:       0.159
+
+ Invariant Group Values, Difference to Average and Significance
+ Group      Value Difference         SE    P-value
+     1      2.897     -0.238      0.162      0.141
+     2      3.059     -0.077      0.113      0.498
+     3      3.229      0.094      0.083      0.261
+     4      2.994     -0.141      0.187      0.450
+     5      3.256      0.121      0.100      0.228
+
+ Threshold BPI12$1
+ Group     Group      Value      Value     Difference  SE       P-value
+     2         1     -0.996     -0.723     -0.273      0.133      0.041
+     3         1     -0.930     -0.723     -0.207      0.123      0.091
+     3         2     -0.930     -0.996      0.065      0.100      0.511
+     4         1     -0.481     -0.723      0.242      0.171      0.157
+     4         2     -0.481     -0.996      0.514      0.170      0.002
+     4         3     -0.481     -0.930      0.449      0.163      0.006
+     5         1     -0.788     -0.723     -0.065      0.137      0.632
+     5         2     -0.788     -0.996      0.207      0.117      0.077
+     5         3     -0.788     -0.930      0.142      0.110      0.197
+     5         4     -0.788     -0.481     -0.307      0.173      0.076
+     6         1     -0.766     -0.723     -0.044      0.126      0.729
+     6         2     -0.766     -0.996      0.229      0.109      0.036
+     6         3     -0.766     -0.930      0.164      0.101      0.105
+     6         4     -0.766     -0.481     -0.285      0.168      0.090
+     6         5     -0.766     -0.788      0.022      0.109      0.841
+ Approximate Measurement Invariance Holds For Groups:
+ 1 2 3 4 5 6
+ Weighted Average Value Across Invariant Groups:      -0.825
+ R-square/Explained variance/Invariance index:       0.908
+
+ Invariant Group Values, Difference to Average and Significance
+ Group      Value Difference         SE    P-value
+     1     -0.723      0.102      0.100      0.308
+     2     -0.996     -0.171      0.074      0.020
+     3     -0.930     -0.106      0.058      0.070
+     4     -0.481      0.343      0.142      0.015
+     5     -0.788      0.036      0.078      0.643
+     6     -0.766      0.058      0.063      0.353
+
+ Threshold BPI12$2
+ Group     Group      Value      Value     Difference  SE       P-value
+     2         1      2.138      1.875      0.264      0.164      0.109
+     3         1      2.252      1.875      0.377      0.145      0.009
+     3         2      2.252      2.138      0.113      0.108      0.296
+     4         1      2.054      1.875      0.179      0.152      0.237
+     4         2      2.054      2.138     -0.084      0.135      0.534
+     4         3      2.054      2.252     -0.197      0.127      0.120
+     5         1      2.202      1.875      0.327      0.156      0.036
+     5         2      2.202      2.138      0.064      0.109      0.559
+     5         3      2.202      2.252     -0.050      0.105      0.636
+     5         4      2.202      2.054      0.148      0.137      0.281
+     6         1      2.246      1.875      0.371      0.145      0.010
+     6         2      2.246      2.138      0.108      0.115      0.348
+     6         3      2.246      2.252     -0.005      0.096      0.955
+     6         4      2.246      2.054      0.192      0.129      0.136
+     6         5      2.246      2.202      0.044      0.111      0.691
+ Approximate Measurement Invariance Holds For Groups:
+ 1 2 3 4 5 6
+ Weighted Average Value Across Invariant Groups:       2.176
+ R-square/Explained variance/Invariance index:       0.912
+
+ Invariant Group Values, Difference to Average and Significance
+ Group      Value Difference         SE    P-value
+     1      1.875     -0.301      0.123      0.014
+     2      2.138     -0.038      0.078      0.632
+     3      2.252      0.076      0.057      0.186
+     4      2.054     -0.122      0.103      0.237
+     5      2.202      0.026      0.075      0.728
+     6      2.246      0.070      0.062      0.254
+
+ Threshold BPI14$1
+ Group     Group      Value      Value     Difference  SE       P-value
+     2         1     -0.787     -1.004      0.216      0.277      0.434
+     3         1     -1.643     -1.004     -0.639      0.256      0.013
+     3         2     -1.643     -0.787     -0.856      0.132      0.000
+     4         1     -1.112     -1.004     -0.108      0.220      0.623
+     4         2     -1.112     -0.787     -0.325      0.274      0.236
+     4         3     -1.112     -1.643      0.531      0.271      0.050
+     5         1     -0.942     -1.004      0.062      0.223      0.781
+     5         2     -0.942     -0.787     -0.155      0.174      0.373
+     5         3     -0.942     -1.643      0.701      0.167      0.000
+     5         4     -0.942     -1.112      0.170      0.229      0.458
+     6         1     -1.711     -1.004     -0.708      0.305      0.020
+     6         2     -1.711     -0.787     -0.924      0.143      0.000
+     6         3     -1.711     -1.643     -0.068      0.162      0.673
+     6         4     -1.711     -1.112     -0.600      0.317      0.059
+     6         5     -1.711     -0.942     -0.770      0.207      0.000
+ Approximate Measurement Invariance Holds For Groups:
+ 1 3 4 6
+ Weighted Average Value Across Invariant Groups:      -1.527
+ R-square/Explained variance/Invariance index:       0.000
+
+ Invariant Group Values, Difference to Average and Significance
+ Group      Value Difference         SE    P-value
+     1     -1.004      0.523      0.215      0.015
+     3     -1.643     -0.116      0.084      0.166
+     4     -1.112      0.415      0.229      0.070
+     6     -1.711     -0.184      0.117      0.115
+
+ Threshold BPI14$2
+ Group     Group      Value      Value     Difference  SE       P-value
+     2         1      3.050      3.025      0.025      0.161      0.876
+     3         1      2.958      3.025     -0.067      0.133      0.616
+     3         2      2.958      3.050     -0.092      0.146      0.527
+     4         1      2.790      3.025     -0.234      0.248      0.345
+     4         2      2.790      3.050     -0.260      0.285      0.363
+     4         3      2.790      2.958     -0.168      0.232      0.471
+     5         1      2.939      3.025     -0.086      0.160      0.592
+     5         2      2.939      3.050     -0.111      0.167      0.506
+     5         3      2.939      2.958     -0.019      0.139      0.891
+     5         4      2.939      2.790      0.148      0.239      0.535
+     6         1      2.504      3.025     -0.520      0.174      0.003
+     6         2      2.504      3.050     -0.546      0.146      0.000
+     6         3      2.504      2.958     -0.453      0.149      0.002
+     6         4      2.504      2.790     -0.286      0.278      0.304
+     6         5      2.504      2.939     -0.434      0.169      0.010
+ Approximate Measurement Invariance Holds For Groups:
+ 1 2 3 4 5
+ Weighted Average Value Across Invariant Groups:       2.965
+ R-square/Explained variance/Invariance index:       0.173
+
+ Invariant Group Values, Difference to Average and Significance
+ Group      Value Difference         SE    P-value
+     1      3.025      0.060      0.108      0.579
+     2      3.050      0.085      0.112      0.446
+     3      2.958     -0.007      0.066      0.915
+     4      2.790     -0.175      0.210      0.406
+     5      2.939     -0.026      0.097      0.787
+
+ Threshold BPI16$1
+ Group     Group      Value      Value     Difference  SE       P-value
+     2         1     -1.002     -0.921     -0.081      0.108      0.456
+     3         1     -1.024     -0.921     -0.102      0.105      0.331
+     3         2     -1.024     -1.002     -0.021      0.084      0.799
+     4         1     -0.688     -0.921      0.234      0.181      0.196
+     4         2     -0.688     -1.002      0.314      0.189      0.096
+     4         3     -0.688     -1.024      0.336      0.182      0.065
+     5         1     -1.026     -0.921     -0.105      0.114      0.359
+     5         2     -1.026     -1.002     -0.024      0.099      0.807
+     5         3     -1.026     -1.024     -0.003      0.096      0.977
+     5         4     -1.026     -0.688     -0.339      0.179      0.059
+     6         1     -0.993     -0.921     -0.072      0.123      0.559
+     6         2     -0.993     -1.002      0.009      0.089      0.921
+     6         3     -0.993     -1.024      0.030      0.103      0.769
+     6         4     -0.993     -0.688     -0.306      0.204      0.133
+     6         5     -0.993     -1.026      0.033      0.112      0.769
+ Approximate Measurement Invariance Holds For Groups:
+ 1 2 3 4 5 6
+ Weighted Average Value Across Invariant Groups:      -0.979
+ R-square/Explained variance/Invariance index:       0.973
+
+ Invariant Group Values, Difference to Average and Significance
+ Group      Value Difference         SE    P-value
+     1     -0.921      0.057      0.085      0.502
+     2     -1.002     -0.023      0.057      0.679
+     3     -1.024     -0.045      0.054      0.407
+     4     -0.688      0.291      0.165      0.077
+     5     -1.026     -0.048      0.069      0.492
+     6     -0.993     -0.015      0.068      0.831
+
+ Threshold BPI16$2
+ Group     Group      Value      Value     Difference  SE       P-value
+     2         1      2.034      1.694      0.340      0.182      0.062
+     3         1      2.185      1.694      0.491      0.158      0.002
+     3         2      2.185      2.034      0.151      0.142      0.287
+     4         1      1.765      1.694      0.071      0.164      0.665
+     4         2      1.765      2.034     -0.269      0.201      0.181
+     4         3      1.765      2.185     -0.420      0.167      0.012
+     5         1      1.818      1.694      0.124      0.152      0.415
+     5         2      1.818      2.034     -0.216      0.154      0.161
+     5         3      1.818      2.185     -0.368      0.134      0.006
+     5         4      1.818      1.765      0.053      0.153      0.730
+     6         1      2.201      1.694      0.507      0.163      0.002
+     6         2      2.201      2.034      0.166      0.144      0.249
+     6         3      2.201      2.185      0.015      0.117      0.896
+     6         4      2.201      1.765      0.436      0.174      0.012
+     6         5      2.201      1.818      0.383      0.139      0.006
+ Approximate Measurement Invariance Holds For Groups:
+ 1 2 3 4 5 6
+ Weighted Average Value Across Invariant Groups:       2.029
+ R-square/Explained variance/Invariance index:       0.793
+
+ Invariant Group Values, Difference to Average and Significance
+ Group      Value Difference         SE    P-value
+     1      1.694     -0.335      0.125      0.007
+     2      2.034      0.005      0.107      0.964
+     3      2.185      0.156      0.072      0.030
+     4      1.765     -0.264      0.137      0.054
+     5      1.818     -0.212      0.091      0.021
+     6      2.201      0.171      0.077      0.025
+
+
+
+ Loadings
+ Loadings for BPI8
+ Group     Group      Value      Value     Difference  SE       P-value
+     2         1      1.589      2.093     -0.505      0.213      0.018
+     3         1      1.929      2.093     -0.165      0.190      0.384
+     3         2      1.929      1.589      0.340      0.166      0.041
+     4         1      2.037      2.093     -0.057      0.220      0.797
+     4         2      2.037      1.589      0.448      0.212      0.035
+     4         3      2.037      1.929      0.108      0.180      0.548
+     5         1      1.706      2.093     -0.387      0.220      0.078
+     5         2      1.706      1.589      0.117      0.175      0.503
+     5         3      1.706      1.929     -0.223      0.168      0.184
+     5         4      1.706      2.037     -0.331      0.221      0.134
+     6         1      2.006      2.093     -0.087      0.185      0.638
+     6         2      2.006      1.589      0.417      0.167      0.012
+     6         3      2.006      1.929      0.078      0.125      0.535
+     6         4      2.006      2.037     -0.031      0.182      0.866
+     6         5      2.006      1.706      0.300      0.174      0.085
+ Approximate Measurement Invariance Holds For Groups:
+ 1 2 3 4 5 6
+ Weighted Average Value Across Invariant Groups:       1.877
+ R-square/Explained variance/Invariance index:       0.000
+
+ Invariant Group Values, Difference to Average and Significance
+ Group      Value Difference         SE    P-value
+     1      2.093      0.216      0.158      0.170
+     2      1.589     -0.288      0.119      0.015
+     3      1.929      0.051      0.081      0.523
+     4      2.037      0.160      0.155      0.303
+     5      1.706     -0.171      0.125      0.170
+     6      2.006      0.129      0.083      0.118
+
+ Loadings for BPI10
+ Group     Group      Value      Value     Difference  SE       P-value
+     2         1      2.582      2.519      0.063      0.136      0.644
+     3         1      2.600      2.519      0.081      0.133      0.543
+     3         2      2.600      2.582      0.018      0.117      0.875
+     4         1      2.422      2.519     -0.097      0.230      0.672
+     4         2      2.422      2.582     -0.160      0.227      0.480
+     4         3      2.422      2.600     -0.179      0.219      0.416
+     5         1      2.444      2.519     -0.076      0.111      0.498
+     5         2      2.444      2.582     -0.138      0.125      0.268
+     5         3      2.444      2.600     -0.157      0.095      0.099
+     5         4      2.444      2.422      0.022      0.183      0.905
+     6         1      2.454      2.519     -0.065      0.149      0.662
+     6         2      2.454      2.582     -0.128      0.145      0.380
+     6         3      2.454      2.600     -0.146      0.134      0.277
+     6         4      2.454      2.422      0.032      0.222      0.884
+     6         5      2.454      2.444      0.011      0.095      0.911
+ Approximate Measurement Invariance Holds For Groups:
+ 1 2 3 4 5 6
+ Weighted Average Value Across Invariant Groups:       2.514
+ R-square/Explained variance/Invariance index:       0.686
+
+ Invariant Group Values, Difference to Average and Significance
+ Group      Value Difference         SE    P-value
+     1      2.519      0.005      0.104      0.959
+     2      2.582      0.068      0.092      0.460
+     3      2.600      0.086      0.071      0.226
+     4      2.422     -0.092      0.187      0.622
+     5      2.444     -0.070      0.049      0.147
+     6      2.454     -0.060      0.083      0.470
+
+ Loadings for BPI11
+ Group     Group      Value      Value     Difference  SE       P-value
+     2         1      2.547      2.224      0.323      0.278      0.246
+     3         1      2.349      2.224      0.125      0.230      0.587
+     3         2      2.349      2.547     -0.198      0.204      0.331
+     4         1      2.477      2.224      0.253      0.289      0.381
+     4         2      2.477      2.547     -0.070      0.231      0.760
+     4         3      2.477      2.349      0.128      0.214      0.550
+     5         1      2.745      2.224      0.521      0.331      0.116
+     5         2      2.745      2.547      0.198      0.262      0.451
+     5         3      2.745      2.349      0.396      0.265      0.135
+     5         4      2.745      2.477      0.268      0.305      0.379
+     6         1      2.463      2.224      0.239      0.242      0.324
+     6         2      2.463      2.547     -0.084      0.182      0.643
+     6         3      2.463      2.349      0.114      0.153      0.458
+     6         4      2.463      2.477     -0.014      0.214      0.948
+     6         5      2.463      2.745     -0.282      0.262      0.282
+ Approximate Measurement Invariance Holds For Groups:
+ 1 2 3 4 5 6
+ Weighted Average Value Across Invariant Groups:       2.475
+ R-square/Explained variance/Invariance index:       0.112
+
+ Invariant Group Values, Difference to Average and Significance
+ Group      Value Difference         SE    P-value
+     1      2.224     -0.251      0.210      0.231
+     2      2.547      0.072      0.139      0.605
+     3      2.349     -0.126      0.104      0.226
+     4      2.477      0.002      0.182      0.993
+     5      2.745      0.269      0.203      0.185
+     6      2.463     -0.012      0.099      0.900
+
+
+
+ Loadings
+ Loadings for BPI12
+ Group     Group      Value      Value     Difference  SE       P-value
+     2         1      1.634      1.518      0.116      0.129      0.369
+     3         1      1.607      1.518      0.090      0.119      0.451
+     3         2      1.607      1.634     -0.026      0.078      0.734
+     4         1      1.600      1.518      0.083      0.103      0.424
+     4         2      1.600      1.634     -0.034      0.058      0.561
+     4         3      1.600      1.607     -0.007      0.045      0.871
+     5         1      1.635      1.518      0.117      0.120      0.327
+     5         2      1.635      1.634      0.001      0.072      0.990
+     5         3      1.635      1.607      0.027      0.069      0.692
+     5         4      1.635      1.600      0.035      0.050      0.486
+     6         1      1.589      1.518      0.071      0.118      0.546
+     6         2      1.589      1.634     -0.045      0.084      0.593
+     6         3      1.589      1.607     -0.018      0.068      0.788
+     6         4      1.589      1.600     -0.011      0.045      0.807
+     6         5      1.589      1.635     -0.046      0.065      0.484
+ Approximate Measurement Invariance Holds For Groups:
+ 1 2 3 4 5 6
+ Weighted Average Value Across Invariant Groups:       1.603
+ R-square/Explained variance/Invariance index:       0.970
+
+ Invariant Group Values, Difference to Average and Significance
+ Group      Value Difference         SE    P-value
+     1      1.518     -0.086      0.102      0.401
+     2      1.634      0.030      0.057      0.592
+     3      1.607      0.004      0.041      0.922
+     4      1.600     -0.003      0.016      0.841
+     5      1.635      0.031      0.044      0.475
+     6      1.589     -0.014      0.042      0.732
+
+ Loadings for BPI14
+ Group     Group      Value      Value     Difference  SE       P-value
+     2         1      1.484      2.190     -0.706      0.281      0.012
+     3         1      1.692      2.190     -0.498      0.285      0.081
+     3         2      1.692      1.484      0.209      0.160      0.192
+     4         1      2.360      2.190      0.170      0.427      0.690
+     4         2      2.360      1.484      0.877      0.353      0.013
+     4         3      2.360      1.692      0.668      0.348      0.055
+     5         1      1.749      2.190     -0.441      0.295      0.135
+     5         2      1.749      1.484      0.265      0.176      0.132
+     5         3      1.749      1.692      0.056      0.153      0.711
+     5         4      1.749      2.360     -0.612      0.355      0.085
+     6         1      1.598      2.190     -0.592      0.287      0.039
+     6         2      1.598      1.484      0.115      0.165      0.487
+     6         3      1.598      1.692     -0.094      0.152      0.537
+     6         4      1.598      2.360     -0.762      0.354      0.031
+     6         5      1.598      1.749     -0.150      0.169      0.375
+ Approximate Measurement Invariance Holds For Groups:
+ 1 2 3 4 5 6
+ Weighted Average Value Across Invariant Groups:       1.736
+ R-square/Explained variance/Invariance index:       0.000
+
+ Invariant Group Values, Difference to Average and Significance
+ Group      Value Difference         SE    P-value
+     1      2.190      0.454      0.247      0.066
+     2      1.484     -0.252      0.114      0.027
+     3      1.692     -0.044      0.092      0.631
+     4      2.360      0.624      0.313      0.046
+     5      1.749      0.013      0.117      0.914
+     6      1.598     -0.138      0.100      0.167
+
+ Loadings for BPI16
+ Group     Group      Value      Value     Difference  SE       P-value
+     2         1      1.829      1.786      0.043      0.103      0.678
+     3         1      1.772      1.786     -0.014      0.091      0.877
+     3         2      1.772      1.829     -0.057      0.109      0.602
+     4         1      1.576      1.786     -0.211      0.207      0.308
+     4         2      1.576      1.829     -0.253      0.215      0.240
+     4         3      1.576      1.772     -0.196      0.205      0.338
+     5         1      1.694      1.786     -0.092      0.119      0.441
+     5         2      1.694      1.829     -0.134      0.136      0.324
+     5         3      1.694      1.772     -0.078      0.121      0.522
+     5         4      1.694      1.576      0.119      0.211      0.574
+     6         1      1.846      1.786      0.059      0.098      0.546
+     6         2      1.846      1.829      0.017      0.111      0.879
+     6         3      1.846      1.772      0.074      0.103      0.476
+     6         4      1.846      1.576      0.270      0.211      0.200
+     6         5      1.846      1.694      0.151      0.129      0.241
+ Approximate Measurement Invariance Holds For Groups:
+ 1 2 3 4 5 6
+ Weighted Average Value Across Invariant Groups:       1.774
+ R-square/Explained variance/Invariance index:       0.895
+
+ Invariant Group Values, Difference to Average and Significance
+ Group      Value Difference         SE    P-value
+     1      1.786      0.013      0.068      0.853
+     2      1.829      0.055      0.079      0.485
+     3      1.772     -0.002      0.060      0.979
+     4      1.576     -0.198      0.182      0.278
+     5      1.694     -0.079      0.091      0.383
+     6      1.846      0.072      0.066      0.274
+
+ Average Invariance index:       0.449
+
+
+SAMPLE STATISTICS FOR ESTIMATED FACTOR SCORES
+
+
+     SAMPLE STATISTICS
+
+
+           Means
+              HEADSTRG      HYPERACT
+              ________      ________
+               -0.444        -0.852
+
+
+           Covariances
+              HEADSTRG      HYPERACT
+              ________      ________
+ HEADSTRG       0.789
+ HYPERACT       0.822         1.188
+
+
+           Correlations
+              HEADSTRG      HYPERACT
+              ________      ________
+ HEADSTRG       1.000
+ HYPERACT       0.849         1.000
+
+
+SAVEDATA INFORMATION
+
+
+  Save file
+    alignment-free.txt
+
+  Order and format of variables
+
+    BPI8           F10.3
+    BPI10          F10.3
+    BPI11          F10.3
+    BPI12          F10.3
+    BPI14          F10.3
+    BPI16          F10.3
+    HEADSTRG       F10.3
+    HYPERACT       F10.3
+    HEADSTRG_MEA   F10.3
+    HYPERACT_MEA   F10.3
+    CHILDID        I6
+    SUBGROUP       I2
+
+  Save file format
+    10F10.3 I6 I2
+
+  Save file record length    10000
+
+  Save missing symbol        *
+
+
+DIAGRAM INFORMATION
+
+  Mplus diagrams are currently not available for Mixture analysis.
+  No diagram output was produced.
+
+
+     Beginning Time:  10:59:38
+        Ending Time:  11:00:30
+       Elapsed Time:  00:00:52
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2020 Muthen & Muthen

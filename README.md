@@ -5,11 +5,15 @@ Harmony package helps to build the tables and plots from alignment analysis desi
 ## Installing  
 
 To install, type in the RStudio console:    
-`devtools::install_github("hai-mn/harmony", dependencies = TRUE)`  
+`devtools::install_github("hai-mn/harmony")`  
 
 Note that:  
 - code in R is case-sensitive so capitalization is important.  
-- harmony package requires some other dependent packages (tidyverse, data.table, readxl, openxlsx, latex2exp, scales, ggpubr) in order to correctly execute. That's the reason we suggest users should install package with the `dependencies = TRUE` option, so that the users do not need to manually install the required packages themselves.   
+- harmony package requires some other dependent packages (tidyverse, data.table, readxl, openxlsx, latex2exp, scales, ggpubr) in order to correctly execute. That's the reason we suggest users should install package with the `dependencies = TRUE` option, such that
+
+  `devtools::install_github("hai-mn/harmony", dependencies = TRUE)`
+
+  So that users do not need to manually install the required packages themselves.   
 
 Then call the package:   
 `library(harmony)`  
@@ -20,11 +24,15 @@ The `harmony` package has six main functions:
 - `alignmentthresholdplot()`: to generate alignment threshold plots having True/False invariant with estimates of group items and invariant average  
 - `alignmentloadingplot()`: to generating alignment loading plot having True/False invariant with estimates of group items and invariant average  
 - `convert2irt()`: to convert IFA estimates (threshold and loading) to IRT estimates (difficulty and discrimination)  
-- ``:
+- `irc.csvexport()`: to produce the value grid to plot category and cumulative probability curve
 - `irc()`: to generate Cumulative and Category Item Probability (Characteristic/Response) Curve Plots  
 - `cellsizedetect()`: to check the 2 x 2 crosstabs of items having the cell size and below specified by the user    
 
-There are some supported functions `paraextract(inputfile, begphrase, endphrase, outputfile)`, `mplussplit(outpath = outpath, inputfile = inputfile)`,`latentsplit(filepath = paste0("Output","_",Sys.Date()), inputfile = "ext4_model results.txt")`, and `invariancesplit(inputfile="Invariant_Noninvariant.txt")` enable the main functions to properly work.  
+There are some supported functions enabling the main functions to properly work.  :
+`paraextract(inputfile, begphrase, endphrase, outputfile)`,
+`mplussplit(outpath = outpath, inputfile = inputfile)`,
+`latentsplit(filepath = paste0("Output","_",Sys.Date()), inputfile = "ext4_model results.txt")`, and
+`invariancesplit(inputfile="Invariant_Noninvariant.txt")`
 
 ## Strongly suggestion for a Mplus output running with `harmony` package
 In order to the package to function, we recommend:  
@@ -119,20 +127,60 @@ MODEL: 	        %OVERALL%
                 Headstrong with Hyperactive ;
 ~~~
 - The loadings table looks like:
-![](loadings_table_example.JPG)
+<img alt="loadings table.PNG" src="img-assets/loadings table.PNG">
 
 __Step 3:__ Generating alignment plots
+For example, we call the function: `alignmentloadingplot()` to plot alignment loadings plot
+
+In the console, we enter a file which has group label:
+
+Input the label file for groups (y/n)?y
+Input path and legend's label file name (use /): ../group label.xlsx
+
+The function would notify:
+Exporting "alignment model - Loadings - 6 groups.tiff" in "../Output_2021-04-09" folder
+
+Here's the plot:
+<img alt="alignment model - Loadings - 6 groups.PNG" src="img-assets/alignment model - Loadings - 6 groups.PNG">
 
 __Step 4:__ Convert (Item Factor Analysis) IFA estimates to (Item Response Theory) IRT estimates
 
-__Step 5:__ Generating category and cumulative probability curves
+Execute `convert2irt()` to convert the IFA to IRT. But if the user would need the value to their own need, they should execute `irc.csvexport()` with selecting the item and a certain group.
 
+__Step 5:__ Generating category and cumulative probability curves
+Finally, we execute `irc()`. There would be informed lines in Console:
+The function plots cumulative and category probability curves on the selected item and group(s)
+Input an item need to be plotted:  
+
+1: BPI8
+2: BPI10
+3: BPI11
+4: BPI12
+5: BPI14
+6: BPI16
+
+Selection: 1
+Input the Group(s):  
+
+1: 1
+2: 2
+3: 3
+4: 4
+5: 5
+6: 6
+7: Other Combination
+
+Selection: 1
+Exporting "IRC of Item BPI8 - Group 1.tiff" in "../Output_2021-04-09" folder
+
+The plot looks like:
+<img alt="IRC of Item BPI8 - Group 1.png" src="img-assets/IRC of Item BPI8 - Group 1.png">
 
 ### Example Mplus files
-Here is the list of files used in case study:
-- [](): dataset
-- [](): Mplus syntax file
-- [](): Mplus output file
+Here is the list of files used in the case study:
+- [alignment-free.txt](): dataset
+- [alignment-free.inp](): Mplus syntax file
+- [alignment-free.out](): Mplus output file
 
 
 

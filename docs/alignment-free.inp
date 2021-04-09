@@ -1,0 +1,46 @@
+TITLE: 		Alignment (free)				! Descriptive title
+
+DATA: 		FILE = NLSYPSIDbpi.dat ;		! No path needed if files are in same folder
+
+VARIABLE:	NAMES = subgroup 
+					bpi8 bpi10 bpi11 
+					bpi12 bpi14 bpi16 
+                    childid ;            	! All variables in raw DATA file
+
+ 			CATEGORICAL = bpi8 bpi10 bpi11 
+						  bpi12 bpi14 bpi16 ; ! Categorical items for analysis
+
+			IDVARIABLE = childid ;			! Unique identifier of children
+
+  			CLASSES = c(6) ;				! Number of subgroups
+
+  			KNOWNCLASS = c(subgroup = 1 2 3 4 5 6 ) ;	! Variable and values identifying subgroups
+
+ANALYSIS: 	TYPE = MIXTURE ;				! Alignment requires MIXTURE type
+ 
+			ESTIMATOR = MLR ; 				! Alignment with categorical items allows ML or MLR
+
+			LINK = LOGIT ; 					! Alignment with categorical items allows LOGIT or PROBIT link
+
+			ALIGNMENT = FREE(Configural) ; ! Alignment can use FIXED or FREE approach
+											! Alignment only possible with Configural model
+
+			ALGORITHM = INTEGRATION ; 		! Alignment relies upon numerical integration
+ 
+OUTPUT: 	ALIGN; 							! Requests extra output to be read in by Harmony R package
+ 
+SAVEDATA: 	file is alignment-free.txt ; 	! Location to save factor scores
+
+			save = fscores ; 				! Request factor scores be saved
+ 
+MODEL: 		%OVERALL%						! Describe overall model of a mixed model
+			
+			HEADSTRG BY bpi8 ; 				! Loading of 1st item on Headstrong factor
+			HEADSTRG BY bpi10 ;				! Loading of 2nd item on Headstrong factor 
+			HEADSTRG BY bpi11 ;				! Loading of 3rd item on Headstrong factor 
+			
+			HYPERACT BY bpi12 ; 			! Loading of 1st item on Hyperactive factor
+			HYPERACT BY bpi14 ; 			! Loading of 2nd item on Hyperactive factor 
+			HYPERACT BY bpi16 ; 			! Loading of 3rd item on Hyperactive factor 
+
+			HEADSTRG with HYPERACT ; 	! Factor covariance  
