@@ -10,8 +10,37 @@
 
 alignmentthresholdplot<-function(){
 
+  # File path ---------------------------------------------------
+  filepath <- paste0("Output","_",Sys.Date())
+  filepath.misc <- paste0("Output","_",Sys.Date(),"/Misc") # clean up: put all un-necessary files in filepath.misc
+  
+  if (!file.exists(paste0(filepath.misc, "/ext2_summary of analysis.txt"))) {
+    stop("\nMust run `alignmentout()` to obtain the threshold information for the graphs\n")
+  }
+  
+  ext2<-readLines(paste0(filepath.misc, "/ext2_summary of analysis.txt"))
+  
+  ## 5- Categories of each Item (Threshold: number of categories - 1)===================
+  s <- k <-grep("UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES", ext2, ignore.case = T) + 2 # s: stands for start
+  while (!grepl("^[ \t\n]*$", ext2[k])) {
+    k<-k+1
+    e<-k #e: stands for end
+  }
+  
+  Category<-vector(mode = "numeric", length=length(Item.name))
+  for (i in 2:length(Item.name)){
+    while ((s<e)&(!str_detect(ext2[s], Item.name[i]))){
+      s<-s+1
+    }
+    Category[i-1]<-as.numeric(str_sub(ext2[s-1],str_locate(ext2[s-1],"y")+2, str_locate(ext2[s-1],"y")+3))
+  }
+  
+  Category[length(Item.name)]<-as.numeric(str_sub(ext2[e-1],str_locate(ext2[e-1],"y")+2, str_locate(ext2[e-1],"y")+3))
+  Threshold <- Category - 1
+  
+  Threshold.max<<-max(Threshold)
   # Provide the number of thresholds -------------------------------------------
-  Threshold.max <- as.numeric(readline(prompt="Please enter the number of threshold files (number of thresholds): "))
+  #Threshold.max <- as.numeric(readline(prompt="Please enter the number of threshold files (number of thresholds): "))
 
   condit.input <- readline(prompt="Input the label file for groups (y/n)?")
   if (tolower(condit.input)=="y"){
@@ -21,10 +50,7 @@ alignmentthresholdplot<-function(){
     my_label <- readxl::read_excel(labelfile)
     GroupLabel<-append(my_label$GroupLabel,"Invariant Average")
 
-    # File path ---------------------------------------------------
-    filepath <- paste0("Output","_",Sys.Date())
-    filepath.misc <- paste0("Output","_",Sys.Date(),"/Misc") # clean up: put all un-necessary files in filepath.misc
-
+ 
     for (i in 1:Threshold.max){
 
       # Read data ----------------------------------------------------------
@@ -85,9 +111,7 @@ alignmentthresholdplot<-function(){
 
     } else {
 
-      # File path ---------------------------------------------------
-      filepath <- paste0("Output","_",Sys.Date())
-
+ 
       for(i in 1:Threshold.max){
 
         # Read data ----------------------------------------------------------
@@ -162,6 +186,14 @@ alignmentthresholdplot<-function(){
 
 alignmentloadingplot<-function(){
 
+  # File path ---------------------------------------------------
+  filepath <- paste0("Output","_",Sys.Date())
+  filepath.misc <- paste0("Output","_",Sys.Date(),"/Misc") # clean up: put all un-necessary files in filepath.misc
+  
+  if (!file.exists(paste0(filepath,"/loadings.csv"))) {
+    stop("\nMust run `alignmentout()` to obtain the loadings information for the graph\n")
+  }
+  
   condit.input <- readline(prompt="Input the label file for groups (y/n)?")
   if (tolower(condit.input)=="y"){
 
@@ -171,9 +203,6 @@ alignmentloadingplot<-function(){
     my_label <- readxl::read_excel(labelfile)
     GroupLabel<-append(my_label$GroupLabel,"Invariant Average")
 
-    # File path ---------------------------------------------------
-    filepath <- paste0("Output","_",Sys.Date())
-    filepath.misc <- paste0("Output","_",Sys.Date(),"/Misc") # clean up: put all un-necessary files in filepath.misc
 
     # Read data ---------------------------------------------------
     eg2.w <- read.csv(file = paste0(filepath,"/loadings.csv"), stringsAsFactors = TRUE)
@@ -235,9 +264,7 @@ alignmentloadingplot<-function(){
 
   } else {
 
-    # File path ---------------------------------------------------
-    filepath <- paste0("Output","_",Sys.Date())
-
+ 
     # Read data ---------------------------------------------------
     eg2.w <- read.csv(file = paste0(filepath,"/loadings.csv"), stringsAsFactors = TRUE)
 
