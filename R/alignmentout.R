@@ -11,7 +11,7 @@
 #' @return A list of text, CSV files and one Excel file with multiple tabs in the specific folder.
 
 
-alignmentout<-function(){
+alignmentout<-function(infile=""){
 
   # Inform users the parameters ----------------------------------------------------
   ## 1. Enter a Mplus ouput file
@@ -23,7 +23,8 @@ alignmentout<-function(){
   cat("\nIn addition, you may find from the folder 'Output_current date' in the working directory:\n - the multiple text files which split from the origin Mplus output\n - the thresholds, loadings tables (CSV format) and\n - especially, a combined Excel file with all separated spreadsheets")
 
   ## 1. Enter a Mplus ouput file======================================================
-  infile <- readline(prompt="Enter path and Mplus output file (separated by /):\n")
+  # Directly input the filepath as an argument in the function
+  #infile <- readline(prompt="Enter path and Mplus output file (separated by /):\n")
 
   ### Create a folder to store the output
   filepath <<- paste0("Output","_",Sys.Date())
