@@ -1,13 +1,15 @@
-## Generating A CSV File with Value Grid of Item Characteristic Curve
-#' @title irc.csvexport
+## Generating A CSV File with Value Grid of an Item with a Group to Plot Characteristic Curve
+#' @title cpc.csvexport
 #' @description Producing the value grid to plot category and cumulative probability curve
 #' @details irc.csvexport requires the user to run 'alignmentout()' and 'convert2irt()' at first to obtain the difficulty and discrimination estimates
 #' @author Hai Nguyen \email{hnguye72@@uic.edu}, Ariel Aloe, Tianxiu Wang, Rachel Gordon
-#' @export irc.csvexport
+#' @export cpc.csvexport
 #' @import tidyverse
+#' @param selected.item selecting an item 
+#' @param selected.group selecting a group 
 #' @return A CSV file which has value grid of theta, category probability (cpc) and cumulative probability (CPC) values of a selected item's group
 
-irc.csvexport <- function(){
+cpc.csvexport <- function(selected.item="", selected.group=""){
 
   #==============================================================================
   # Gathering data in one place
@@ -45,18 +47,18 @@ irc.csvexport <- function(){
 
 
   # Select the item to plot
-  selected.item.n <- utils::menu(Item.name, title = "Input an item need to be plotted: ")
-  selected.item <- as.character(Item.name[selected.item.n])
+  #selected.item.n <- utils::menu(Item.name, title = "Input an item need to be plotted: ")
+  #selected.item <- as.character(Item.name[selected.item.n])
 
   # Select group(s)
 
 
-  selected.group.option <- utils::menu(Group.cat, title="Input the Group: ")
+  #selected.group.option <- utils::menu(Group.cat, title="Input the Group: ")
 
 
   #=========================================================================
   # process data for plot
-  i <- selected.group <- selected.group.option
+  i <- match(selected.group, Group.cat) #<- selected.group.option
   keep.group <- paste0("G",i,"$")
   keep.var <- names(total[,grep(keep.group, names(total), value=TRUE)])
   item[[i]] <- total %>% dplyr::filter(Item == selected.item) %>%
