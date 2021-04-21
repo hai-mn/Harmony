@@ -54,6 +54,9 @@ alignmentthresholdplot<-function(){
     for (i in 1:Threshold.max){
 
       # Read data ----------------------------------------------------------
+      if (!file.exists(paste0(filepath,"/threshold",i,".csv"))) {
+        stop("\nMust run `alignmentout()` to obtain the threshold information for the graphs\n")
+      }
       eg2.w <- read.csv(file = paste0(filepath,"/threshold",i,".csv"), stringsAsFactors = TRUE)
 
       # Transform from wide to long -----------------------------------------
@@ -115,6 +118,9 @@ alignmentthresholdplot<-function(){
       for(i in 1:Threshold.max){
 
         # Read data ----------------------------------------------------------
+        if (!file.exists(paste0(filepath,"/threshold",i,".csv"))) {
+          stop("\nMust run `alignmentout()` to obtain the threshold information for the graphs\n")
+        }
         eg2.w <- read.csv(file = paste0(filepath,"/threshold",i,".csv"), stringsAsFactors = TRUE)
 
         # Transform from wide to long -----------------------------------------
@@ -205,6 +211,9 @@ alignmentloadingplot<-function(){
 
 
     # Read data ---------------------------------------------------
+    if (!file.exists(paste0(filepath,"/loadings.csv"))) {
+      stop("\nMust run `alignmentout()` to obtain the loadings information for the graph\n")
+    }
     eg2.w <- read.csv(file = paste0(filepath,"/loadings.csv"), stringsAsFactors = TRUE)
 
 
@@ -266,6 +275,9 @@ alignmentloadingplot<-function(){
 
  
     # Read data ---------------------------------------------------
+    if (!file.exists(paste0(filepath,"/loadings.csv"))) {
+      stop("\nMust run `alignmentout()` to obtain the loadings information for the graph\n")
+    }
     eg2.w <- read.csv(file = paste0(filepath,"/loadings.csv"), stringsAsFactors = TRUE)
 
 

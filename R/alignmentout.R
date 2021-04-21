@@ -8,6 +8,7 @@
 #' @author Hai Nguyen \email{hnguye72@@uic.edu}, Tianxiu Wang, Ariel Aloe, Rachel Gordon
 #' @export alignmentout
 #' @import tidyr stringr openxlsx
+#' @param infile entering the Mplus output file name and path
 #' @return A list of text, CSV files and one Excel file with multiple tabs in the specific folder.
 
 

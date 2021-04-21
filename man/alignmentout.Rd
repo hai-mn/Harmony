@@ -4,7 +4,10 @@
 \alias{alignmentout}
 \title{alignmentout}
 \usage{
-alignmentout()
+alignmentout(infile = "")
+}
+\arguments{
+\item{infile}{entering the Mplus output file name and path}
 }
 \value{
 A list of text, CSV files and one Excel file with multiple tabs in the specific folder.

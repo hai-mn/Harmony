@@ -1,13 +1,15 @@
 ## Plotting Item Characteristic Curve (Category and Cumulative Probability Curves)
-#' @title irc
+#' @title cpc
 #' @description Plotting the Category and Cumulative Probability Curve
-#' @details irc() requires the user to run 'alignmentout()' and 'convert2irt()' at first to obtain the difficulty and discrimination estimates
+#' @details cpc() requires the user to run 'alignmentout()' and 'convert2irt()' at first to obtain the difficulty and discrimination estimates
 #' @author Hai Nguyen \email{hnguye72@@uic.edu}, Ariel Aloe, Tianxiu Wang, Rachel Gordon
-#' @export irc
+#' @export cpc
 #' @import tidyverse
-#' @return A graph including the category and cumulative probability curves in the Plots - R pane layout
+#' @param selected.item selecting an item 
+#' @param selected.group selecting a group or multiple groups
+#' @return A graph including the category and cumulative probability curves stored in specific folder
 
-irc <- function(){
+cpc <- function(selected.item="", selected.group=""){
 
   # Set file path --------------------------------------------------------------------
   filepath <- paste0("Output","_",Sys.Date())
@@ -36,7 +38,7 @@ irc <- function(){
   }
 
   # output the total file including item, discriminations and difficulties for reference
-  utils::write.csv(total, paste0(filepath.misc,"/irc_file.csv"), row.names=FALSE)
+  utils::write.csv(total, paste0(filepath.misc,"/cpc_file.csv"), row.names=FALSE)
 
   #==============================================================================
   item <- vector(mode = "list", length = Group)
@@ -69,37 +71,43 @@ irc <- function(){
   cat("\nThe function plots cumulative and category probability curves on the selected item and group(s)\n")
 
   # Select the item to plot
-  selected.item.n <- utils::menu(Item.name, title = "Input an item need to be plotted: ")
-  selected.item <- as.character(Item.name[selected.item.n])
-
+  #selected.item.n <- utils::menu(Item.name, title = "Input an item need to be plotted: ")
+  #selected.item <- as.character(Item.name[selected.item.n])
+  #"%ni%" <- Negate("%in%")
+  # if (isFALSE(!(selected.item %in% Item.name))) {
+  #   stop("\nNot enter the correct item name (case sensitive in R)\n")
+  # }
   # Select group(s)
 
 
-  selected.group.option <- utils::menu(c(Group.cat, "Other Combination"), title="Input the Group(s): ")
-
+  #selected.group.option <- utils::menu(c(Group.cat, "Other Combination"), title="Input the Group(s): ")
+  selected.group <- as.character(str_squish(unlist(strsplit(selected.group, ","))))
+  # if (!isFALSE(!(selected.group %in% Group.cat))) {
+  #   stop("\nNot enter the correct item name (case sensitive in R)\n")
+  # }
 
   # Plot for other combination ===============================================================
-  if (selected.group.option == (Group + 1)) {
-    selected.group.line <- readline(prompt="Enter group number (separated by ,):\n")
-    selected.group <- as.character(str_squish(unlist(strsplit(selected.group.line, ","))))
+  if (length(selected.group) != 1) {
+    #selected.group.line <- readline(prompt="Enter group number (separated by ,):\n")
+    #selected.group <- as.character(str_squish(unlist(strsplit(selected.group.line, ","))))
 
     # plotting a frame cumulative curve
-    irc <-ggplot(data.frame(theta = c(-4, 4)), aes(x = theta)) +
+    CPC <-ggplot(data.frame(theta = c(-4, 4)), aes(x = theta)) +
       xlab(latex2exp::TeX("$\\theta")) +
       ylab("Probability") +
-      labs(title=paste("Cumulative Probability Curves \nfor Group", selected.group.line, "of Item", selected.item), caption = "The multiple lines reflect different subgroups") +
+      labs(title=paste("Cumulative Probability Curves \nfor Group", selected.group, "of Item", selected.item), caption = "The multiple lines reflect different subgroups") +
       theme_bw() + theme(legend.title = element_blank())
 
     # plotting a frame category curve
-    circ <-ggplot(data.frame(theta = c(-4, 4)), aes(x = theta)) +
+    cpc <-ggplot(data.frame(theta = c(-4, 4)), aes(x = theta)) +
       xlab(latex2exp::TeX("$\\theta")) +
       ylab("Probability") +
-      labs(title=paste("Category Probability Curves \nfor Group", selected.group.line, "of Item", selected.item), caption = "") +
+      labs(title=paste("Category Probability Curves \nfor Group", selected.group, "of Item", selected.item), caption = "") +
       theme_bw() + theme(legend.title = element_blank())
 
     for (k in 1:length(selected.group)) {
 
-      i <- selected.group[k]
+      i <- match(selected.group[k], Group.cat)
       legends = paste0("Group ", i)
 
       keep.group <- paste0("G",i,"$")
@@ -108,68 +116,68 @@ irc <- function(){
       dplyr::select(., which(names(.) %in% keep.var))
 
       for (j in 2:(Threshold.max+1)){
-        irc <- irc + stat_function(fun = logisticFun, args = list(a=as.numeric(item[[i]][1]),b=as.numeric(item[[i]][j])), aes_(colour = legends))
+        CPC <- CPC + stat_function(fun = logisticFun, args = list(a=as.numeric(item[[i]][1]),b=as.numeric(item[[i]][j])), aes_(colour = legends))
       }
 
-      circ <- circ +
+      cpc <- cpc +
         stat_function(fun = pg0, args = list(a=as.numeric(item[[i]][1]),b=as.numeric(item[[i]][2])), aes_(colour = legends)) +
         stat_function(fun = pgl, args = list(a=as.numeric(item[[i]][1]),b=as.numeric(item[[i]][Threshold.max+1])), aes_(colour = legends))
 
 
       for (j in 2:(Threshold.max)){
-        circ <- circ + stat_function(fun = pgbtwn, args = list(a1=as.numeric(item[[i]][1]), b1=as.numeric(item[[i]][j]), a2=as.numeric(item[[i]][1]), b2=as.numeric(item[[i]][j+1])), aes_(colour = legends))
+        cpc <- cpc + stat_function(fun = pgbtwn, args = list(a1=as.numeric(item[[i]][1]), b1=as.numeric(item[[i]][j]), a2=as.numeric(item[[i]][1]), b2=as.numeric(item[[i]][j+1])), aes_(colour = legends))
       }
     }
 
   } else {
 
-    selected.group.line <- selected.group.option
+    #selected.group.line <- selected.group.option
     # Plot for one group ===============================================================
     # plotting a frame cumulative curve
-    irc <- ggplot(data.frame(theta = c(-4, 4)), aes(x = theta)) +
+    CPC <- ggplot(data.frame(theta = c(-4, 4)), aes(x = theta)) +
       xlab(latex2exp::TeX("$\\theta")) +
       ylab("Probability") +
-      labs(title=paste("Cumulative Probability Curves \nfor Group", selected.group.option, "of Item", selected.item), caption = "The multiple lines reflect different subgroups") +
+      labs(title=paste("Cumulative Probability Curves \nfor Group", selected.group, "of Item", selected.item), caption = "The multiple lines reflect different subgroups") +
       theme_bw() + theme(legend.title = element_blank())
 
     # plotting a frame category curve
-    circ <- ggplot(data.frame(theta = c(-4, 4)), aes(x = theta)) +
+    cpc <- ggplot(data.frame(theta = c(-4, 4)), aes(x = theta)) +
       xlab(latex2exp::TeX("$\\theta")) +
       ylab("Probability") +
-      labs(title=paste("Category Probability Curves \nfor Group", selected.group.option, "of Item", selected.item), caption = "") +
+      labs(title=paste("Category Probability Curves \nfor Group", selected.group, "of Item", selected.item), caption = "") +
       theme_bw() + theme(legend.title = element_blank())
 
     # process data for plot
-      i <- selected.group <- selected.group.option
+      i <- match(selected.group, Group.cat) #<- selected.group.option
       keep.group <- paste0("G",i,"$")
       keep.var <- names(total[,grep(keep.group, names(total), value=TRUE)])
       item[[i]] <- total %>% dplyr::filter(Item == selected.item) %>%
         dplyr::select(., which(names(.) %in% keep.var))
 
-    # overlay irc
+    # overlay CPC
     for (j in 2:(Threshold.max+1)){
       legends = paste0("CPC", (j-1))
-      irc <- irc + stat_function(fun = logisticFun, args = list(a=as.numeric(item[[i]][1]),b=as.numeric(item[[i]][j])))
+      CPC <- CPC + stat_function(fun = logisticFun, args = list(a=as.numeric(item[[i]][1]),b=as.numeric(item[[i]][j])))
     }
 
     # overlay circ
-    circ <- circ +
+    cpc <- cpc +
       stat_function(fun = pg0, args = list(a=as.numeric(item[[i]][1]),b=as.numeric(item[[i]][2]))) +
       stat_function(fun = pgl, args = list(a=as.numeric(item[[i]][1]),b=as.numeric(item[[i]][Threshold.max+1])))
 
 
     for (j in 2:(Threshold.max)){
       legends = paste0("CPC", j)
-      circ <- circ + stat_function(fun = pgbtwn, args = list(a1=as.numeric(item[[i]][1]), b1=as.numeric(item[[i]][j]), a2=as.numeric(item[[i]][1]), b2=as.numeric(item[[i]][j+1])))
+      cpc <- cpc + stat_function(fun = pgbtwn, args = list(a1=as.numeric(item[[i]][1]), b1=as.numeric(item[[i]][j]), a2=as.numeric(item[[i]][1]), b2=as.numeric(item[[i]][j+1])))
     }
 
   }
 
-  figure <- ggpubr::ggarrange(circ, irc, ncol = 1, nrow = 2)
+  figure <- ggpubr::ggarrange(cpc, CPC, ncol = 1, nrow = 2)
 
-  cat("Exporting", paste0("\"IRC of Item ", selected.item, " - Group ", selected.group.line, ".tiff\""), paste0("in \"../",filepath, "\""), "folder\n")
+  cat("Exporting", paste0("\"PC of Item ", selected.item, " - Group ", selected.group, ".tiff\""), paste0("in \"../",filepath, "\""), "folder\n")
   ## Save to TIF/TIFF
-  ggsave(filename = paste0(filepath,"/IRC of Item ", selected.item, " - Group ", selected.group.line, ".tiff"),
+  ggsave(filename = paste0(filepath,"/PC of Item ", selected.item, " - Group ", selected.group, ".tiff"),
          figure, width = 6, height = 10, dpi = 300, units = "in", device = "tiff")
 
 }

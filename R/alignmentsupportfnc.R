@@ -134,3 +134,4 @@ invariancesplit <- function(inputfile, filepath){
 
   sapply(X = inputfile,FUN=paraextract, begphrase="Loadings", endphrase="FACTOR MEAN COMPARISON", outputfile=paste0(filepath,"/LoadingsInvariance.txt"))
 }
+
