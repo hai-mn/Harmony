@@ -5,11 +5,12 @@
 #' @author Hai Nguyen \email{hnguye72@@uic.edu}, Tianxiu Wang, Ariel Aloe, Rachel Gordon
 #' @export cellsizedetect
 #' @import stringr
+#' @param infile entering the Mplus output file name and path
 #' @return Crosstabs between items having the specified cell size and below
 
-cellsizedetect <- function(){
+cellsizedetect <- function(infile=""){
 
-  infile <- readline(prompt="Enter the path & Mplus output file (use / to separate the path file): ")
+  #infile <- readline(prompt="Enter the path & Mplus output file (use / to separate the path file): ")
 
   ext<-readLines(infile)
 
@@ -25,7 +26,7 @@ cellsizedetect <- function(){
   filepath.misc <<- paste0("Output","_",Sys.Date(),"/Misc") # clean up: put all un-necessary files in filepath.misc
   ifelse(!dir.exists(file.path(filepath)), dir.create(file.path(filepath)), FALSE)
   ifelse(!dir.exists(file.path(filepath.misc)), dir.create(file.path(filepath.misc)), FALSE)
-  
+
   mplussplit(outpath = filepath.misc, inputfile = infile)
 
   ext1<-readLines(paste0(filepath.misc, "/ext1_input instructions.txt"))
