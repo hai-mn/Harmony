@@ -5,7 +5,7 @@
 #' @author Hai Nguyen \email{hnguye72@@uic.edu}, Ariel Aloe, Tianxiu Wang, Rachel Gordon
 #' @export cpc
 #' @import tidyverse
-#' @param selected.item selecting an item 
+#' @param selected.item selecting an item
 #' @param selected.group selecting a group or multiple groups
 #' @return A graph including the category and cumulative probability curves stored in specific folder
 
@@ -81,6 +81,7 @@ cpc <- function(selected.item="", selected.group=""){
 
 
   #selected.group.option <- utils::menu(c(Group.cat, "Other Combination"), title="Input the Group(s): ")
+  select.group.title <- str_squish(selected.group)
   selected.group <- as.character(str_squish(unlist(strsplit(selected.group, ","))))
   # if (!isFALSE(!(selected.group %in% Group.cat))) {
   #   stop("\nNot enter the correct item name (case sensitive in R)\n")
@@ -175,9 +176,9 @@ cpc <- function(selected.item="", selected.group=""){
 
   figure <- ggpubr::ggarrange(cpc, CPC, ncol = 1, nrow = 2)
 
-  cat("Exporting", paste0("\"PC of Item ", selected.item, " - Group ", selected.group, ".tiff\""), paste0("in \"../",filepath, "\""), "folder\n")
+  cat("Exporting", paste0("\"PC of Item ", selected.item, " - Group ", select.group.title, ".tiff\""), paste0("in \"../",filepath, "\""), "folder\n")
   ## Save to TIF/TIFF
-  ggsave(filename = paste0(filepath,"/PC of Item ", selected.item, " - Group ", selected.group, ".tiff"),
+  ggsave(filename = paste0(filepath,"/PC of Item ", selected.item, " - Group ", select.group.title, ".tiff"),
          figure, width = 6, height = 10, dpi = 300, units = "in", device = "tiff")
 
 }

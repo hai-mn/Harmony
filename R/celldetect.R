@@ -6,9 +6,10 @@
 #' @export cellsizedetect
 #' @import stringr
 #' @param infile entering the Mplus output file name and path
+#' @param n.detect entering the number of cell size to detect, the default is zero
 #' @return Crosstabs between items having the specified cell size and below
 
-cellsizedetect <- function(infile=""){
+cellsizedetect <- function(infile="", n.detect="0"){
 
   #infile <- readline(prompt="Enter the path & Mplus output file (use / to separate the path file): ")
 
@@ -86,7 +87,7 @@ cellsizedetect <- function(infile=""){
 
   # Reading user input --------------------------------------------------------
   readinteger <- function(){
-    n.detect <<- readline(prompt="Enter the Number of Cell Size to Detect: ")
+    #n.detect <<- readline(prompt="Enter the Number of Cell Size to Detect: ")
     if(!grepl("^[0-9]+$",n.detect))
     {
       return(readinteger())

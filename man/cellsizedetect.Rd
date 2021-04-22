@@ -4,10 +4,12 @@
 \alias{cellsizedetect}
 \title{cellsizedetect}
 \usage{
-cellsizedetect(infile = "")
+cellsizedetect(infile = "", n.detect = "0")
 }
 \arguments{
 \item{infile}{entering the Mplus output file name and path}
+
+\item{n.detect}{entering the number of cell size to detect, the default is zero}
 }
 \value{
 Crosstabs between items having the specified cell size and below
