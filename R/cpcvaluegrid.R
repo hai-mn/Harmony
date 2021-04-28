@@ -5,8 +5,8 @@
 #' @author Hai Nguyen \email{hnguye72@@uic.edu}, Ariel Aloe, Tianxiu Wang, Rachel Gordon
 #' @export cpc.csvexport
 #' @import tidyverse
-#' @param selected.item selecting an item 
-#' @param selected.group selecting a group 
+#' @param selected.item selecting an item
+#' @param selected.group selecting a group
 #' @return A CSV file which has value grid of theta, category probability (cpc) and cumulative probability (CPC) values of a selected item's group
 
 cpc.csvexport <- function(selected.item="", selected.group=""){
@@ -98,8 +98,8 @@ cpc.csvexport <- function(selected.item="", selected.group=""){
   for (i in 1:ncat){colnames(df)[1+ncat+1+i] <- paste0("CPC",i)} #CPC: in uppercase, Cumulative Probability Curve
   colnames(df)
 
-  cat("Exporting", paste0("\"IPC Value Grid of Item ", selected.item, " - Group ", selected.group,".csv\""), paste0("in \"../",filepath, "\""), "folder\n")
+  cat("Exporting", paste0("\"Item Probability Curve (IPC) of ", selected.item, " - Group ", selected.group,".csv\""), paste0("in \"../",filepath, "\""), "folder\n")
 
-  utils::write.csv(df, paste0(filepath,"/IPC Value Grid of Item ", selected.item, " - Group ", selected.group,".csv"), row.names=FALSE)
+  utils::write.csv(df, paste0(filepath,"/IPC of ", selected.item, " - G ", selected.group,".csv"), row.names=FALSE)
 
 }

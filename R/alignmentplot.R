@@ -44,7 +44,7 @@ alignmentthresholdplot<-function(labelfile=""){
   #Threshold.max <- as.numeric(readline(prompt="Please enter the number of threshold files (number of thresholds): "))
 
   #condit.input <- readline(prompt="Input the label file for groups (y/n)?")
-  if (length(labelfile)!=1){
+  if (length(labelfile)!=0){
     #labelfile <- readline(prompt="Input path and legend's label file name (use /): ")
 
 
@@ -203,7 +203,7 @@ alignmentloadingplot<-function(labelfile=""){
   }
 
   #condit.input <- readline(prompt="Input the label file for groups (y/n)?")
-  if (length(labelfile)!=1){
+  if (length(labelfile)!=0){
 
     #labelfile <- readline(prompt="Input path and legend's label file name (use /): ")
 
