@@ -4,7 +4,10 @@
 \alias{alignmentloadingplot}
 \title{alignmentloadingplot}
 \usage{
-alignmentloadingplot()
+alignmentloadingplot(labelfile = "")
+}
+\arguments{
+\item{labelfile}{entering the label file for groups}
 }
 \value{
 An Alignment Loading Plot file in a specific folder

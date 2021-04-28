@@ -7,14 +7,14 @@ Description: harmony finds Mplus alignment analysis results to generate multiple
 Depends: 
     R (>= 3.3)
 Imports:
-    tidyr,
-    stringr,
-    dplyr,
-    ggplot2,
-    forcats,
-    tidyverse,
+    tidyr (>= 1.1.3),
+    stringr (>= 1.4.0),
+    dplyr (>= 1.0.5),
+    ggplot2 (>= 3.3.3),
+    forcats (>= 0.5.1),
+    tidyverse (>= 1.3.0),
     openxlsx,
-    readxl,
+    readxl (>= 1.3.1),
     scales,
     data.table,
     latex2exp,

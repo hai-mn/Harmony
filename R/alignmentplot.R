@@ -5,28 +5,29 @@
 #' @author Hai Nguyen \email{hnguye72@@uic.edu}, Tianxiu Wang, Ariel Aloe, Rachel Gordon
 #' @export alignmentthresholdplot
 #' @import ggplot2 data.table
+#' @param labelfile entering the label file for groups
 #' @return Alignment Threshold Plot(s) files in a specific folder
 
 
-alignmentthresholdplot<-function(){
+alignmentthresholdplot<-function(labelfile=""){
 
   # File path ---------------------------------------------------
   filepath <- paste0("Output","_",Sys.Date())
   filepath.misc <- paste0("Output","_",Sys.Date(),"/Misc") # clean up: put all un-necessary files in filepath.misc
-  
+
   if (!file.exists(paste0(filepath.misc, "/ext2_summary of analysis.txt"))) {
     stop("\nMust run `alignmentout()` to obtain the threshold information for the graphs\n")
   }
-  
+
   ext2<-readLines(paste0(filepath.misc, "/ext2_summary of analysis.txt"))
-  
+
   ## 5- Categories of each Item (Threshold: number of categories - 1)===================
   s <- k <-grep("UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES", ext2, ignore.case = T) + 2 # s: stands for start
   while (!grepl("^[ \t\n]*$", ext2[k])) {
     k<-k+1
     e<-k #e: stands for end
   }
-  
+
   Category<-vector(mode = "numeric", length=length(Item.name))
   for (i in 2:length(Item.name)){
     while ((s<e)&(!str_detect(ext2[s], Item.name[i]))){
@@ -34,23 +35,23 @@ alignmentthresholdplot<-function(){
     }
     Category[i-1]<-as.numeric(str_sub(ext2[s-1],str_locate(ext2[s-1],"y")+2, str_locate(ext2[s-1],"y")+3))
   }
-  
+
   Category[length(Item.name)]<-as.numeric(str_sub(ext2[e-1],str_locate(ext2[e-1],"y")+2, str_locate(ext2[e-1],"y")+3))
   Threshold <- Category - 1
-  
+
   Threshold.max<<-max(Threshold)
   # Provide the number of thresholds -------------------------------------------
   #Threshold.max <- as.numeric(readline(prompt="Please enter the number of threshold files (number of thresholds): "))
 
-  condit.input <- readline(prompt="Input the label file for groups (y/n)?")
-  if (tolower(condit.input)=="y"){
-    labelfile <- readline(prompt="Input path and legend's label file name (use /): ")
+  #condit.input <- readline(prompt="Input the label file for groups (y/n)?")
+  if (length(labelfile)!=1){
+    #labelfile <- readline(prompt="Input path and legend's label file name (use /): ")
 
 
     my_label <- readxl::read_excel(labelfile)
-    GroupLabel<-append(my_label$GroupLabel,"Invariant Average")
+    GroupLabel<-append(my_label[,2, drop=TRUE],"Invariant Average")
 
- 
+
     for (i in 1:Threshold.max){
 
       # Read data ----------------------------------------------------------
@@ -76,11 +77,11 @@ alignmentthresholdplot<-function(){
 
 
       write.csv(eg2.l, paste0(filepath.misc,"/thresholds",i,"_longform.csv"), row.names=FALSE)
-      
+
       # step to order the graph on weighted_average value
       eg2.l$weighted.avg <- rep(eg2.l[,4][which(eg2.l$lclass==as.numeric(Group+1))], Group+1)
-      
-      
+
+
       # Plot ggplot ---------------------------------------------------------
 
       ## set colors
@@ -114,7 +115,7 @@ alignmentthresholdplot<-function(){
 
     } else {
 
- 
+
       for(i in 1:Threshold.max){
 
         # Read data ----------------------------------------------------------
@@ -143,7 +144,7 @@ alignmentthresholdplot<-function(){
 
         # step to order the graph on weighted_average value
         eg2.l$weighted.avg <- rep(eg2.l[,4][which(eg2.l$lclass==as.numeric(Group+1))], Group+1)
-        
+
         # Plot ggplot ---------------------------------------------------------
 
         ## set colors
@@ -187,27 +188,28 @@ alignmentthresholdplot<-function(){
 #' @author Hai Nguyen \email{hnguye72@@uic.edu}, Tianxiu Wang, Ariel Aloe, Rachel Gordon
 #' @export alignmentloadingplot
 #' @import ggplot2 data.table
+#' @param labelfile entering the label file for groups
 #' @return An Alignment Loading Plot file in a specific folder
 
 
-alignmentloadingplot<-function(){
+alignmentloadingplot<-function(labelfile=""){
 
   # File path ---------------------------------------------------
   filepath <- paste0("Output","_",Sys.Date())
   filepath.misc <- paste0("Output","_",Sys.Date(),"/Misc") # clean up: put all un-necessary files in filepath.misc
-  
+
   if (!file.exists(paste0(filepath,"/loadings.csv"))) {
     stop("\nMust run `alignmentout()` to obtain the loadings information for the graph\n")
   }
-  
-  condit.input <- readline(prompt="Input the label file for groups (y/n)?")
-  if (tolower(condit.input)=="y"){
 
-    labelfile <- readline(prompt="Input path and legend's label file name (use /): ")
+  #condit.input <- readline(prompt="Input the label file for groups (y/n)?")
+  if (length(labelfile)!=1){
+
+    #labelfile <- readline(prompt="Input path and legend's label file name (use /): ")
 
 
     my_label <- readxl::read_excel(labelfile)
-    GroupLabel<-append(my_label$GroupLabel,"Invariant Average")
+    GroupLabel<-append(my_label[,2, drop=TRUE],"Invariant Average")
 
 
     # Read data ---------------------------------------------------
@@ -238,8 +240,8 @@ alignmentloadingplot<-function(){
 
     # step to order the graph on weighted_average value
     eg2.l$weighted.avg <- rep(eg2.l[,4][which(eg2.l$lclass==as.numeric(Group+1))], Group+1)
-    
-    
+
+
 
     # Plot ggplot ---------------------------------------------------------
 
@@ -273,7 +275,7 @@ alignmentloadingplot<-function(){
 
   } else {
 
- 
+
     # Read data ---------------------------------------------------
     if (!file.exists(paste0(filepath,"/loadings.csv"))) {
       stop("\nMust run `alignmentout()` to obtain the loadings information for the graph\n")
@@ -301,8 +303,8 @@ alignmentloadingplot<-function(){
 
     # step to order the graph on weighted_average value
     eg2.l$weighted.avg <- rep(eg2.l[,4][which(eg2.l$lclass==as.numeric(Group+1))], Group+1)
-    
-    
+
+
     # Plot ggplot ---------------------------------------------------------
 
     ## set colors
