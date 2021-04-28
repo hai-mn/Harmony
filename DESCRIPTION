@@ -2,7 +2,8 @@ Package: harmony
 Type: Package
 Title: Extract Mplus Output Information To Build Alignment Tables and Plots
 Version: 1.0.0
-Authors@R: person(given = "Hai", family = "Nguyen", email = "hnguye72@uic.edu", role = c("aut", "cre"))
+Author: Hai Nguyen, Tianxiu Wang, Ariel Aloe, Rachel Gordon
+Maintainer: Hai Nguyen <hnguye72@uic.edu>
 Description: harmony finds Mplus alignment analysis results to generate multiple tables of thresholds and loadings, to plot the group measures with the label input provided by spreadsheet file, to convert IFA to IRT and plot item response curves.
 Depends: 
     R (>= 3.3)
@@ -19,6 +20,8 @@ Imports:
     data.table,
     latex2exp,
     ggpubr
+Suggests: knitr, rmarkdown, testthat
+VignetteBuilder: knitr
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
