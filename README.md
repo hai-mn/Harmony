@@ -159,7 +159,7 @@ Exporting "alignment model - Loadings - 6 groups.tiff" in "../Output_date" folde
 
 Here's an example of alignment loadings plot we can find in the Output_data folder:   
 
-<img alt="alignment-loadings-model.png" src="img-assets/alignment-loadings-model.png">
+<img alt="alignment-loadings-model.png" src="img-assets/alignment-loadings-model.png" style="max-height: 800px; max-width: 800px;">
 
 
 __Step 4:__ Convert Item Factor Analysis (IFA) estimates to Item Response Theory (IRT) estimates
@@ -183,7 +183,7 @@ The function would notify in the console:
 The program exports the value grid of Item Probability Curve on the selected item and its group
 Exporting "Item Probability Curve (IPC) of BPI8 - Group 1.csv" in "../Output_date" folder
 
-We can see in the Out_date folder a file name of "IPC of BPI8 - G 1.csv".
+We can see in the "Out_date" folder a file name of "IPC of BPI8 - G 1.csv".
 
 
 __Step 5:__ Generating category and cumulative probability curves
@@ -195,7 +195,7 @@ Exporting "PC of Item BPI8 - Group 1, 3, 5.tiff" in "../Output_2021-04-28" folde
 
 The plot would be:  
 
-<img alt="IRC.png" src="img-assets/IRC.png">
+<img alt="IRC3grs.png" src="img-assets/IRC3grs.png" style="max-height: 800px; max-width: 800px;">
 
 ### Example Mplus files
 Here is the list of files used in the case study:
