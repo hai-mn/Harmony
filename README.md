@@ -206,7 +206,7 @@ Exporting "PC of Item BPI8 - Group 1, 3, 5.tiff" in "../Output_date" folder
 
 The plot would be:  
 
-<img alt="IRC3grs.png" src="img-assets/IRC3grs.png" style="max-height: 700px; max-width: 700px;" >
+<img alt="IRC.png" src="img-assets/IRC.png" style="max-height: 700px; max-width: 700px;" >
 
 ## Example Mplus files
 Here is the list of files used in the case study:
