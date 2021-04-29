@@ -97,11 +97,11 @@ Enter path and Mplus output file (separated by /): your-path-file-here/Tutorial-
      BPI14        3         2
      BPI16        3         2
 ~~~
-- Enter the path file and file name when the function requests:
-"_your-path-file-here/Tutorial-Alignment-Free.out_"
-Note: path file should be separated by / or \\\\
-- The user can check the output at folder "Output_day-is-today" in the working directory: "threshold1.csv", "threshold2.csv", "loadings.csv", and ""
-- Mplus code would look like (__should not have any comments__):
+
+Note: if you enter all the path file and Mplus output file, it should be separated by / or \\\\. For example, `"C:/User/JohnD/Mplus/alignment-free.out"`
+- The user can check the output at folder "Output_day-is-today" in the working directory having: "threshold1.csv", "threshold2.csv", "loadings.csv", and ""
+- Here is the Mplus code:
+
 ~~~
 TITLE: 		Alignment (free)
 DATA: 		FILE = NLSYPSIDbpi.dat ;
@@ -134,52 +134,66 @@ MODEL: 	        %OVERALL%
 
 <img alt="loadings-table.PNG" src="img-assets/loadings-table.PNG">
 
-__Step 3:__ Generating alignment plots   
-For example, we call the function: `alignmentloadingplot()` to plot alignment loadings plot   
+We call the functions:
+`alignmentthresholdplot(labelfile="group label.xlsx")` to plot alignment thresholds plots
+`alignmentloadingplot(labelfile="group label.xlsx")` to plot alignment loadings plot
 
-In the console, we enter a file which has group label:  
+Here's in the argument of these plot functions, we provide an Excel file `group label.xlsx` storing the information of groups:
 
-Input the label file for groups (y/n)?y   
-Input path and legend's label file name (use /): ../group label.xlsx   
+| GroupNumber | GroupLabel   |
+|-------------|--------------|
+|1		        |Latinx_Male   |
+|2		        |Black_Male    |
+|3		        |White_Male    |
+|4		        |Latinx_Female |
+|5		        |Black_Female  |
+|6		        |White_Female  |
 
-The function would notify:   
-Exporting "alignment model - Loadings - 6 groups.tiff" in "../Output_2021-04-09" folder   
+The functions would notify:  
+Exporting "alignment model - Threshold1 - 6 groups.tiff" in "../Output_date" folder
+Exporting "alignment model - Threshold2 - 6 groups.tiff" in "../Output_date" folder
 
-Here's the plot:   
+and
+
+Exporting "alignment model - Loadings - 6 groups.tiff" in "../Output_date" folder   
+
+Here's an example of alignment loadings plot we can find in the Output_data folder:   
 
 <img alt="alignment-loadings-model.png" src="img-assets/alignment-loadings-model.png">
 
-__Step 4:__ Convert (Item Factor Analysis) IFA estimates to (Item Response Theory) IRT estimates
 
-Execute `convert2irt()` to convert the IFA to IRT. But if the user would need the value to their own need, they should execute `irc.csvexport()` with selecting the item and a certain group.
+__Step 4:__ Convert Item Factor Analysis (IFA) estimates to Item Response Theory (IRT) estimates
+
+Execute `convert2irt()` to convert the IFA to IRT.
+
+The functions would notify in the console:
+Exporting "group_factor means and variances.csv" in "../Output_date" folder
+Exporting "discriminations.csv" in "../Output_date" folder
+Exporting "difficulty1.csv" in "../Output_date" folder
+Exporting "difficulty2.csv" in "../Output_date" folder
+
+If we need the value generated from Catergorical (cpc) and Cumulative (CPC) Probability Curve respective to 0.1 unit increasing of $\theta$ from -4 to 4; we can execute
+`cpc.csvexport(selected.item="", selected.group="")` with selecting an item and a group at a time.
+
+For example, we execute
+cpc.csvexport(selected.item='BPI8', selected.group='1')
+
+The function would notify in the console:
+
+The program exports the value grid of Item Probability Curve on the selected item and its group
+Exporting "Item Probability Curve (IPC) of BPI8 - Group 1.csv" in "../Output_date" folder
+
+We can see in the Out_date folder a file name of "IPC of BPI8 - G 1.csv".
+
 
 __Step 5:__ Generating category and cumulative probability curves
-Finally, we execute `irc()`. There would be informed lines in Console:
+Finally, we execute `cpc(selected.item="", selected.group="")` with selecting an item and one group or multiple groups at a time.
+
+There would be informed lines in Console:
 The function plots cumulative and category probability curves on the selected item and group(s)
-Input an item need to be plotted:  
+Exporting "PC of Item BPI8 - Group 1, 3, 5.tiff" in "../Output_2021-04-28" folder  
 
-1: BPI8  
-2: BPI10  
-3: BPI11  
-4: BPI12  
-5: BPI14  
-6: BPI16  
-
-Selection: 1  
-Input the Group(s):    
-
-1: 1  
-2: 2  
-3: 3  
-4: 4  
-5: 5  
-6: 6  
-7: Other Combination  
-
-Selection: 1  
-Exporting "IRC of Item BPI8 - Group 1.tiff" in "../Output_2021-04-09" folder  
-
-The plot looks like:  
+The plot would be:  
 
 <img alt="IRC.png" src="img-assets/IRC.png">
 
@@ -193,4 +207,4 @@ Here is the list of files used in the case study:
 
 ## Acknowledgment
 
-Research reported in this publication was supported by the Eunice Kennedy Shriver National Institute Of Child Health & Human Development of the National Institutes of Health under Award Number R03HD098310. The content is solely the responsibility of the authors and does not necessarily represent the official views of the National Institutes of Health.
+This package is based on the work supported by the Eunice Kennedy Shriver National Institute Of Child Health & Human Development of the National Institutes of Health under Award Number R03HD098310. The content is solely the responsibility of the authors and does not necessarily represent the official views of the National Institutes of Health.

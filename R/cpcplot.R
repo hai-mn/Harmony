@@ -96,14 +96,14 @@ cpc <- function(selected.item="", selected.group=""){
     CPC <-ggplot(data.frame(theta = c(-4, 4)), aes(x = theta)) +
       xlab(latex2exp::TeX("$\\theta")) +
       ylab("Probability") +
-      labs(title=paste("Cumulative Probability Curves \nfor Group", selected.group, "of Item", selected.item), caption = "The multiple lines reflect different subgroups") +
+      labs(title=paste("Cumulative Probability Curves \nfor Group", select.group.title, "of Item", selected.item), caption = "The multiple lines reflect different subgroups") +
       theme_bw() + theme(legend.title = element_blank())
 
     # plotting a frame category curve
     cpc <-ggplot(data.frame(theta = c(-4, 4)), aes(x = theta)) +
       xlab(latex2exp::TeX("$\\theta")) +
       ylab("Probability") +
-      labs(title=paste("Category Probability Curves \nfor Group", selected.group, "of Item", selected.item), caption = "") +
+      labs(title=paste("Category Probability Curves \nfor Group", select.group.title, "of Item", selected.item), caption = "") +
       theme_bw() + theme(legend.title = element_blank())
 
     for (k in 1:length(selected.group)) {
@@ -138,14 +138,14 @@ cpc <- function(selected.item="", selected.group=""){
     CPC <- ggplot(data.frame(theta = c(-4, 4)), aes(x = theta)) +
       xlab(latex2exp::TeX("$\\theta")) +
       ylab("Probability") +
-      labs(title=paste("Cumulative Probability Curves \nfor Group", selected.group, "of Item", selected.item), caption = "The multiple lines reflect different subgroups") +
+      labs(title=paste("Cumulative Probability Curves \nfor Group", select.group.title, "of Item", selected.item), caption = "The multiple lines reflect different subgroups") +
       theme_bw() + theme(legend.title = element_blank())
 
     # plotting a frame category curve
     cpc <- ggplot(data.frame(theta = c(-4, 4)), aes(x = theta)) +
       xlab(latex2exp::TeX("$\\theta")) +
       ylab("Probability") +
-      labs(title=paste("Category Probability Curves \nfor Group", selected.group, "of Item", selected.item), caption = "") +
+      labs(title=paste("Category Probability Curves \nfor Group", select.group.title, "of Item", selected.item), caption = "") +
       theme_bw() + theme(legend.title = element_blank())
 
     # process data for plot
