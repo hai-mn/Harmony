@@ -59,17 +59,19 @@ We recommend:
 
 We demonstrated a case study of invariance analysis
 
-__Step 1:__ Install and load the `harmony` package
+### __Step 1:__ Install and load the `harmony` package
+
 - In RStudio console (or in the Source panel), type then Enter (or Ctrl+Enter if in the Source panel):
 `install.packages("devtools")`
 `devtools::install_github("hai-mn/harmony", dependencies = TRUE)`
 `library(harmony)`
 
 
-__Step 2:__ Generating alignment tables
+### __Step 2:__ Generating alignment tables
+
 - Set the working directory in which we want to store the output of tables and plots
 `setwd("your-working-directory-here")`
-- Put the Mplus output in the current working directory for the convenience, here's the `alignment-free.out` Mplus output file.
+- Put the Mplus output in the current working directory for convenience, here's the `alignment-free.out` Mplus output file.
 - To generate the alignment tables, we call `alignmentout(infile="alignment-free.out")`
 - The pop-up results in the console would be:
 ~~~
@@ -99,7 +101,7 @@ Enter path and Mplus output file (separated by /): your-path-file-here/Tutorial-
 ~~~
 
 Note: if you enter all the path file and Mplus output file, it should be separated by / or \\\\. For example, `"C:/User/JohnD/Mplus/alignment-free.out"`
-- The user can check the output at folder "Output_day-is-today" in the working directory having: "threshold1.csv", "threshold2.csv", "loadings.csv", and ""
+- We can check the output at folder "Output_day-is-today" in the working directory having: "threshold1.csv", "threshold2.csv", "loadings.csv", and ""
 - Here is the Mplus code:
 
 ~~~
@@ -132,7 +134,7 @@ MODEL: 	        %OVERALL%
 ~~~
 - The loadings table looks like:
 
-<img alt="loadings-table.PNG" src="img-assets/loadings-table.PNG">
+<img alt="loadings-table.PNG" src="img-assets/loadings-table.PNG" style="max-height: 700px; max-width: 700px;" >
 
 We call the functions:
 `alignmentthresholdplot(labelfile="group label.xlsx")` to plot alignment thresholds plots
@@ -150,59 +152,67 @@ Here's in the argument of these plot functions, we provide an Excel file `group 
 |6		        |White_Female  |
 
 The functions would notify:  
+```
 Exporting "alignment model - Threshold1 - 6 groups.tiff" in "../Output_date" folder
 Exporting "alignment model - Threshold2 - 6 groups.tiff" in "../Output_date" folder
-
+```
 and
-
+```
 Exporting "alignment model - Loadings - 6 groups.tiff" in "../Output_date" folder   
+```
+Here's an example of alignment loadings plot we can find in the Output_date folder:   
 
-Here's an example of alignment loadings plot we can find in the Output_data folder:   
-
-<img alt="alignment-loadings-model.png" src="img-assets/alignment-loadings-model.png" style="max-height: 800px; max-width: 800px;">
+<img alt="alignment-loadings-model.png" src="img-assets/alignment-loadings-model.png" style="max-height: 700px; max-width: 700px;">
 
 
-__Step 4:__ Convert Item Factor Analysis (IFA) estimates to Item Response Theory (IRT) estimates
+### __Step 3:__ Convert Item Factor Analysis (IFA) estimates to Item Response Theory (IRT) estimates
 
 Execute `convert2irt()` to convert the IFA to IRT.
 
 The functions would notify in the console:
+
+```
 Exporting "group_factor means and variances.csv" in "../Output_date" folder
 Exporting "discriminations.csv" in "../Output_date" folder
 Exporting "difficulty1.csv" in "../Output_date" folder
 Exporting "difficulty2.csv" in "../Output_date" folder
+```
 
 If we need the value generated from Catergorical (cpc) and Cumulative (CPC) Probability Curve respective to 0.1 unit increasing of $\theta$ from -4 to 4; we can execute
 `cpc.csvexport(selected.item="", selected.group="")` with selecting an item and a group at a time.
 
 For example, we execute
-cpc.csvexport(selected.item='BPI8', selected.group='1')
+`cpc.csvexport(selected.item='BPI8', selected.group='1')`
 
 The function would notify in the console:
 
+```
 The program exports the value grid of Item Probability Curve on the selected item and its group
 Exporting "Item Probability Curve (IPC) of BPI8 - Group 1.csv" in "../Output_date" folder
+```
 
 We can see in the "Out_date" folder a file name of "IPC of BPI8 - G 1.csv".
 
 
-__Step 5:__ Generating category and cumulative probability curves
+### __Step 4:__ Generating category and cumulative probability curves
 Finally, we execute `cpc(selected.item="", selected.group="")` with selecting an item and one group or multiple groups at a time.
 
-There would be informed lines in Console:
+There would be informed lines in the console:
+
+```
 The function plots cumulative and category probability curves on the selected item and group(s)
-Exporting "PC of Item BPI8 - Group 1, 3, 5.tiff" in "../Output_2021-04-28" folder  
+Exporting "PC of Item BPI8 - Group 1, 3, 5.tiff" in "../Output_date" folder  
+```
 
 The plot would be:  
 
-<img alt="IRC3grs.png" src="img-assets/IRC3grs.png" style="max-height: 800px; max-width: 800px;">
+<img alt="IRC3grs.png" src="img-assets/IRC3grs.png" style="max-height: 700px; max-width: 700px;" >
 
-### Example Mplus files
+## Example Mplus files
 Here is the list of files used in the case study:
 - [alignment-free.txt](https://github.com/hai-mn/harmony/blob/master/docs/alignment-free.txt): dataset
 - [alignment-free.inp](https://github.com/hai-mn/harmony/blob/master/docs/alignment-free.inp): Mplus syntax file
 - [alignment-free.out](https://github.com/hai-mn/harmony/blob/master/docs/alignment-free.out): Mplus output file
-
 
 
 ## Acknowledgment
