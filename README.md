@@ -185,7 +185,7 @@ Exporting "difficulty1.csv" in "../Output_date" folder
 Exporting "difficulty2.csv" in "../Output_date" folder
 ```
 
-If we need the value generated from Catergorical (cpc) and Cumulative (CPC) Probability Curve respective to 0.1 unit increasing of $\theta$ from -4 to 4; we can execute
+If we need the value generated from Catergorical (cpc) and Cumulative (CPC) Probability Curve respective to 0.1 unit increasing of `Theta` from -4 to 4; we can execute
 `cpc.csvexport(selected.item="", selected.group="")` with selecting an item and a group at a time.
 
 For example, we execute
