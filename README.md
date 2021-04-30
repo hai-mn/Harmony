@@ -156,11 +156,14 @@ Here's in the argument of these plot functions, we provide an Excel file `group 
 |6		        |White_Female  |
 
 The functions would notify:  
+
 ```
 Exporting "alignment model - Threshold1 - 6 groups.tiff" in "../Output_date" folder
 Exporting "alignment model - Threshold2 - 6 groups.tiff" in "../Output_date" folder
 ```
+
 and
+
 ```
 Exporting "alignment model - Loadings - 6 groups.tiff" in "../Output_date" folder   
 ```
