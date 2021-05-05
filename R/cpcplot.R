@@ -1,19 +1,27 @@
 ## Plotting Item Characteristic Curve (Category and Cumulative Probability Curves)
-#' @title cpc
+#' @title cpcCPC
 #' @description Plotting the Category and Cumulative Probability Curve
-#' @details cpc() requires the user to run 'alignmentout()' and 'convert2irt()' at first to obtain the difficulty and discrimination estimates
+#' @details cpcCPC() requires the user to run 'alignmentout()' and 'convert2irt()' at first to obtain the difficulty and discrimination estimates
 #' @author Hai Nguyen \email{hnguye72@@uic.edu}, Ariel Aloe, Tianxiu Wang, Rachel Gordon
-#' @export cpc
+#' @export cpcCPC
 #' @import tidyverse
 #' @param selected.item selecting an item
 #' @param selected.group selecting a group or multiple groups
+#' @param directory entering the directory folder name to store the output
 #' @return A graph including the category and cumulative probability curves stored in specific folder
 
-cpc <- function(selected.item="", selected.group=""){
+cpcCPC <- function(selected.item="", selected.group="", directory=NULL){
 
-  # Set file path --------------------------------------------------------------------
-  filepath <- paste0("Output","_",Sys.Date())
-  filepath.misc <- paste0("Output","_",Sys.Date(),"/Misc") # clean up: put all un-necessary files in filepath.misc
+  # File path ---------------------------------------------------
+  if (is.null(directory)) {
+    filepath <- paste0("Output","_", Sys.Date())
+    filepath.misc <- paste0("Output","_", Sys.Date(),"/Misc") # clean up: put all un-necessary files in filepath.misc
+  } else {
+    filepath <- directory
+    filepath.misc <- paste0(directory,"/Misc")
+  }
+  
+  
   if (!file.exists(paste0(filepath,"/discriminations.csv"))) {
     stop("\nMust run `alignmentout()` then `convert2irt()` to obtain the difficulty and discrimination parameters at first\n")
   }
@@ -176,9 +184,9 @@ cpc <- function(selected.item="", selected.group=""){
 
   figure <- ggpubr::ggarrange(cpc, CPC, ncol = 1, nrow = 2)
 
-  cat("Exporting", paste0("\"PC of Item ", selected.item, " - Group ", select.group.title, ".tiff\""), paste0("in \"../",filepath, "\""), "folder\n")
+  cat("Exporting", paste0("\"cpcCPC of Item ", selected.item, " - Group ", select.group.title, ".tiff\""), paste0("in \"../",filepath, "\""), "folder\n")
   ## Save to TIF/TIFF
-  ggsave(filename = paste0(filepath,"/PC of Item ", selected.item, " - Group ", select.group.title, ".tiff"),
+  ggsave(filename = paste0(filepath,"/cpcCPC of Item ", selected.item, " - Group ", select.group.title, ".tiff"),
          figure, width = 6, height = 10, dpi = 300, units = "in", device = "tiff")
 
 }

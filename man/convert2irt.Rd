@@ -4,7 +4,10 @@
 \alias{convert2irt}
 \title{convert2irt}
 \usage{
-convert2irt()
+convert2irt(directory = NULL)
+}
+\arguments{
+\item{directory}{entering the directory folder name to store the output}
 }
 \value{
 A list of CSV files (with difficulty and discrimination of file name) in the specific folder.

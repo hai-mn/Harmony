@@ -9,10 +9,11 @@
 #' @export alignmentout
 #' @import tidyr stringr openxlsx
 #' @param infile entering the Mplus output file name and path
+#' @param directory entering the directory folder name to store the output
 #' @return A list of text, CSV files and one Excel file with multiple tabs in the specific folder.
 
 
-alignmentout<-function(infile=""){
+alignmentout<-function(infile="", directory=NULL){
 
   # Inform users the parameters ----------------------------------------------------
   ## 1. Enter a Mplus ouput file
@@ -28,8 +29,14 @@ alignmentout<-function(infile=""){
   #infile <- readline(prompt="Enter path and Mplus output file (separated by /):\n")
 
   ### Create a folder to store the output
-  filepath <<- paste0("Output","_",Sys.Date())
-  filepath.misc <<- paste0("Output","_",Sys.Date(),"/Misc") # clean up: put all un-necessary files in filepath.misc
+  if (is.null(directory)) {
+    filepath <- paste0("Output","_", Sys.Date())
+    filepath.misc <- paste0("Output","_", Sys.Date(),"/Misc") # clean up: put all un-necessary files in filepath.misc
+  } else {
+    filepath <- directory
+    filepath.misc <- paste0(directory,"/Misc")
+  }
+  
   ifelse(!dir.exists(file.path(filepath)), dir.create(file.path(filepath)), FALSE)
   ifelse(!dir.exists(file.path(filepath.misc)), dir.create(file.path(filepath.misc)), FALSE)
 

@@ -1,21 +1,28 @@
 ## Generating A CSV File with Value Grid of an Item with a Group to Plot Characteristic Curve
-#' @title cpc.csvexport
+#' @title cpcCPC.csvexport
 #' @description Producing the value grid to plot category and cumulative probability curve
-#' @details irc.csvexport requires the user to run 'alignmentout()' and 'convert2irt()' at first to obtain the difficulty and discrimination estimates
+#' @details cpcCPC.csvexport requires the user to run 'alignmentout()' and 'convert2irt()' at first to obtain the difficulty and discrimination estimates
 #' @author Hai Nguyen \email{hnguye72@@uic.edu}, Ariel Aloe, Tianxiu Wang, Rachel Gordon
-#' @export cpc.csvexport
+#' @export cpcCPC.csvexport
 #' @import tidyverse
 #' @param selected.item selecting an item
 #' @param selected.group selecting a group
+#' @param directory entering the directory folder name to store the output
 #' @return A CSV file which has value grid of theta, category probability (cpc) and cumulative probability (CPC) values of a selected item's group
 
-cpc.csvexport <- function(selected.item="", selected.group=""){
+cpcCPC.csvexport <- function(selected.item="", selected.group="", directory=NULL){
 
   #==============================================================================
   # Gathering data in one place
-  # Set file path --------------------------------------------------------------------
-  filepath <- paste0("Output","_",Sys.Date())
-  filepath.misc <- paste0("Output","_",Sys.Date(),"/Misc") # clean up: put all un-necessary files in filepath.misc
+  # File path ---------------------------------------------------
+  if (is.null(directory)) {
+    filepath <- paste0("Output","_", Sys.Date())
+    filepath.misc <- paste0("Output","_", Sys.Date(),"/Misc") # clean up: put all un-necessary files in filepath.misc
+  } else {
+    filepath <- directory
+    filepath.misc <- paste0(directory,"/Misc")
+  }
+  
   if (!file.exists(paste0(filepath,"/discriminations.csv"))) {
     stop("\nMust run `alignmentout()` and `convert2irt()` to obtain the difficulty and discrimination parameters at first\n")
   }
@@ -98,8 +105,8 @@ cpc.csvexport <- function(selected.item="", selected.group=""){
   for (i in 1:ncat){colnames(df)[1+ncat+1+i] <- paste0("CPC",i)} #CPC: in uppercase, Cumulative Probability Curve
   colnames(df)
 
-  cat("Exporting", paste0("\"Item Probability Curve (IPC) of ", selected.item, " - Group ", selected.group,".csv\""), paste0("in \"../",filepath, "\""), "folder\n")
+  cat("Exporting", paste0("\"cpcCPC of Item ", selected.item, " - Group ", selected.group,".csv\""), paste0("in \"../",filepath, "\""), "folder\n")
 
-  utils::write.csv(df, paste0(filepath,"/IPC of ", selected.item, " - G ", selected.group,".csv"), row.names=FALSE)
+  utils::write.csv(df, paste0(filepath,"/cpcCPC of ", selected.item, " - G", selected.group,".csv"), row.names=FALSE)
 
 }

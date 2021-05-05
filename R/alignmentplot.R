@@ -6,15 +6,22 @@
 #' @export alignmentthresholdplot
 #' @import ggplot2 data.table
 #' @param labelfile entering the label file for groups
+#' @param directory entering the directory folder name to store the output
 #' @return Alignment Threshold Plot(s) files in a specific folder
 
 
-alignmentthresholdplot<-function(labelfile=""){
+alignmentthresholdplot<-function(labelfile=NULL, directory=NULL){
 
   # File path ---------------------------------------------------
-  filepath <- paste0("Output","_",Sys.Date())
-  filepath.misc <- paste0("Output","_",Sys.Date(),"/Misc") # clean up: put all un-necessary files in filepath.misc
-
+  if (is.null(directory)) {
+    filepath <- paste0("Output","_", Sys.Date())
+    filepath.misc <- paste0("Output","_", Sys.Date(),"/Misc") # clean up: put all un-necessary files in filepath.misc
+  } else {
+    filepath <- directory
+    filepath.misc <- paste0(directory,"/Misc")
+  }
+  
+  
   if (!file.exists(paste0(filepath.misc, "/ext2_summary of analysis.txt"))) {
     stop("\nMust run `alignmentout()` to obtain the threshold information for the graphs\n")
   }
@@ -44,7 +51,7 @@ alignmentthresholdplot<-function(labelfile=""){
   #Threshold.max <- as.numeric(readline(prompt="Please enter the number of threshold files (number of thresholds): "))
 
   #condit.input <- readline(prompt="Input the label file for groups (y/n)?")
-  if (length(labelfile)!=0){
+  if (!is.null(labelfile)){
     #labelfile <- readline(prompt="Input path and legend's label file name (use /): ")
 
 
@@ -189,21 +196,27 @@ alignmentthresholdplot<-function(labelfile=""){
 #' @export alignmentloadingplot
 #' @import ggplot2 data.table
 #' @param labelfile entering the label file for groups
+#' @param directory entering the directory folder name to store the output
 #' @return An Alignment Loading Plot file in a specific folder
 
 
-alignmentloadingplot<-function(labelfile=""){
+alignmentloadingplot <- function(labelfile=NULL, directory=NULL){
 
   # File path ---------------------------------------------------
-  filepath <- paste0("Output","_",Sys.Date())
-  filepath.misc <- paste0("Output","_",Sys.Date(),"/Misc") # clean up: put all un-necessary files in filepath.misc
-
+  if (is.null(directory)) {
+    filepath <- paste0("Output","_", Sys.Date())
+    filepath.misc <- paste0("Output","_", Sys.Date(),"/Misc") # clean up: put all un-necessary files in filepath.misc
+  } else {
+    filepath <- directory
+    filepath.misc <- paste0(directory,"/Misc")
+  }
+  
   if (!file.exists(paste0(filepath,"/loadings.csv"))) {
     stop("\nMust run `alignmentout()` to obtain the loadings information for the graph\n")
   }
 
   #condit.input <- readline(prompt="Input the label file for groups (y/n)?")
-  if (length(labelfile)!=0){
+  if (!is.null(labelfile)){
 
     #labelfile <- readline(prompt="Input path and legend's label file name (use /): ")
 

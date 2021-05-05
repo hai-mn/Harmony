@@ -5,14 +5,21 @@
 #' @author Hai Nguyen \email{hnguye72@@uic.edu}, Tianxiu Wang, Ariel Aloe, Rachel Gordon
 #' @export convert2irt
 #' @import stringr
+#' @param directory entering the directory folder name to store the output
 #' @return A list of CSV files (with difficulty and discrimination of file name) in the specific folder.
 
-convert2irt <- function(){
+convert2irt <- function(directory = NULL){
 
-  # Set file path --------------------------------------------------------------------
-  filepath <- paste0("Output","_",Sys.Date())
-  filepath.misc <- paste0("Output","_",Sys.Date(),"/Misc") # clean up: put all un-necessary files in filepath.misc
-
+  # File path ---------------------------------------------------
+  if (is.null(directory)) {
+    filepath <- paste0("Output","_", Sys.Date())
+    filepath.misc <- paste0("Output","_", Sys.Date(),"/Misc") # clean up: put all un-necessary files in filepath.misc
+  } else {
+    filepath <- directory
+    filepath.misc <- paste0(directory,"/Misc")
+  }
+  
+  
   if (!file.exists(paste0(filepath,"/loadings.csv"))) {
     stop("\nMust run the `alignmentout` to obtain the threshold and loading parameters first\n")
   }

@@ -4,10 +4,12 @@
 \alias{alignmentthresholdplot}
 \title{alignmentout}
 \usage{
-alignmentthresholdplot(labelfile = "")
+alignmentthresholdplot(labelfile = NULL, directory = NULL)
 }
 \arguments{
 \item{labelfile}{entering the label file for groups}
+
+\item{directory}{entering the directory folder name to store the output}
 }
 \value{
 Alignment Threshold Plot(s) files in a specific folder
