@@ -97,14 +97,15 @@ mplussplit <- function(outpath = outpath, inputfile = inputfile){
 latentsplit <- function(filepath = paste0("Output","_",Sys.Date()), inputfile = "ext4_model results.txt"){
   inputfile <- paste0(filepath,"/",inputfile)
   # Split 'ext4_model results.txt' file into multiple sections of Latent Classes
-  for (i in 1:Group){
+  Grp <- get("Group", parent.frame())
+  for (i in 1:Grp){
 
     bp<-paste0("Latent Class ", i)
     ep<-paste0("Latent Class ", i+1)
 
     outfile<-paste0(filepath, "/LatentClass ", i, ".txt")
 
-    if (i < Group){
+    if (i < Grp){
       sapply(X = inputfile,FUN = paraextract, begphrase = bp, endphrase = ep, outputfile = outfile)
     } else {
       sapply(X = inputfile,FUN = paraextract, begphrase = bp, endphrase = "RESULTS IN PROBABILITY SCALE", outputfile = outfile)
