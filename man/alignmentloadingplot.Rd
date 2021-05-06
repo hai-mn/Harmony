@@ -18,7 +18,7 @@ An Alignment Loading Plot file in a specific folder
 Generating Alignment Loading Plot having True/False invariant with estimates of group items and invariant average
 }
 \details{
-In order to procuce the plots, 'alignmentloadingplot' requires the user to firstly run the 'alignmentout' to obtain the threshold and loading parameters
+In order to produce the plots, 'alignmentloadingplot' requires the user to firstly run the 'alignmentout' to obtain the threshold and loading parameters
 }
 \author{
 Hai Nguyen \email{hnguye72@uic.edu}, Tianxiu Wang, Ariel Aloe, Rachel Gordon

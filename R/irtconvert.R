@@ -24,6 +24,45 @@ convert2irt <- function(directory = NULL){
     stop("\nMust run the `alignmentout` to obtain the threshold and loading parameters first\n")
   }
 
+  ## Number of Groups: latent classes===============================================
+  ext1<-readLines(paste0(filepath.misc, "/ext1_input instructions.txt"))
+  g<-grep("^.*classes =.*", ext1, ignore.case = T, value=T)
+  g.line<-grep("^.*KNOWNCLASS.*", ext1, ignore.case = T, value=T)
+  Group <- as.numeric(str_extract_all(g,"\\d+"))
+  
+  ## Factors: number of continuous latent variables=================================
+  ext2<-readLines(paste0(filepath.misc, "/ext2_summary of analysis.txt"))
+  m<-grep("Continuous latent variables",ext2)
+  Factor<-unlist(str_extract_all(ext2[m+1],"\\w+"))
+  
+  ## Items: number of dependent variables============================================
+  n<-grep("Binary and ordered categorical", ext2, ignore.case = T)
+  Item.name<-str_extract_all(ext2[n+1],"\\w+")[[1]]
+  for (i in (n+2):(m-1)){
+    Item.name<-c(Item.name,str_extract_all(ext2[i],"\\w+")[[1]])
+    if (i==(m-1)) Item.name<-Item.name[!is.na(Item.name)]
+  }
+  Item.n <-  length(Item.name)
+  Item.name<-sapply(Item.name, FUN = function(x)str_sub(x,1,8)) #limit to 8 character long for each name
+  
+  ## Categories of each Item (Threshold: number of categories - 1)===================
+  s <- k <-grep("UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES", ext2, ignore.case = T) + 2 # s: stands for start
+  while (!grepl("^[ \t\n]*$", ext2[k])) {
+    k<-k+1
+    e<-k #e: stands for end
+  }
+  Category<-vector(mode = "numeric", length=length(Item.name))
+  for (i in 2:length(Item.name)){
+    while ((s<e)&(!str_detect(ext2[s], Item.name[i]))){
+      s<-s+1
+    }
+    Category[i-1]<-as.numeric(str_sub(ext2[s-1],str_locate(ext2[s-1],"y")+2, str_locate(ext2[s-1],"y")+3))
+  }
+  Category[length(Item.name)]<-as.numeric(str_sub(ext2[e-1],str_locate(ext2[e-1],"y")+2, str_locate(ext2[e-1],"y")+3))
+  Threshold <- Category - 1
+  Threshold.max<-max(Threshold)
+  
+  
   # Set the empty lists having 'Group' length ----------------------------------------
   lclass.file <- vector(mode = "list", length = Group) # empty_list
   f.mean <- vector(mode = "list", length = Group)

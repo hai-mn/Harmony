@@ -7,9 +7,10 @@
 #' @import stringr
 #' @param infile entering the Mplus output file name and path
 #' @param n.detect entering the number of cell size to detect, the default is zero
+#' @param directory entering the directory folder name to store the output
 #' @return Crosstabs between items having the specified cell size and below
 
-cellsizedetect <- function(infile="", n.detect="0"){
+cellsizedetect <- function(infile="", n.detect="0", directory=NULL){
 
   #infile <- readline(prompt="Enter the path & Mplus output file (use / to separate the path file): ")
 
@@ -23,8 +24,15 @@ cellsizedetect <- function(infile="", n.detect="0"){
   #filepath <- paste0("Output","_",Sys.Date())
   #ifelse(!dir.exists(file.path(filepath)), dir.create(file.path(filepath)), FALSE)
 
-  filepath <<- paste0("Output","_",Sys.Date())
-  filepath.misc <<- paste0("Output","_",Sys.Date(),"/Misc") # clean up: put all un-necessary files in filepath.misc
+  # File path ---------------------------------------------------
+  if (is.null(directory)) {
+    filepath <- paste0("Output","_", Sys.Date())
+    filepath.misc <- paste0("Output","_", Sys.Date(),"/Misc") # clean up: put all un-necessary files in filepath.misc
+  } else {
+    filepath <- directory
+    filepath.misc <- paste0(directory,"/Misc")
+  }
+  
   ifelse(!dir.exists(file.path(filepath)), dir.create(file.path(filepath)), FALSE)
   ifelse(!dir.exists(file.path(filepath.misc)), dir.create(file.path(filepath.misc)), FALSE)
 

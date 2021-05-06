@@ -1,7 +1,7 @@
 ## Generating Alignment Threshold Plots
 #' @title alignmentout
 #' @description Generating Alignment Threshold Plots having True/False invariant with estimates of group items and invariant average
-#' @details In order to procuce the plots, 'alignmentthresholdplot' requires the user to firstly run the 'alignmentout' to obtain the threshold and loading parameters
+#' @details In order to produce the plots, 'alignmentthresholdplot' requires the user to firstly run the 'alignmentout' to obtain the threshold and loading parameters
 #' @author Hai Nguyen \email{hnguye72@@uic.edu}, Tianxiu Wang, Ariel Aloe, Rachel Gordon
 #' @export alignmentthresholdplot
 #' @import ggplot2 data.table
@@ -10,7 +10,7 @@
 #' @return Alignment Threshold Plot(s) files in a specific folder
 
 
-alignmentthresholdplot<-function(labelfile=NULL, directory=NULL){
+alignmentthresholdplot <- function(labelfile=NULL, directory=NULL){
 
   # File path ---------------------------------------------------
   if (is.null(directory)) {
@@ -20,15 +20,30 @@ alignmentthresholdplot<-function(labelfile=NULL, directory=NULL){
     filepath <- directory
     filepath.misc <- paste0(directory,"/Misc")
   }
-  
-  
+
+
   if (!file.exists(paste0(filepath.misc, "/ext2_summary of analysis.txt"))) {
     stop("\nMust run `alignmentout()` to obtain the threshold information for the graphs\n")
   }
 
   ext2<-readLines(paste0(filepath.misc, "/ext2_summary of analysis.txt"))
 
-  ## 5- Categories of each Item (Threshold: number of categories - 1)===================
+  ## Factors: number of continuous latent variables=================================
+  #ext2<-readLines(paste0(filepath.misc, "/ext2_summary of analysis.txt"))
+  m<-grep("Continuous latent variables",ext2)
+  Factor<-unlist(str_extract_all(ext2[m+1],"\\w+"))
+  
+  ## Items: number of dependent variables============================================
+  n<-grep("Binary and ordered categorical", ext2, ignore.case = T)
+  Item.name<-str_extract_all(ext2[n+1],"\\w+")[[1]]
+  for (i in (n+2):(m-1)){
+    Item.name<-c(Item.name,str_extract_all(ext2[i],"\\w+")[[1]])
+    if (i==(m-1)) Item.name<-Item.name[!is.na(Item.name)]
+  }
+  Item.n <-  length(Item.name)
+  Item.name<-sapply(Item.name, FUN = function(x)str_sub(x,1,8)) #limit to 8 character long for each name
+  
+  ## Categories of each Item (Threshold: number of categories - 1)===================
   s <- k <-grep("UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES", ext2, ignore.case = T) + 2 # s: stands for start
   while (!grepl("^[ \t\n]*$", ext2[k])) {
     k<-k+1
@@ -46,7 +61,7 @@ alignmentthresholdplot<-function(labelfile=NULL, directory=NULL){
   Category[length(Item.name)]<-as.numeric(str_sub(ext2[e-1],str_locate(ext2[e-1],"y")+2, str_locate(ext2[e-1],"y")+3))
   Threshold <- Category - 1
 
-  Threshold.max<<-max(Threshold)
+  Threshold.max<-max(Threshold)
   # Provide the number of thresholds -------------------------------------------
   #Threshold.max <- as.numeric(readline(prompt="Please enter the number of threshold files (number of thresholds): "))
 
@@ -191,7 +206,7 @@ alignmentthresholdplot<-function(labelfile=NULL, directory=NULL){
 ## Generating Alignment Loading Plot
 #' @title alignmentloadingplot
 #' @description Generating Alignment Loading Plot having True/False invariant with estimates of group items and invariant average
-#' @details In order to procuce the plots, 'alignmentloadingplot' requires the user to firstly run the 'alignmentout' to obtain the threshold and loading parameters
+#' @details In order to produce the plots, 'alignmentloadingplot' requires the user to firstly run the 'alignmentout' to obtain the threshold and loading parameters
 #' @author Hai Nguyen \email{hnguye72@@uic.edu}, Tianxiu Wang, Ariel Aloe, Rachel Gordon
 #' @export alignmentloadingplot
 #' @import ggplot2 data.table
@@ -210,7 +225,7 @@ alignmentloadingplot <- function(labelfile=NULL, directory=NULL){
     filepath <- directory
     filepath.misc <- paste0(directory,"/Misc")
   }
-  
+
   if (!file.exists(paste0(filepath,"/loadings.csv"))) {
     stop("\nMust run `alignmentout()` to obtain the loadings information for the graph\n")
   }

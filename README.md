@@ -20,13 +20,13 @@ Then call the package:
 
 ## Structure of The Package  
 The `harmony` package has six main functions:  
-- `alignmentout(infile = "")`: to generate table(s) with estimates, alignment values and R-square of Thresholds and Loadings  
-- `alignmentthresholdplot(labelfile="")`: to generate alignment threshold plots having True/False invariant with estimates of group items and invariant average  
-- `alignmentloadingplot(labelfile="")`: to generating alignment loading plot having True/False invariant with estimates of group items and invariant average  
-- `convert2irt()`: to convert IFA estimates (threshold and loading) to IRT estimates (difficulty and discrimination)  
-- `cpc.csvexport(selected.item="", selected.group="")`: to produce the value grid of an item and a group of the category and cumulative probability curve
-- `cpc(selected.item="", selected.group="")`: to plot the Category and Cumulative Probability Curve of an item and one or multiple groups
-- `cellsizedetect(infile = "")`: to check the 2 x 2 crosstabs of items having the cell size and below specified by the user    
+- `alignmentout(infile = "", directory="")`: to generate table(s) with estimates, alignment values and R-square of Thresholds and Loadings  
+- `alignmentthresholdplot(labelfile="", directory="")`: to generate alignment threshold plots having True/False invariant with estimates of group items and invariant average  
+- `alignmentloadingplot(labelfile="", directory="")`: to generating alignment loading plot having True/False invariant with estimates of group items and invariant average  
+- `convert2irt(directory="")`: to convert IFA estimates (threshold and loading) to IRT estimates (difficulty and discrimination)  
+- `cpcCPC.csvexport(selected.item="", selected.group="", directory="")`: to produce the value grid of an item and a group of the category and cumulative probability curve
+- `cpcCPC(selected.item="", selected.group="", directory="")`: to plot the Category and Cumulative Probability Curve of an item and one or multiple groups
+- `cellsizedetect(infile="", n.detect="0", directory="")`: to check the 2 x 2 crosstabs of items having the cell size and below specified by the user    
 
 There are some supported functions enabling the main functions to properly work.  :
 `paraextract(inputfile, begphrase, endphrase, outputfile)`,
@@ -58,6 +58,9 @@ We recommend:
 - A Mplus output must have a part of "CROSSTABS FOR CATEGORICAL VARIABLES" in order to `cellsizedetect()` correctly function.  
   > We have to add an option in Mplus syntax (.inp):   
   <span style="color:blue">OUTPUT:</span> CROSSTABS;
+
+- Users can specify a directory folder (in the working directory) to save the output files. For instance, execute `alignmentout(infile="alignment-free.out", directory = "Harmony")`, then all the output files are saved in the "Harmony" folder which located in your working folder.  
+If the directory argument in the functions is omitted, the program will set up its default folder "Output_date-is-today" to store the output files.
 
 ## Case Study
 

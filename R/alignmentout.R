@@ -50,9 +50,9 @@ alignmentout<-function(infile="", directory=NULL){
   ext1<-readLines(paste0(filepath.misc, "/ext1_input instructions.txt"))
   g<-grep("^.*classes =.*", ext1, ignore.case = T, value=T)
   g.line<-grep("^.*KNOWNCLASS.*", ext1, ignore.case = T, value=T)
-  Group <<- as.numeric(str_extract_all(g,"\\d+"))
+  Group <- as.numeric(str_extract_all(g,"\\d+"))
   Group.name <- gsub("^.*KNOWNCLASS = c\\(| = .*\\) ;.*", "", g.line)
-  Group.cat <<- unlist(strsplit(gsub("^.*KNOWNCLASS = c\\(\\w+ = |\\) ;.*", "", g.line), split=" "))
+  Group.cat <- unlist(strsplit(gsub("^.*KNOWNCLASS = c\\(\\w+ = |\\) ;.*", "", g.line), split=" "))
 
   cat("- The Number of Groups (Latent Classes):", Group,"\n")
   cat("- The Name of Groups (Latent Classes):", Group.name, "with categories of", Group.cat,"\n")
@@ -60,7 +60,7 @@ alignmentout<-function(infile="", directory=NULL){
   ## 3- Factors: number of continuous latent variables=================================
   ext2<-readLines(paste0(filepath.misc, "/ext2_summary of analysis.txt"))
   m<-grep("Continuous latent variables",ext2)
-  Factor<<-unlist(str_extract_all(ext2[m+1],"\\w+"))
+  Factor<-unlist(str_extract_all(ext2[m+1],"\\w+"))
   Factor.n <- length(Factor)
 
   cat("- The Number of Factors:", Factor.n, ",including ", Factor,"\n")
@@ -73,7 +73,7 @@ alignmentout<-function(infile="", directory=NULL){
     if (i==(m-1)) Item.name<-Item.name[!is.na(Item.name)]
   }
   Item.n <-  length(Item.name)
-  Item.name<<-sapply(Item.name, FUN = function(x)str_sub(x,1,8)) #limit to 8 character long for each name
+  Item.name<-sapply(Item.name, FUN = function(x)str_sub(x,1,8)) #limit to 8 character long for each name
 
   cat("- The Number of Items: ", Item.n, ",including: ", Item.name,"\n")
 
@@ -128,7 +128,7 @@ alignmentout<-function(infile="", directory=NULL){
   Itemstring<-gsub(", ","|",toString(union(Item,Item.orig))) #set up the Item string served for pattern later on
 
   ## Due to i Thresholds so we must have i tables of model.table.threshold===============
-  Threshold.max<<-max(Threshold)
+  Threshold.max<-max(Threshold)
   model.table.threshold <- vector(mode = "list", length = Threshold.max) #empty_list
   for (i in 1:Threshold.max){
     model.table.threshold[[i]]<-model.table
