@@ -4,17 +4,17 @@
 \alias{cellsizedetect}
 \title{cellsizedetect}
 \usage{
-cellsizedetect(infile = "", n.detect = "0", directory = NULL)
+cellsizedetect(infile = "", n.detect = "0", silent = TRUE)
 }
 \arguments{
 \item{infile}{entering the Mplus output file name and path}
 
 \item{n.detect}{entering the number of cell size to detect, the default is zero}
 
-\item{directory}{entering the directory folder name to store the output}
+\item{silent}{default is TRUE; if specifying FALSE, crosstabs are printed out}
 }
 \value{
-Crosstabs between items having the specified cell size and below
+A list of which crosstab(s) satisfied the input condition.
 }
 \description{
 Check the 2 x 2 crosstabs of items having the cell size and below specified by the user

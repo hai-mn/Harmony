@@ -1,4 +1,4 @@
-## Detect the cell having a specified size and below
+## Detect the crosstab' cell size less than or equal to a specified number
 #' @title cellsizedetect
 #' @description Check the 2 x 2 crosstabs of items having the cell size and below specified by the user
 #' @details 'cellsizedetect' requires Mplus output having CROSSTABS FOR CATEGORICAL VARIABLES part
@@ -7,126 +7,124 @@
 #' @import stringr
 #' @param infile entering the Mplus output file name and path
 #' @param n.detect entering the number of cell size to detect, the default is zero
-#' @param directory entering the directory folder name to store the output
-#' @return Crosstabs between items having the specified cell size and below
+#' @param silent default is TRUE; if specifying FALSE, crosstabs are printed out 
+#' @return A list of which crosstab(s) satisfied the input condition.
 
-cellsizedetect <- function(infile="", n.detect="0", directory=NULL){
 
-  #infile <- readline(prompt="Enter the path & Mplus output file (use / to separate the path file): ")
-
+cellsizedetect <- function(infile="", n.detect="0", silent = TRUE){
+  
   ext<-readLines(infile)
-
+  
   # ---------------------------------------------------------------------------------
   if (length(grep("CROSSTABS FOR CATEGORICAL VARIABLES", ext)) == 0) {
     stop("There is no crosstabs to look at the cell size in the Mplus output")
   }
-
-  #filepath <- paste0("Output","_",Sys.Date())
-  #ifelse(!dir.exists(file.path(filepath)), dir.create(file.path(filepath)), FALSE)
-
-  # File path ---------------------------------------------------
-  if (is.null(directory)) {
-    filepath <- paste0("Output","_", Sys.Date())
-    filepath.misc <- paste0("Output","_", Sys.Date(),"/Misc") # clean up: put all un-necessary files in filepath.misc
-  } else {
-    filepath <- directory
-    filepath.misc <- paste0(directory,"/Misc")
+  
+  # Check user input --------------------------------------------------------
+  readinteger <- function(){
+    if(!grepl("^[0-9]+$", n.detect)) {return(readinteger())}
+  }
+  readinteger()
+  
+  # Step 1: get information of analysis group and items
+  # Basic extraction function  
+  pextract <- function(begp, endp, ext){
+    ## extract paragraph(s) defined from beginning phrase and ending phrase
+    lns <- data.frame(beg=which(grepl(begp,ext)),
+                      end=which(grepl(endp,ext)))
+    ext.2 <- lapply(seq_along(lns$beg),function(l){
+      paste(ext[seq(from=lns$beg[l], to=lns$end[l])])})
+    return(ext.2[[1]])
   }
   
-  ifelse(!dir.exists(file.path(filepath)), dir.create(file.path(filepath)), FALSE)
-  ifelse(!dir.exists(file.path(filepath.misc)), dir.create(file.path(filepath.misc)), FALSE)
-
-  mplussplit(outpath = filepath.misc, inputfile = infile)
-
-  ext1<-readLines(paste0(filepath.misc, "/ext1_input instructions.txt"))
-  ext2<-readLines(paste0(filepath.misc, "/ext2_summary of analysis.txt"))
-  m<-grep("Continuous latent variables",ext2)
-
-  Factor<-unlist(str_extract_all(ext2[m+1],"\\w+"))
-  Factor.n <- length(Factor)
+  ext1 <- pextract("INPUT INSTRUCTIONS", "SUMMARY OF ANALYSIS", ext)
+  ext2 <- pextract("SUMMARY OF ANALYSIS", "SUMMARY OF DATA", ext)  
+  
+  l <- grep("CATEGORICAL =", ext1)
+  Item.string<-str_extract_all(ext1[l],"\\w+")[[1]]
+  i<-l+1
+  while (!grepl(";$", ext1[i])){
+    Item.string<-c(Item.string,str_extract_all(ext1[i],"\\w+")[[1]])
+    i<-i+1
+  }
+  Item.string<-toupper(Item.string[-1])
 
   n<-grep("Binary and ordered categorical", ext2, ignore.case = T)
   Item.name<-str_extract_all(ext2[n+1],"\\w+")[[1]]
-  for (i in (n+2):(m-1)){
+  i <- n+2
+  while (!grepl("^\\s*$",ext2[i])){
     Item.name<-c(Item.name,str_extract_all(ext2[i],"\\w+")[[1]])
-    if (i==(m-1)) Item.name<-Item.name[!is.na(Item.name)]
+    i<-i+1
   }
-  Item.n <-  length(Item.name)
-
-  s <- k <-grep("UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES", ext2, ignore.case = T) + 2 # s: stands for start
-  while (!grepl("^[ \t\n]*$", ext2[k])) {
-    k<-k+1
-    e<-k #e: stands for end
-  }
-  Category<-vector(mode = "numeric", length=length(Item.name))
-  for (i in 2:length(Item.name)){
-    while ((s<e)&(!str_detect(ext2[s], Item.name[i]))){
-      s<-s+1
-    }
-    Category[i-1]<-as.numeric(str_sub(ext2[s-1],str_locate(ext2[s-1],"y")+2, str_locate(ext2[s-1],"y")+3))
-  }
-  Category[length(Item.name)]<-as.numeric(str_sub(ext2[e-1],str_locate(ext2[e-1],"y")+2, str_locate(ext2[e-1],"y")+3))
-  Threshold <- Category - 1
-  Threshold.max <- max(Threshold)
-
-  f.stri<-NA; f.stri.c<-NA; f<-NA
-  by.items <- vector(mode = "list", length = length(Factor)) # empty_list
-
-  for (i in 1:length(Factor)) {
-    f.stri[i]<-paste(Factor[i],"BY ")
-    f.stri.c[i]<-paste("^\\s+",Factor[i],"BY\\s+|\\s+;")
-    f<-grep(f.stri[i],ext1, ignore.case = T)
-    by.items[[i]]<-toupper(gsub(f.stri.c[i], "", ext1[f], ignore.case = T))
-  }
-  Item<-unlist(by.items) # matches with Item.name
-
-  ## Limit to 8 character long for each name
-  Item.orig<-Item # reserve the original Items
-  Item<-sapply(Item, FUN = function(x)str_sub(x,1,8))
-
+  
   #### Set up the Item string served for pattern later on
-  Itemstring<-gsub(", ","|",toString(union(Item.name,Item.orig)))
-
-
-  paraextract(paste0(filepath.misc, "/ext2_summary of analysis.txt"),"CROSSTABS FOR CATEGORICAL VARIABLES","MODEL FIT INFORMATION",paste0(filepath.misc, "/crosstabs.txt"))
-  crosstabs.file <- readLines(paste0(filepath.misc, "/crosstabs.txt"))
-
+  Itemstring<-gsub(", ","|",toString(union(Item.name,Item.string)))
+  
+  # Step 2: extract the only crosstabs of analysis group and items
+  crosstabs.file <- pextract("CROSSTABS FOR CATEGORICAL VARIABLES", 
+                             "RESULTS FOR BASIC ANALYSIS|MODEL FIT INFORMATION", ext)
+  
   st<-grep(paste0(Itemstring,"|Count"), crosstabs.file, value=T, ignore.case=T)
 
-  # Reading user input --------------------------------------------------------
-  readinteger <- function(){
-    #n.detect <<- readline(prompt="Enter the Number of Cell Size to Detect: ")
-    if(!grepl("^[0-9]+$",n.detect))
-    {
-      return(readinteger())
+  
+  k <- grep(paste0(Item.name[1], " AND"), st) #choose the compared group
+
+  # Read string data and split into data frame in list
+  output.l <- list()
+  r<-vector()
+  for (i in 1:length(k)){
+    j<-k[i]
+    h<-vector()
+    while(!grepl("^Total",st[j])){
+      h<-append(h,j+1)
+      j<-j+1
     }
+    output.l[[i]]<-append(r,c(k[i],h))
 
   }
-
-  readinteger()
-
-  cat("The Number of Cell Size to Detect from:", n.detect,"and below \n")
-  cat("\n")
-
-  for (i in n.detect:0){
-    pas <- sprintf("Count(.*) %s ", i)
-    h <- grep(pas, st)
-    if (!length(h)){
-      cat("Check the crosstab having the cell size of", i, "from: no cell size of", i,"\n")
-    } else {
-      k <- Threshold.max + 1 + 3 # k = 6
-      j <- vector(mode = "numeric",length = length(h))
-      for (g in 1:length(h)){
-        j<-h[g]
-        for (j in (h[g]-k+2):h[g]){
-          if (grepl(" AND ", st[j])) {
-            l <- j
-          } else {
-            j <- j - 1
-          }
-        }
-        cat("Check the crosstab having the cell size of", i, "from:", st[l],"\n")
-      }
-    }
+  # now we got the all string tables of compared group and items
+  st.temp <- list()
+  for (i in 1:length(output.l)){
+    st.temp[[i]] <- st[output.l[[i]]]
   }
+  
+  
+  
+  # Step 3: check the existed cell size number
+
+  
+  indicator <- vector()
+  tabs <- list()
+  for (i in 1:length(st.temp)){
+    dat <- as.data.frame(do.call(rbind, 
+                                strsplit(st.temp[[i]][-c(1:2,length(st.temp[[i]]))], 
+                                         split=" {2,10}")), 
+                        stringsAsFactors=FALSE)
+    dat <- dat[,-c(1:3,ncol(dat))] #crosstab number itself
+    dat[] <- lapply(dat, function(x) as.numeric(as.character(x))) # convert to numeric
+    tabs[[i]] <- dat
+    indicator[i] <- any(apply(apply(tabs[[i]], 2, function(x) x<=as.numeric(n.detect)), 2, any))
+  }
+  
+  if (all(indicator == FALSE)) {
+    cat("No cell size equal (or below)", n.detect,"\n")
+  } else {
+    cat("Crosstab(s) had cell size equal (or below)", n.detect,": \n")
+    for (i in 1:length(indicator)) {
+      if (indicator[i]==TRUE) {cat(st.temp[[i]][[1]], sep = "\n ")}
+    }
+    cat("\n")
+  }
+    
+
+  if(!silent) {
+    cat("Crosstab(s): \n")
+    for (i in 1:length(indicator)) {
+      if (indicator[i]==TRUE) cat(st.temp[[i]], sep = "\n")
+      #cat("\n")
+    } 
+  }
+
+
 }
+
