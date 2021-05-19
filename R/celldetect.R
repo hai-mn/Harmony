@@ -38,8 +38,9 @@ cellsizedetect <- function(infile="", n.detect="0", silent = TRUE){
   }
   
   ext1 <- pextract("INPUT INSTRUCTIONS", "SUMMARY OF ANALYSIS", ext)
-  ext2 <- pextract("SUMMARY OF ANALYSIS", "SUMMARY OF DATA", ext)  
+  ext2 <- pextract("SUMMARY OF ANALYSIS", "SUMMARY OF DATA|CROSSTABS FOR CATEGORICAL VARIABLES", ext)  
   
+  ext1<-gsub("!.*","",ext1)
   l <- grep("CATEGORICAL =", ext1)
   Item.string<-str_extract_all(ext1[l],"\\w+")[[1]]
   i<-l+1
