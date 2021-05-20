@@ -26,7 +26,7 @@ The `harmony` package has six main functions:
 - `convert2irt(directory="")`: to convert IFA estimates (threshold and loading) to IRT estimates (difficulty and discrimination)  
 - `cpcCPC.csvexport(selected.item="", selected.group="", directory="")`: to produce the value grid of an item and a group of the category and cumulative probability curve
 - `cpcCPC(selected.item="", selected.group="", directory="")`: to plot the Category and Cumulative Probability Curve of an item and one or multiple groups
-- `cellsizedetect(infile="", n.detect="0", directory="")`: to check the 2 x 2 crosstabs of items having the cell size and below specified by the user    
+- `cellsizedetect(infile="", n.detect="0", silent=TRUE)`: to check the 2 x 2 crosstabs of grouping variable and items having the cell size less than or equal to a specified number    
 
 There are some supported functions enabling the main functions to properly work.  :
 `paraextract(inputfile, begphrase, endphrase, outputfile)`,
@@ -68,10 +68,10 @@ We demonstrated a case study of invariance analysis
 
 ### __Step 1:__ Install and load the `harmony` package
 
-- In RStudio console (or in the Source panel), type then Enter (or Ctrl+Enter if in the Source panel):
-`install.packages("devtools")`
-`devtools::install_github("hai-mn/harmony", dependencies = TRUE)`
-`library(harmony)`
+- In RStudio console (or in the Source panel), type then Enter (or Ctrl+Enter if in the Source panel):  
+`install.packages("devtools")`  
+`devtools::install_github("hai-mn/harmony", dependencies = TRUE)`  
+`library(harmony)`  
 
 
 ### __Step 2:__ Generating alignment tables
@@ -222,14 +222,13 @@ The plot would be:
 
 We use another Mplus output which had a "CROSSTABS FOR CATEGORICAL VARIABLES" part.
 
-Execute `cellsizedetect(infile="alignment-fixed.out", n.detect="0")`
-Here we provided the Mplus output file "alignment-fixed.out" in the `infile` argument and the zero number of cell size in `n.detect` argument, we want to detect in the crosstabs.
+Execute `cellsizedetect(infile="basic-crosstabs.out", n.detect="0", silent = TRUE)`  
+Here we provided a Mplus output file "basic-crosstabs.out" in the `infile` and the zero number of cell size in `n.detect` argument, i.e. we want to detect in the crosstabs. `silent` = TRUE (default option) which means crosstabs will not print out. 
 
 In the console, there would be informed lines:
 
 ```
-The Number of Cell Size to Detect from: 0 and below
-Check the crosstab having the cell size of 0 from: no cell size of 0
+No cell size equal (or below) 0
 ```
 
 __Notice:__
@@ -240,7 +239,7 @@ Here is the list of files used in the case study:
 - [alignment-free.txt](https://github.com/hai-mn/harmony/blob/master/docs/alignment-free.txt): dataset
 - [alignment-free.inp](https://github.com/hai-mn/harmony/blob/master/docs/alignment-free.inp): Mplus syntax file
 - [alignment-free.out](https://github.com/hai-mn/harmony/blob/master/docs/alignment-free.out): Mplus output file
-- [alignment-fixed.out](https://github.com/hai-mn/harmony/blob/master/docs/alignment-fixed.out): Mplus output file
+- [basic-crosstabs.out](https://github.com/hai-mn/harmony/blob/master/docs/alignment-fixed.out): Mplus output file
 
 
 ## Acknowledgment
