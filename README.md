@@ -223,7 +223,7 @@ The plot would be:
 We use another Mplus output which had a "CROSSTABS FOR CATEGORICAL VARIABLES" part.
 
 Execute `cellsizedetect(infile="basic-crosstabs.out", n.detect="0", silent = TRUE)`  
-Here we provided a Mplus output file "basic-crosstabs.out" in the `infile` and the zero number of cell size in `n.detect` argument, i.e. we want to detect in the crosstabs. `silent` = TRUE (default option) which means crosstabs will not print out. 
+Here we provided a Mplus output file "basic-crosstabs.out" in the `infile` and the zero number of cell size in `n.detect` argument, i.e. we want to detect in the crosstabs. `silent` = TRUE (default option) which means crosstabs will not print out.
 
 In the console, there would be informed lines:
 
@@ -239,7 +239,7 @@ Here is the list of files used in the case study:
 - [alignment-free.txt](https://github.com/hai-mn/harmony/blob/master/docs/alignment-free.txt): dataset
 - [alignment-free.inp](https://github.com/hai-mn/harmony/blob/master/docs/alignment-free.inp): Mplus syntax file
 - [alignment-free.out](https://github.com/hai-mn/harmony/blob/master/docs/alignment-free.out): Mplus output file
-- [basic-crosstabs.out](https://github.com/hai-mn/harmony/blob/master/docs/alignment-fixed.out): Mplus output file
+- [basic-crosstabs.out](https://github.com/hai-mn/harmony/blob/master/docs/basic-crosstabs.out): Mplus output file
 
 
 ## Acknowledgment
