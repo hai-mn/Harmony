@@ -70,7 +70,8 @@ mplussplit <- function(outpath = outpath, inputfile = inputfile){
     endphrase = "ALIGNMENT OUTPUT",
     paste0(outpath,"/ext4_model results.txt"))
   ### ALIGNMENT OUTPUT
-  sapply(X = inputfile, FUN = paraextract,
+  if (grepl("SAVEDATA INFORMATION", inputfile)) {
+    sapply(X = inputfile, FUN = paraextract,
     begphrase = "ALIGNMENT OUTPUT",
     endphrase = "SAVEDATA INFORMATION",
     paste0(outpath,"/ext5_alignment output.txt"))
@@ -79,6 +80,13 @@ mplussplit <- function(outpath = outpath, inputfile = inputfile){
     begphrase = "SAVEDATA INFORMATION",
     endphrase = "Support: Support@StatModel.com",
     paste0(outpath,"/ext6_savedata information.txt"))
+  } else {
+    sapply(X = inputfile, FUN = paraextract,
+           begphrase = "ALIGNMENT OUTPUT",
+           endphrase = "Support: Support@StatModel.com",
+           paste0(outpath,"/ext5_alignment output.txt"))
+  }
+
 }
 
 
