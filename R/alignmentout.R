@@ -36,7 +36,7 @@ alignmentout<-function(infile="", directory=NULL){
     filepath <- directory
     filepath.misc <- paste0(directory,"/Misc")
   }
-  
+
   ifelse(!dir.exists(file.path(filepath)), dir.create(file.path(filepath)), FALSE)
   ifelse(!dir.exists(file.path(filepath.misc)), dir.create(file.path(filepath.misc)), FALSE)
 
@@ -48,11 +48,19 @@ alignmentout<-function(infile="", directory=NULL){
 
   ## 2- Number of Groups: latent classes===============================================
   ext1<-readLines(paste0(filepath.misc, "/ext1_input instructions.txt"))
-  g<-grep("^.*classes =.*", ext1, ignore.case = T, value=T)
+  g<-grep("^.*classes( )?=.*", ext1, ignore.case = T, value=T)
+
   g.line<-grep("^.*KNOWNCLASS.*", ext1, ignore.case = T, value=T)
+  g.line.n<-grep("^.*KNOWNCLASS.*", ext1, ignore.case = T)
   Group <- as.numeric(str_extract_all(g,"\\d+"))
-  Group.name <- gsub("^.*KNOWNCLASS = c\\(| = .*\\) ;.*", "", g.line)
-  Group.cat <- unlist(strsplit(gsub("^.*KNOWNCLASS = c\\(\\w+ = |\\) ;.*", "", g.line), split=" "))
+  Group.name <- gsub("^.*KNOWNCLASS( )?=( )?c\\(|( )?=( )?.*", "", g.line)
+
+  Group.cat <- unlist(strsplit(gsub("^.*KNOWNCLASS = c\\(\\w+( )?=( )?|\\) ;.*", "", g.line), split=" "))
+  while (length(Group.cat)<Group) {
+    g.line.n.add <- g.line.n + 1
+    Group.cat.add <- unlist(strsplit(gsub("^[:space]|\\)( )?;.*", "", trimws(ext1[g.line.n.add])), split=" "))
+    Group.cat <- c(Group.cat,Group.cat.add)
+  }
 
   cat("- The Number of Groups (Latent Classes):", Group,"\n")
   cat("- The Name of Groups (Latent Classes):", Group.name, "with categories of", Group.cat,"\n")

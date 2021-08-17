@@ -108,8 +108,8 @@ latentsplit <- function(filepath = paste0("Output","_",Sys.Date()), inputfile = 
   Grp <- get("Group", parent.frame())
   for (i in 1:Grp){
 
-    bp<-paste0("Latent Class ", i)
-    ep<-paste0("Latent Class ", i+1)
+    bp<-paste0("Latent Class ", i," .*")
+    ep<-paste0("Latent Class ", i+1," .*")
 
     outfile<-paste0(filepath, "/LatentClass ", i, ".txt")
 
