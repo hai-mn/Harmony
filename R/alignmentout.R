@@ -113,7 +113,10 @@ alignmentout<-function(infile="", directory=NULL){
     f.stri[i]   <- paste0(Factor[i],"(.*) BY ")
     f.stri.c[i] <- paste0("^\\s+",Factor[i],"(.*) BY\\s+|\\s+;.*")
     f           <- grep(f.stri[i], ext1, ignore.case = T)
-    by.items[[i]] <- toupper(gsub(f.stri.c[i], "", ext1[f], ignore.case = T))
+    if (length(f) > 1){
+      by.items[[i]] <- toupper(gsub(f.stri.c[i], "", ext1[f], ignore.case = T))
+    } else {
+      by.items[[i]] <- toupper(gsub(f.stri.c[i], "", ext1[f], ignore.case = T))
 
       by.items.next <- c()
       while (!grepl(";", ext1[f])){
@@ -121,10 +124,18 @@ alignmentout<-function(infile="", directory=NULL){
         by.items[[i]] <- paste(by.items[[i]],by.items.next)
         f <- f+1
       }
+    }
+
 
   }
+
+  if (length(f) > 1){
+    Item<-unlist(by.items) #matches with Item.name
+  } else {
+    Item<-unlist(strsplit(as.character(by.items), " "))
+  }
   #Item<-unlist(by.items) #matches with Item.name
-  Item<-unlist(strsplit(as.character(by.items), " "))
+  #Item<-unlist(strsplit(as.character(by.items), " "))
   Item.orig<-Item #reserve the original Items
   Item<-sapply(Item, FUN = function(x)str_sub(x,1,8)) #limit to 8 character long for each name
   Factor.by<-rep(Factor[1],length(strsplit(by.items[[1]]," ")[[1]]))
