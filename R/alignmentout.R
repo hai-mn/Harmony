@@ -22,7 +22,7 @@ alignmentout<-function(infile="", directory=NULL){
   ## 4. Items: number of dependent variables
   ## 5. Threshold: number of categories - 1
   cat("\nThe function provides information from Mplus alignment output, including: \n - Groups (latent classes),\n - Factors (continuous latent variables),\n - Items (dependent variables) and\n - Categories of each Item (equal to Thresholds + 1).\n")
-  cat("\nIn addition, you may find from the folder 'Output_current date' in the working directory:\n - the multiple text files which split from the origin Mplus output\n - the thresholds, loadings tables (CSV format) and\n - especially, a combined Excel file with all separated spreadsheets")
+  cat("\nIn addition, you may find from the folder 'Output_current date', if not specifying a directory, in the working directory:\n - the multiple text files which split from the origin Mplus output\n - the thresholds, loadings tables (CSV format) and\n - especially, a combined Excel file with all separated spreadsheets")
 
   ## 1. Enter a Mplus ouput file======================================================
   # Directly input the filepath as an argument in the function
@@ -113,16 +113,24 @@ alignmentout<-function(infile="", directory=NULL){
     f.stri[i]   <- paste0(Factor[i],"(.*) BY ")
     f.stri.c[i] <- paste0("^\\s+",Factor[i],"(.*) BY\\s+|\\s+;.*")
     f           <- grep(f.stri[i], ext1, ignore.case = T)
-
     by.items[[i]] <- toupper(gsub(f.stri.c[i], "", ext1[f], ignore.case = T))
+
+      by.items.next <- c()
+      while (!grepl(";", ext1[f])){
+        by.items.next <- toupper(gsub("^[[:space:]]+|([[:space:]]+)?;.*", "", ext1[f+1], ignore.case = T))
+        by.items[[i]] <- paste(by.items[[i]],by.items.next)
+        f <- f+1
+      }
+
   }
-  Item<-unlist(by.items) #matches with Item.name
+  #Item<-unlist(by.items) #matches with Item.name
+  Item<-unlist(strsplit(as.character(by.items), " "))
   Item.orig<-Item #reserve the original Items
   Item<-sapply(Item, FUN = function(x)str_sub(x,1,8)) #limit to 8 character long for each name
-  Factor.by<-rep(Factor[1],length(by.items[[1]]))
+  Factor.by<-rep(Factor[1],length(strsplit(by.items[[1]]," ")[[1]]))
   if (length(Factor)!=1){
     for (i in 2:length(Factor)) {
-      f<-rep(Factor[i],length(by.items[[i]]))
+      f<-rep(Factor[i],length(strsplit(by.items[[i]]," ")[[1]]))
       Factor.by<-append(Factor.by,f)
     }
   }
@@ -190,6 +198,7 @@ alignmentout<-function(infile="", directory=NULL){
 
   Threshold.Invariance.file <- readLines(paste0(filepath.misc, "/ThresholdInvariance.txt"))
 
+  ### Adjust for the indent from multi-groups---------------------------------------------
   Threshold.Invariance.file <- Threshold.Invariance.file[-c(1,length(Threshold.Invariance.file))]
 
   Threshold.Invariant.df <- vector(mode = "list", length = Threshold.max) #empty_list
@@ -284,7 +293,7 @@ alignmentout<-function(infile="", directory=NULL){
 
   # Continue to build the Loadings Invariant table, then merge to just preceding table-----
   ## Select the paragraph in which has the information=============================
-  paraextract(paste0(filepath.misc, "/ext5_alignment output.txt"),"Loadings","SAMPLE STATISTICS FOR ESTIMATED FACTOR SCORES", paste0(filepath.misc, "/Loadings_Invariant_Rsq.txt"))
+  paraextract(paste0(filepath.misc, "/ext5_alignment output.txt"),"Loadings","SAMPLE STATISTICS FOR ESTIMATED FACTOR SCORES|DIAGRAM INFORMATION", paste0(filepath.misc, "/Loadings_Invariant_Rsq.txt"))
 
   ## Load the extract paragraph (above)=====================================================
   Loadings.file <- readLines(paste0(filepath.misc, "/Loadings_Invariant_Rsq.txt"))
@@ -303,6 +312,25 @@ alignmentout<-function(infile="", directory=NULL){
   ## Build the table=======================================================================
 
   Loadings.Invariance.file <- readLines(paste0(filepath.misc, "/LoadingsInvariance.txt"))
+
+  ### Adjust for the indent from multi-groups---------------------------------------------
+  Loadings.Invariance.file <- Loadings.Invariance.file[-length(Loadings.Invariance.file)]
+
+  #Threshold.Invariant.df <- vector(mode = "list", length = Threshold.max) #empty_list
+
+  empty_lines = grepl('^\\s*$', Loadings.Invariance.file)
+  Loadings.Invariance.file <- Loadings.Invariance.file[! empty_lines]
+  Loadings.Invariance.file <- str_squish(Loadings.Invariance.file) #reduces repeated whitespace inside a string
+  #l.digit<-grep('^\\d',Threshold.Invariance.file)
+  l.digit<-grep('^\\d|^\\(',Loadings.Invariance.file) # minor modified on 8/19/2021
+  if (length(l.digit) != 0) {
+    for (i in 1:length(l.digit)){
+      Loadings.Invariance.file[l.digit[i]-1] <- paste(Loadings.Invariance.file[l.digit[i]-1],Loadings.Invariance.file[l.digit[i]])
+    }
+    Loadings.Invariance.file <- Loadings.Invariance.file[-c(l.digit)]
+  }
+
+
 
   k<-1
 
