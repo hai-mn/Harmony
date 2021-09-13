@@ -20,35 +20,45 @@ cpcCPC <- function(selected.item="", selected.group="", directory=NULL){
     filepath <- directory
     filepath.misc <- paste0(directory,"/Misc")
   }
-  
-  
+
+
   if (!file.exists(paste0(filepath,"/discriminations.csv"))) {
     stop("\nMust run `alignmentout()` then `convert2irt()` to obtain the difficulty and discrimination parameters at first\n")
   }
 
-  
+
   ## Number of Groups: latent classes===============================================
   if (!file.exists(paste0(filepath.misc, "/ext1_input instructions.txt"))) {
     stop("\nMust run `alignmentout()` to obtain the threshold information for the graphs\n")
   }
   ext1<-readLines(paste0(filepath.misc, "/ext1_input instructions.txt"))
-  g<-grep("^.*classes =.*", ext1, ignore.case = T, value=T)
+  #g<-grep("^.*classes =.*", ext1, ignore.case = T, value=T)
+  g<-grep("^.*classes( )?=.*", ext1, ignore.case = T, value=T)
   g.line<-grep("^.*KNOWNCLASS.*", ext1, ignore.case = T, value=T)
+
+  g.line.n<-grep("^.*KNOWNCLASS.*", ext1, ignore.case = T)
   Group <- as.numeric(str_extract_all(g,"\\d+"))
-  Group.name <- gsub("^.*KNOWNCLASS = c\\(| = .*\\) ;.*", "", g.line)
-  Group.cat <- unlist(strsplit(gsub("^.*KNOWNCLASS = c\\(\\w+ = |\\) ;.*", "", g.line), split=" "))
-  
+  #Group.name <- gsub("^.*KNOWNCLASS = c\\(| = .*\\) ;.*", "", g.line)
+  Group.name <- gsub("^.*KNOWNCLASS( )?=( )?c\\(|( )?=( )?.*", "", g.line)
+  #Group.cat <- unlist(strsplit(gsub("^.*KNOWNCLASS = c\\(\\w+ = |\\) ;.*", "", g.line), split=" "))
+  Group.cat <- unlist(strsplit(gsub("^.*KNOWNCLASS = c\\(\\w+( )?=( )?|\\) ;.*", "", g.line), split=" "))
+  while (length(Group.cat)<Group) {
+    g.line.n.add <- g.line.n + 1
+    Group.cat.add <- unlist(strsplit(gsub("^[:space]|\\)( )?;.*", "", trimws(ext1[g.line.n.add])), split=" "))
+    Group.cat <- c(Group.cat,Group.cat.add)
+  }
   ## Categories of each Item (Threshold: number of categories - 1)===================
   if (!file.exists(paste0(filepath.misc, "/ext2_summary of analysis.txt"))) {
     stop("\nMust run `alignmentout()` to obtain the threshold information for the graphs\n")
   }
-  
+
   ext2<-readLines(paste0(filepath.misc, "/ext2_summary of analysis.txt"))
-  
+
   ## Factors: number of continuous latent variables=================================
   m<-grep("Continuous latent variables",ext2)
   Factor<-unlist(str_extract_all(ext2[m+1],"\\w+"))
-  
+  Factor.n <- length(Factor)
+
   ## Items: number of dependent variables============================================
   n<-grep("Binary and ordered categorical", ext2, ignore.case = T)
   Item.name<-str_extract_all(ext2[n+1],"\\w+")[[1]]
@@ -58,14 +68,14 @@ cpcCPC <- function(selected.item="", selected.group="", directory=NULL){
   }
   Item.n <-  length(Item.name)
   Item.name<-sapply(Item.name, FUN = function(x)str_sub(x,1,8)) #limit to 8 character long for each name
-  
-  
+
+
   s <- k <-grep("UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES", ext2, ignore.case = T) + 2 # s: stands for start
   while (!grepl("^[ \t\n]*$", ext2[k])) {
     k<-k+1
     e<-k #e: stands for end
   }
-  
+
   Category<-vector(mode = "numeric", length=length(Item.name))
   for (i in 2:length(Item.name)){
     while ((s<e)&(!str_detect(ext2[s], Item.name[i]))){
@@ -73,12 +83,12 @@ cpcCPC <- function(selected.item="", selected.group="", directory=NULL){
     }
     Category[i-1]<-as.numeric(str_sub(ext2[s-1],str_locate(ext2[s-1],"y")+2, str_locate(ext2[s-1],"y")+3))
   }
-  
+
   Category[length(Item.name)]<-as.numeric(str_sub(ext2[e-1],str_locate(ext2[e-1],"y")+2, str_locate(ext2[e-1],"y")+3))
   Threshold <- Category - 1
-  
+
   Threshold.max<-max(Threshold)
-  
+
   # Create the discrimination parameters from loadings table----------------------------
   discriminations.file <- utils::read.csv(file = paste0(filepath,"/discriminations.csv"))
   drop.names <- "Factor.by"
