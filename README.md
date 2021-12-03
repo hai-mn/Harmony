@@ -108,7 +108,7 @@ Enter path and Mplus output file (separated by /): your-path-file-here/Tutorial-
 ~~~
 
 Note: if you enter all the path file and Mplus output file, it should be separated by / or \\\\. For example, `"C:/User/JohnD/Mplus/alignment-free.out"`
-- We can check the output at folder "Output_day-is-today" in the working directory having: "threshold1.csv", "threshold2.csv", "loadings.csv", and ""
+- We can check the output at folder "Output_day-is-today" in the working directory having: "threshold1.csv", "threshold2.csv", and "loadings.csv".   
 - Here is the Mplus code:
 
 ~~~
