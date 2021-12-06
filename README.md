@@ -189,10 +189,10 @@ Exporting "difficulty2.csv" in "../Output_date" folder
 ```
 
 If we need the value generated from Categorical (cpc) and Cumulative (CPC) Probability Curve respective to 0.1 unit increasing of `Theta` from -4 to 4; we can execute
-`cpc.csvexport(selected.item="", selected.group="")` with selecting an item and a group at a time.
+`cpcCPC.csvexport(selected.item="", selected.group="")` with selecting an item and a group at a time.
 
 For example, we execute
-`cpc.csvexport(selected.item='BPI8', selected.group='1')`
+`cpcCPC.csvexport(selected.item='BPI8', selected.group='1')`
 
 The function would notify in the console:
 
@@ -205,10 +205,10 @@ We can see in the "Out_date" folder a file name of "IPC of BPI8 - G 1.csv".
 
 
 ### __Step 4:__ Generating category and cumulative probability curves
-Finally, we execute `cpc(selected.item="", selected.group="")` with selecting an item and one group or multiple groups at a time.
+Finally, we execute `cpcCPC(selected.item="", selected.group="")` with selecting an item and one group or multiple groups at a time.
 
 For example, we execute
-`cpc.csvexport(selected.item='BPI8', selected.group='1, 3, 5')`
+`cpcCPC(selected.item='BPI8', selected.group='1, 3, 5')`
 
 There would be informed lines in the console:
 
