@@ -41,9 +41,11 @@ cpcCPC <- function(selected.item="", selected.group="", directory=NULL){
   #Group.name <- gsub("^.*KNOWNCLASS = c\\(| = .*\\) ;.*", "", g.line)
   Group.name <- gsub("^.*KNOWNCLASS( )?=( )?c\\(|( )?=( )?.*", "", g.line)
   #Group.cat <- unlist(strsplit(gsub("^.*KNOWNCLASS = c\\(\\w+ = |\\) ;.*", "", g.line), split=" "))
+  # Group.cat <- unlist(strsplit(gsub("^.*KNOWNCLASS = c\\(\\w+( )?=( )?|\\) ;.*", "", g.line), split=" "))
   Group.cat <- unlist(strsplit(str_squish(gsub("^.*KNOWNCLASS = c\\(\\w+( )?=( )?|\\) ;.*", "", g.line)), split=" "))
   while (length(Group.cat)<Group) {
     g.line.n.add <- g.line.n + 1
+    # Group.cat.add <- unlist(strsplit(gsub("^[:space]|\\)( )?;.*", "", trimws(ext1[g.line.n.add])), split=" "))
     Group.cat.add <- unlist(strsplit(str_squish(gsub("^[:space]|\\)( )?;.*", "", trimws(ext1[g.line.n.add]))), split=" "))
     Group.cat <- c(Group.cat,Group.cat.add)
   }
