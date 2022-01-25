@@ -1,4 +1,4 @@
-# harmony  
+# Harmony  
 
 Harmony package helps to build the tables and plots from alignment analysis designed for the multi-factor categorical case by extracting the Mplus output's information.   
 
@@ -11,15 +11,15 @@ For Windows users, the `Rtools` for building R packages should be installed acco
 # install the development package devtools for installing packages from GitHub
 install.packages("devtools")
 
-# install harmony package from GitHub
-devtools::install_github("hai-mn/harmony", dependencies = TRUE)
+# install Harmony package from GitHub
+devtools::install_github("hai-mn/Harmony", dependencies = TRUE)
 ```
 
 Then call the package:   
-`library(harmony)`  
+`library(Harmony)`  
 
 ## Structure of The Package  
-The `harmony` package has six main functions:  
+The `Harmony` package has six main functions:  
 - `alignmentout(infile = "", directory="")`: to generate table(s) with estimates, alignment values and R-square of Thresholds and Loadings  
 - `alignmentthresholdplot(labelfile="", directory="")`: to generate alignment threshold plots having True/False invariant with estimates of group items and invariant average  
 - `alignmentloadingplot(labelfile="", directory="")`: to generating alignment loading plot having True/False invariant with estimates of group items and invariant average  
@@ -34,7 +34,7 @@ There are some supported functions enabling the main functions to properly work.
 `latentsplit(filepath = paste0("Output","_",Sys.Date()), inputfile = "ext4_model results.txt")`, and
 `invariancesplit(inputfile="Invariant_Noninvariant.txt")`
 
-## Suggestion for a Mplus Output Running with `harmony` Package
+## Suggestion for a Mplus Output Running with `Harmony` Package
 
 We recommend:  
 
@@ -66,12 +66,12 @@ If the directory argument in the functions is omitted, the program will set up i
 
 We demonstrated a case study of invariance analysis
 
-### __Step 1:__ Install and load the `harmony` package
+### __Step 1:__ Install and load the `Harmony` package
 
 - In RStudio console (or in the Source panel), type then Enter (or Ctrl+Enter if in the Source panel):  
 `install.packages("devtools")`  
-`devtools::install_github("hai-mn/harmony", dependencies = TRUE)`  
-`library(harmony)`  
+`devtools::install_github("hai-mn/Harmony", dependencies = TRUE)`  
+`library(Harmony)`  
 
 
 ### __Step 2:__ Generating alignment tables
@@ -239,10 +239,10 @@ We can provide any specific number (other than zero) in the `n.detect` argument.
 
 ## Example Mplus files
 Here is the list of files used in the case study:
-- [alignment-free.txt](https://github.com/hai-mn/harmony/blob/master/docs/alignment-free.txt): dataset
-- [alignment-free.inp](https://github.com/hai-mn/harmony/blob/master/docs/alignment-free.inp): Mplus syntax file
-- [alignment-free.out](https://github.com/hai-mn/harmony/blob/master/docs/alignment-free.out): Mplus output file
-- [basic-crosstabs.out](https://github.com/hai-mn/harmony/blob/master/docs/basic-crosstabs.out): Mplus output file
+- [alignment-free.txt](https://github.com/hai-mn/Harmony/blob/master/docs/alignment-free.txt): dataset
+- [alignment-free.inp](https://github.com/hai-mn/Harmony/blob/master/docs/alignment-free.inp): Mplus syntax file
+- [alignment-free.out](https://github.com/hai-mn/Harmony/blob/master/docs/alignment-free.out): Mplus output file
+- [basic-crosstabs.out](https://github.com/hai-mn/Harmony/blob/master/docs/basic-crosstabs.out): Mplus output file
 
 
 ## Acknowledgment
