@@ -7,10 +7,11 @@
 #' @import ggplot2 data.table
 #' @param labelfile entering the label file for groups
 #' @param directory entering the directory folder name to store the output
+#' @param color.blind entering TRUE (default is TRUE) applying for a color-blinded user
 #' @return Alignment Threshold Plot(s) files in a specific folder
 
 
-alignmentthresholdplot <- function(labelfile=NULL, directory=NULL){
+alignmentthresholdplot <- function(labelfile=NULL, directory=NULL, color.blind=FALSE){
 
   # File path ---------------------------------------------------
   if (is.null(directory)) {
@@ -32,7 +33,7 @@ alignmentthresholdplot <- function(labelfile=NULL, directory=NULL){
   #ext2<-readLines(paste0(filepath.misc, "/ext2_summary of analysis.txt"))
   m<-grep("Continuous latent variables",ext2)
   Factor<-unlist(str_extract_all(ext2[m+1],"\\w+"))
-  
+
   ## Items: number of dependent variables============================================
   n<-grep("Binary and ordered categorical", ext2, ignore.case = T)
   Item.name<-str_extract_all(ext2[n+1],"\\w+")[[1]]
@@ -42,7 +43,7 @@ alignmentthresholdplot <- function(labelfile=NULL, directory=NULL){
   }
   Item.n <-  length(Item.name)
   Item.name<-sapply(Item.name, FUN = function(x)str_sub(x,1,8)) #limit to 8 character long for each name
-  
+
   ## Categories of each Item (Threshold: number of categories - 1)===================
   s <- k <-grep("UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES", ext2, ignore.case = T) + 2 # s: stands for start
   while (!grepl("^[ \t\n]*$", ext2[k])) {
@@ -107,7 +108,12 @@ alignmentthresholdplot <- function(labelfile=NULL, directory=NULL){
       # Plot ggplot ---------------------------------------------------------
 
       ## set colors
-      group.colors <- c(scales::hue_pal()(Group),"#000000")
+      if (color.blind == TRUE){
+        group.colors <- c(scales::dichromat_pal("BluetoOrangeRed.14")(Group),"#000000")
+      }  else {
+        group.colors <- c(scales::hue_pal()(Group),"#000000")
+      }
+
       names(group.colors) <- levels(eg2.l$lclass);
 
       ## set shape
@@ -170,7 +176,12 @@ alignmentthresholdplot <- function(labelfile=NULL, directory=NULL){
         # Plot ggplot ---------------------------------------------------------
 
         ## set colors
-        group.colors <- c(scales::hue_pal()(Group),"#000000")
+        if (color.blind == TRUE){
+          group.colors <- c(scales::dichromat_pal("BluetoOrangeRed.14")(Group),"#000000")
+        }  else {
+          group.colors <- c(scales::hue_pal()(Group),"#000000")
+        }
+
         names(group.colors) <- levels(eg2.l$lclass);
 
         ## set shape
@@ -209,13 +220,14 @@ alignmentthresholdplot <- function(labelfile=NULL, directory=NULL){
 #' @details In order to produce the plots, 'alignmentloadingplot' requires the user to firstly run the 'alignmentout' to obtain the threshold and loading parameters
 #' @author Hai Nguyen \email{hnguye72@@uic.edu}, Tianxiu Wang, Ariel Aloe, Rachel Gordon
 #' @export alignmentloadingplot
-#' @import ggplot2 data.table
+#' @import ggplot2 data.table scales
 #' @param labelfile entering the label file for groups
 #' @param directory entering the directory folder name to store the output
+#' @param color.blind entering TRUE (default is TRUE) applying for a color-blinded user
 #' @return An Alignment Loading Plot file in a specific folder
 
 
-alignmentloadingplot <- function(labelfile=NULL, directory=NULL){
+alignmentloadingplot <- function(labelfile=NULL, directory=NULL, color.blind=FALSE){
 
   # File path ---------------------------------------------------
   if (is.null(directory)) {
@@ -274,7 +286,12 @@ alignmentloadingplot <- function(labelfile=NULL, directory=NULL){
     # Plot ggplot ---------------------------------------------------------
 
     ## set colors
-    group.colors <- c(scales::hue_pal()(Group),"#000000")
+    if (color.blind == TRUE){
+      group.colors <- c(scales::dichromat_pal("BluetoOrangeRed.14")(Group),"#000000")
+    }  else {
+      group.colors <- c(scales::hue_pal()(Group),"#000000")
+    }
+
     names(group.colors) <- levels(eg2.l$lclass);
 
     ## set shape
@@ -336,7 +353,12 @@ alignmentloadingplot <- function(labelfile=NULL, directory=NULL){
     # Plot ggplot ---------------------------------------------------------
 
     ## set colors
-    group.colors <- c(scales::hue_pal()(Group),"#000000")
+    if (color.blind == TRUE){
+      group.colors <- c(scales::dichromat_pal("BluetoOrangeRed.14")(Group),"#000000")
+    }  else {
+      group.colors <- c(scales::hue_pal()(Group),"#000000")
+    }
+
     names(group.colors) <- levels(eg2.l$lclass);
 
     ## set shape

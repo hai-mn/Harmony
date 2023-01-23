@@ -4,12 +4,14 @@
 \alias{alignmentthresholdplot}
 \title{alignmentout}
 \usage{
-alignmentthresholdplot(labelfile = NULL, directory = NULL)
+alignmentthresholdplot(labelfile = NULL, directory = NULL, color.blind = FALSE)
 }
 \arguments{
 \item{labelfile}{entering the label file for groups}
 
 \item{directory}{entering the directory folder name to store the output}
+
+\item{color.blind}{entering TRUE (default is TRUE) applying for a color-blinded user}
 }
 \value{
 Alignment Threshold Plot(s) files in a specific folder
