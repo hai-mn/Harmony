@@ -1,6 +1,6 @@
 Package: Harmony
 Type: Package
-Title: Extract Mplus Output Information To Build Alignment Tables and Plots
+Title: Extract Mplus Output Information To Build Alignment Tables And Plots
 Version: 1.0.0
 Author: Hai Nguyen, Tianxiu Wang, Ariel Aloe, Rachel Gordon
 Maintainer: Hai Nguyen <hnguye72@uic.edu>
