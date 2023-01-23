@@ -5,6 +5,7 @@
 #' @author Hai Nguyen \email{hnguye72@@uic.edu}, Ariel Aloe, Tianxiu Wang, Rachel Gordon
 #' @export cpcCPC.csvexport
 #' @import tidyverse
+#' @import utils
 #' @param selected.item selecting an item
 #' @param selected.group selecting a group
 #' @param directory entering the directory folder name to store the output
