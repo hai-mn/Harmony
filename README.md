@@ -60,7 +60,10 @@ We recommend:
   <span style="color:blue">OUTPUT:</span> CROSSTABS;
 
 - Users can specify a directory folder (in the working directory) to save the output files. For instance, execute `alignmentout(infile="alignment-free.out", directory = "Harmony")`, then all the output files are saved in the "Harmony" folder which located in your working folder.  
-If the directory argument in the functions is omitted, the program will set up its default folder "Output_date-is-today" to store the output files.
+If the directory argument in the functions is omitted, the program will set up its default folder "Output_date-is-today" to store the output files.  
+- The function `alignmentloadingplot` and `alignmentthresholdplot` supported the color-blinded users with option `color.blind = TRUE`. The full syntax, for instances of a specified folder of "Harmony", as such:
+`alignmentthresholdplot(labelfile="group label.xlsx", directory = "Harmony", color.blind = TRUE)`  
+`alignmentloadingplot(labelfile="group label.xlsx", directory = "Harmony", color.blind = TRUE)`  
 
 ## Case Study
 
@@ -146,6 +149,10 @@ MODEL: 	        %OVERALL%
 We call the functions:
 `alignmentthresholdplot(labelfile="group label.xlsx")` to plot alignment thresholds plots
 `alignmentloadingplot(labelfile="group label.xlsx")` to plot alignment loadings plot
+
+In addition, the package was designed for a color-blinded person to use:
+`alignmentthresholdplot(labelfile="group label.xlsx", color.blind = TRUE)` to plot alignment thresholds plots
+`alignmentloadingplot(labelfile="group label.xlsx", color.blind = TRUE)` to plot alignment loadings plot
 
 Here's in the argument of these plot functions, we provide an Excel file `group label.xlsx` storing the information of groups:
 
